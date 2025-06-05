@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Matching Feedback System Flow</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+            font-style: italic;
+        }
+        
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            position: relative;
+        }
+        
+        .phase {
+            border: 3px solid #3498db;
+            border-radius: 15px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .phase:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.2);
+        }
+        
+        .phase-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .phase-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            color: white;
+        }
+        
+        .export { background: #e74c3c; }
+        .human { background: #f39c12; }
+        .llm { background: #9b59b6; }
+        .response { background: #27ae60; }
+        
+        .process-flow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .process-step {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .process-step:hover {
+            border-left-color: #e74c3c;
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .step-details {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .excel-structure {
+            background: #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .excel-header {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        .excel-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            font-size: 0.85em;
+        }
+        
+        .excel-column {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+        }
+        
+        .wetbrain-box {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .llm-orchestra {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .llm-worker {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .llm-worker:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(155, 89, 182, 0.3);
+        }
+        
+        .arrow {
+            text-align: center;
+            font-size: 2em;
+            color: #3498db;
+            margin: 10px 0;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        .future-vision {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .vision-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .metric {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            border-top: 5px solid #3498db;
+        }
+        
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .metric-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🤖 Job Matching Feedback System</h1>
+        <p class="subtitle">Wetbrain-Proof LLM Orchestration for Human-Centered Job Search</p>
+        
+        <div class="excel-structure">
+            <div class="excel-header">📊 Excel Structure (Columns A-R)</div>
+            <div class="excel-columns">
+                <div class="excel-column">A-K: Job Data<br><small>URL, description, title, location, match level, etc.</small></div>
+                <div class="excel-column">L: export_job_matches_log<br><small>Tool 1: timestamp, version, status</small></div>
+                <div class="excel-column">M: generate_cover_letters_log<br><small>Tool 2: generated Y/N, status</small></div>
+                <div class="excel-column">N: reviewer_feedback<br><small>Human: feedback text</small></div>
+                <div class="excel-column">O: mailman_log<br><small>Tool 3: received, processed</small></div>
+                <div class="excel-column">P: process_feedback_log<br><small>Tool 4: actions taken</small></div>
+                <div class="excel-column">Q: reviewer_support_log<br><small>Tool 5: clarifications sent</small></div>
+                <div class="excel-column">R: workflow_status<br><small>Master status tracking</small></div>
+            </div>
+        </div>
+        
+        <div class="flow-container">
+            <!-- Phase 1: Initial Export -->
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-icon export">📤</div>
+                    Phase 1: Initial Export & Generation
+                </div>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-title">1. Export Job Matches</div>
+                        <div class="step-details">Generate Excel with job data, timestamp in column L</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">2. Generate Cover Letters</div>
+                        <div class="step-details">Create cover letters for "Good" matches, log in column M</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">3. Email to Reviewer</div>
+                        <div class="step-details">Send Excel + cover letter attachments</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Phase 2: Human Review -->
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-icon human">🧠</div>
+                    Phase 2: The Wetbrain Phase (Human Review)
+                </div>
+                <div class="wetbrain-box">
+                    🤪 Humans are messy, moody, unpredictable - and that's perfectly fine! 🤪
+                </div>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-title">😴 Ignore Completely</div>
+                        <div class="step-details">No feedback received - totally cool, system continues normally</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">✅ Thoughtful Review</div>
+                        <div class="step-details">Provides quality feedback in column N, sends back Excel</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">🤪 Gibberish Feedback</div>
+                        <div class="step-details">"asdfgh" or nonsense - system handles gracefully</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">🔄 Contradictory Info</div>
+                        <div class="step-details">Changes mind later - conflict resolution kicks in</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Phase 3: LLM Orchestration -->
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-icon llm">🎭</div>
+                    Phase 3: Master LLM Orchestration
+                </div>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-title">🎯 Master Orchestrator</div>
+                        <div class="step-details">Analyzes Excel, routes jobs to specialized LLMs</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">📧 Mailman Processing</div>
+                        <div class="step-details">Detects return email, logs in column O</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">🧠 Feedback Analysis</div>
+                        <div class="step-details">Process feedback, log actions in column P</div>
+                    </div>
+                </div>
+                
+                <div class="llm-orchestra">
+                    <div class="llm-worker">
+                        <strong>Cover Letter Generator</strong><br>
+                        <small>Creates missing cover letters for false negatives</small>
+                    </div>
+                    <div class="llm-worker">
+                        <strong>Conflict Resolver</strong><br>
+                        <small>Handles contradictory feedback with evidence</small>
+                    </div>
+                    <div class="llm-worker">
+                        <strong>Reviewer Support</strong><br>
+                        <small>Sends clarification emails with personality</small>
+                    </div>
+                    <div class="llm-worker">
+                        <strong>Learning Engine</strong><br>
+                        <small>Updates prompts based on feedback patterns</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="arrow">↓</div>
+            
+            <!-- Phase 4: Adaptive Response -->
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-icon response">🎪</div>
+                    Phase 4: Adaptive Response System
+                </div>
+                <div class="process-flow">
+                    <div class="process-step">
+                        <div class="step-title">🤔 Gibberish Handler</div>
+                        <div class="step-details">"Hey, could you clarify?" + chat link invitation</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">⚖️ Conflict Mediator</div>
+                        <div class="step-details">"You said X, now Y - we think Z because of evidence A,B,C"</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">📝 Missing Cover Letters</div>
+                        <div class="step-details">Generate and email cover letters for false negatives</div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-title">🎉 Encouragement</div>
+                        <div class="step-details">"Your feedback improved 15 matches this month!"</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="future-vision">
+            <h2>🚀 The Big Picture: From Excel to Marketplace</h2>
+            <div class="vision-grid">
+                <div class="vision-item">
+                    <strong>📊 Current: Excel MVP</strong><br>
+                    Prove feedback loop effectiveness
+                </div>
+                <div class="vision-item">
+                    <strong>🌐 Next: GUI Interface</strong><br>
+                    Web/mobile for better UX
+                </div>
+                <div class="vision-item">
+                    <strong>🏢 Future: Job Marketplace</strong><br>
+                    Glassdoor killer with social impact
+                </div>
+                <div class="vision-item">
+                    <strong>❤️ Mission: Help Everyone</strong><br>
+                    Support those who struggle with job hunting
+                </div>
+            </div>
+        </div>
+        
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value">∞</div>
+                <div class="metric-label">Wetbrain Scenarios Handled</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">5</div>
+                <div class="metric-label">Specialized LLM Workers</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">18</div>
+                <div class="metric-label">Excel Columns Orchestrated</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">❤️</div>
+                <div class="metric-label">Human-Centered Design</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add some interactive elements
+        document.querySelectorAll('.process-step').forEach(step => {
+            step.addEventListener('click', function() {
+                this.style.backgroundColor = '#3498db';
+                this.style.color = 'white';
+                setTimeout(() => {
+                    this.style.backgroundColor = 'white';
+                    this.style.color = 'inherit';
+                }, 1000);
+            });
+        });
+        
+        // Animate LLM workers on hover
+        document.querySelectorAll('.llm-worker').forEach(worker => {
+            worker.addEventListener('mouseenter', function() {
+                this.innerHTML += ' 🚀';
+            });
+            
+            worker.addEventListener('mouseleave', function() {
+                this.innerHTML = this.innerHTML.replace(' 🚀', '');
+            });
+        });
+        
+        // Add a fun counter animation
+        let counters = document.querySelectorAll('.metric-value');
+        counters.forEach(counter => {
+            let target = counter.textContent;
+            if (target === '∞' || target === '❤️') return;
+            
+            counter.textContent = '0';
+            let count = 0;
+            let targetNum = parseInt(target);
+            let increment = targetNum / 20;
+            
+            let timer = setInterval(() => {
+                count += increment;
+                if (count >= targetNum) {
+                    counter.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = Math.floor(count);
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>

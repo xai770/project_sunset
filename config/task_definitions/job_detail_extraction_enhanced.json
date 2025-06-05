@@ -1,0 +1,191 @@
+{
+  "id": "job_detail_extraction",
+  "name": "Job Detail Extraction",
+  "description": "Extract structured details from job postings with enhanced financial sector support",
+  "version": "1.1.0",
+  "input": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "job_posting": {"type": "string"},
+        "job_id": {"type": "string"},
+        "company": {"type": "string"},
+        "industry": {"type": "string"}
+      },
+      "required": ["job_posting"]
+    },
+    "examples": [
+      {
+        "job_posting": "Senior Software Engineer - Remote\nCompany XYZ is looking for an experienced software engineer to join our team. In this role, you will design and implement scalable applications using modern technologies.\n\nResponsibilities:\n- Design and develop high-quality software solutions\n- Collaborate with cross-functional teams\n- Participate in code reviews and mentor junior developers\n- Troubleshoot and debug applications\n\nRequirements:\n- 5+ years of experience in software development\n- Strong knowledge of Java, Python, or similar languages\n- Experience with cloud platforms (AWS, Azure, GCP)\n- Bachelor's degree in Computer Science or equivalent\n\nContact: careers@xyz.com",
+        "job_id": "12345",
+        "company": "XYZ Corp",
+        "industry": "Technology"
+      },
+      {
+        "job_posting": "DWS - Senior Procurement Manager - Category Management - Market Data Services (m/f/d)\nJob ID: R0387075\tFull/Part-Time: Full-time\nRegular/Temporary: Regular\tListed: 2025-05-06\nLocation: Frankfurt\n\nPosition Overview\nAbout DWS:\nAt DWS, we're capturing the opportunities of tomorrow. You can be part of a leading, client-committed, global Asset Manager, making an impact on individuals, communities, and the world.\n\nTeam / division overview\nResponsible for leading the Category Management – Market Data Services team, this is a critical leadership role within the global Procurement Category Management function.\n\nRole Details\nAs a Senior Procurement Manager you will (be):\n\nStrategic Leadership\n- Define and execute the global category strategy for Market Data Services aligned to business objectives and budgetary targets.\n- Drive innovation and continuous improvement in market data sourcing, usage, and vendor delivery models.\n\nWe are looking for:\n- Minimum 10 years' relevant experience in market data management with expertise in market data products and providers (e.g., Bloomberg, Refinitiv, S&P, ICE, MSCI, etc.).\n- Strong knowledge of licensing models, data usage compliance, and financial regulations.\n- Demonstrated leadership and team management experience.\n- Bachelor's degree in Business, Finance, or a related field; professional certifications (e.g., CIPS) desirable.",
+        "job_id": "63141",
+        "company": "Deutsche Bank",
+        "industry": "Finance"
+      }
+    ],
+    "validations": ["non_empty_text", "min_length_100"]
+  },
+  "output": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "job_title": {"type": "string"},
+        "location": {"type": "string"},
+        "responsibilities": {"type": "array", "items": {"type": "string"}},
+        "requirements": {"type": "array", "items": {"type": "string"}},
+        "contact": {"type": "string"},
+        "qualifications": {"type": "array", "items": {"type": "string"}},
+        "soft_skills": {"type": "array", "items": {"type": "string"}},
+        "technical_skills": {"type": "array", "items": {"type": "string"}},
+        "years_experience": {"type": "string"},
+        "certifications": {"type": "array", "items": {"type": "string"}},
+        "company_culture": {"type": "string"},
+        "benefits": {"type": "array", "items": {"type": "string"}},
+        "work_arrangement": {"type": "string"},
+        "position_level": {"type": "string"}
+      },
+      "required": ["job_title", "responsibilities", "requirements"]
+    },
+    "examples": [
+      {
+        "job_title": "Senior Software Engineer",
+        "location": "Remote",
+        "responsibilities": [
+          "Design and develop high-quality software solutions",
+          "Collaborate with cross-functional teams",
+          "Participate in code reviews and mentor junior developers",
+          "Troubleshoot and debug applications"
+        ],
+        "requirements": [
+          "5+ years of experience in software development",
+          "Strong knowledge of Java, Python, or similar languages",
+          "Experience with cloud platforms (AWS, Azure, GCP)",
+          "Bachelor's degree in Computer Science or equivalent"
+        ],
+        "contact": "careers@xyz.com",
+        "qualifications": [
+          "Bachelor's degree in Computer Science or equivalent"
+        ],
+        "soft_skills": [
+          "Collaboration with cross-functional teams",
+          "Mentoring junior developers"
+        ],
+        "technical_skills": [
+          "Java",
+          "Python",
+          "Cloud platforms (AWS, Azure, GCP)"
+        ],
+        "years_experience": "5+ years",
+        "certifications": [],
+        "company_culture": "",
+        "benefits": [],
+        "work_arrangement": "Remote",
+        "position_level": "Senior"
+      },
+      {
+        "job_title": "Senior Procurement Manager - Category Management - Market Data Services",
+        "location": "Frankfurt",
+        "responsibilities": [
+          "Define and execute the global category strategy for Market Data Services",
+          "Drive innovation and continuous improvement in market data sourcing",
+          "Lead the Category Management – Market Data Services team",
+          "Oversee vendor relationships with global and niche data providers",
+          "Manage the category budget and licensing fees process"
+        ],
+        "requirements": [
+          "Minimum 10 years' relevant experience in market data management",
+          "Strong knowledge of licensing models and data usage compliance",
+          "Demonstrated leadership and team management experience",
+          "Excellent negotiation, stakeholder engagement, and communication skills"
+        ],
+        "contact": "",
+        "qualifications": [
+          "Bachelor's degree in Business, Finance, or a related field"
+        ],
+        "soft_skills": [
+          "Leadership",
+          "Communication",
+          "Negotiation",
+          "Stakeholder management"
+        ],
+        "technical_skills": [
+          "Market data management",
+          "Financial regulations",
+          "Commercial governance"
+        ],
+        "years_experience": "10+ years",
+        "certifications": [
+          "CIPS (desirable)"
+        ],
+        "company_culture": "DWS captures opportunities of tomorrow, supporting employees to overcome challenges and reach ambitions.",
+        "benefits": [
+          "Health Well-Being benefits",
+          "Family friendly benefits",
+          "Pension plans",
+          "Personal Budget Accounts",
+          "Hybrid working model"
+        ],
+        "work_arrangement": "Full-time, Hybrid",
+        "position_level": "Senior"
+      }
+    ],
+    "validations": ["has_required_fields", "no_empty_arrays"]
+  },
+  "prompts": [
+    {
+      "id": "standard",
+      "text": "Extract only the essential job details from this posting: job title, location, key responsibilities, technical requirements, and contact information. Exclude company benefits, cultural statements, and marketing content.\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"default": true}
+    },
+    {
+      "id": "structured",
+      "text": "Extract the following information from the job posting in JSON format:\n- job_title: The title of the position\n- location: Where the job is located\n- responsibilities: List of key job responsibilities\n- requirements: List of technical requirements\n- contact: Contact information if available\n\nExclude company benefits, cultural statements, and marketing content.\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "structured_output_required"}
+    },
+    {
+      "id": "detailed",
+      "text": "Carefully analyze the following job posting and extract these specific details:\n\n1. Job Title: The exact title of the position\n2. Location: Where the job is based (remote, office location, hybrid)\n3. Key Responsibilities: Numbered list of main duties and expectations\n4. Requirements: Numbered list of required skills, experience, and qualifications\n5. Contact Information: Any contact details provided\n\nFormat your response in a clear, structured manner with appropriate headings.\nFocus only on factual information directly stated in the posting.\nDo NOT include:\n- Company benefits or perks\n- Cultural statements or company mission\n- Marketing language\n- Your own interpretations\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "high_accuracy_required"}
+    },
+    {
+      "id": "enhanced",
+      "text": "Extract comprehensive details from the following job posting as structured fields. Parse each section carefully to identify explicit information without inferring unstated details.\n\nInput job posting:\n{{job_posting}}\n\nReturn the following fields in JSON format:\n\n- job_title: Exact title of the position\n- location: Physical location or remote/hybrid status\n- responsibilities: Array of distinct job responsibilities (action-oriented statements)\n- requirements: Array of distinct job requirements (qualifications, experience, etc.)\n- qualifications: Array of required educational qualifications\n- soft_skills: Array of interpersonal/non-technical skills required\n- technical_skills: Array of specific technical skills and technologies required\n- years_experience: String describing required years of experience\n- certifications: Array of specific certifications mentioned\n- company_culture: Brief description of company culture (if explicitly mentioned)\n- benefits: Array of company benefits offered\n- work_arrangement: Employment type (full-time, part-time, contract, hybrid, remote)\n- position_level: Seniority level of the position\n- contact: Contact information if available\n\nFor each array, list items individually (one skill/responsibility per entry). Only extract information explicitly mentioned in the posting.",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "comprehensive_extraction_required"}
+    },
+    {
+      "id": "finance_sector",
+      "text": "Extract comprehensive details from the following financial sector job posting. Pay special attention to financial terminology, regulatory requirements, and industry-specific skills.\n\nInput job posting:\n{{job_posting}}\n\nReturn the following fields in JSON format:\n\n- job_title: Exact title of the position\n- location: Physical location or remote/hybrid status\n- responsibilities: Array of distinct job responsibilities (specific financial duties)\n- requirements: Array of distinct job requirements (qualifications, experience, etc.)\n- qualifications: Array of required educational qualifications\n- soft_skills: Array of interpersonal skills required (communication, leadership, etc.)\n- technical_skills: Array of specific technical and financial domain skills\n- years_experience: String describing required years of experience\n- certifications: Array of specific financial certifications (CFA, FRM, etc.)\n- regulatory_knowledge: Array of regulations/compliance frameworks mentioned (if any)\n- financial_systems: Array of financial systems/tools mentioned (Bloomberg, etc.)\n- company_culture: Brief description of company culture (if explicitly mentioned)\n- benefits: Array of company benefits offered\n- work_arrangement: Employment type (full-time, part-time, contract, etc.)\n- position_level: Seniority level of the position\n- contact: Contact information if available\n\nFor each array, list items individually. Focus on extraction accuracy rather than comprehensive results. Only include information explicitly stated in the posting.",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "industry == 'Finance'"}
+    }
+  ],
+  "verification": {
+    "method": "consensus",
+    "parameters": {
+      "similarity_threshold": 0.75,
+      "min_models": 2,
+      "max_models": 3,
+      "field_specific_thresholds": {
+        "job_title": 0.9,
+        "responsibilities": 0.7,
+        "requirements": 0.7,
+        "technical_skills": 0.8
+      }
+    },
+    "fallback_strategy": "use_highest_ranked_model"
+  },
+  "model_ranking_criteria": {
+    "quality_priority": 0.8,
+    "speed_priority": 0.2,
+    "context_size": "medium"
+  }
+}

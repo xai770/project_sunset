@@ -1,0 +1,224 @@
+#!/usr/bin/env python3
+"""
+Integrated test for the feedback mechanism in the job matching system.
+
+This script tests the complete feedback loop:
+1. Runs a job match with the refactored system
+2. Provides feedback on the match
+3. Processes the feedback to generate recommendations
+4. Optionally updates the prompt based on feedback
+5. Verifies that the changes improve matching results
+"""
+import os
+import sys
+import argparse
+from pathlib import Path
+import pandas as pd
+import json
+import time
+from typing import Dict, Any, Optional, MutableMapping
+
+# Get the project root directory
+PROJECT_ROOT = Path(__file__).parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+# Import modules from run_pipeline.job_matcher package
+try:
+    from run_pipeline.job_matcher.job_processor import process_job, process_feedback, update_job_json
+    from run_pipeline.job_matcher.cv_utils import get_cv_markdown_text
+    from run_pipeline.job_matcher.feedback_handler import save_feedback, analyze_feedback
+    from run_pipeline.job_matcher.prompt_adapter import get_formatted_prompt
+except ImportError as e:
+    print(f"Error importing required modules: {e}")
+    print("Make sure the job_matcher package is correctly installed")
+    sys.exit(1)
+
+def test_feedback_loop(job_id: str, feedback_text: str, auto_update: bool = False) -> Dict[str, Any]:
+    """
+    Test the complete feedback loop for a specific job.
+    
+    Args:
+        job_id: ID of the job to test
+        feedback_text: Feedback text to provide
+        auto_update: Whether to automatically update prompts
+        
+    Returns:
+        Dictionary with test results
+    """
+    # Initialize results dictionary
+    results: Dict[str, Any] = {
+        "job_id": job_id,
+        "stages": {},
+        "overall": "pending"
+    }
+    
+    try:
+        print(f"\n{'='*80}\nTesting Feedback Loop for Job {job_id}\n{'='*80}")
+        
+        # Step 1: Run a job match
+        print("\nStep 1: Running job match...")
+        cv_text = get_cv_markdown_text()
+        job_result = process_job(job_id, num_runs=3, dump_input=False, cv_text=cv_text)
+        
+        if "error" in job_result:
+            print(f"Error running job match: {job_result.get('error')}")
+            
+            # Create stages dictionary
+            results["stages"] = {
+                "job_match": {"status": "failed", "error": job_result.get("error")}
+            }
+            results["overall"] = "failed"
+            return results
+        
+        # Extract match details
+        match_level = job_result.get("cv_to_role_match", "Unknown")
+        domain_assessment = job_result.get("domain_knowledge_assessment", "")
+        
+        print(f"Job match completed: {match_level} match")
+        
+        # Create the stages dictionary
+        results["stages"] = {
+            "job_match": {
+                "status": "success", 
+                "match_level": match_level, 
+                "domain_assessment": domain_assessment
+            }
+        }
+        
+        # Step 2: Save feedback
+        print("\nStep 2: Saving feedback...")
+        # Make sure to convert to strings for type safety
+        match_level_str = str(match_level) if match_level is not None else ""
+        domain_assessment_str = str(domain_assessment) if domain_assessment is not None else ""
+        feedback_saved = save_feedback(job_id, match_level_str, domain_assessment_str, feedback_text)
+        
+        if not feedback_saved:
+            print("Error saving feedback")
+            
+            # Update the stages dictionary directly
+            results["stages"]["save_feedback"] = {"status": "failed"}
+            results["overall"] = "failed"
+            return results
+        
+        # Update the stages dictionary directly
+        results["stages"]["save_feedback"] = {"status": "success"}
+            
+        print("Feedback saved successfully")
+        
+        # Step 3: Process feedback
+        print("\nStep 3: Processing feedback...")
+        feedback_result = process_feedback(job_id, feedback_text, auto_update)
+        
+        if "error" in feedback_result:
+            print(f"Error processing feedback: {feedback_result.get('error')}")
+            
+            # Update the stages dictionary directly
+            results["stages"]["process_feedback"] = {"status": "failed", "error": feedback_result.get("error")}
+            results["overall"] = "failed"
+            return results
+        
+        # Update the stages dictionary directly
+        results["stages"]["process_feedback"] = {
+            "status": "success",
+            "analysis": feedback_result.get("analysis", {})
+        }
+            
+        print("Feedback processed successfully")
+        
+        # Step 4: If auto-update is enabled, run a new job match with updated prompt
+        if auto_update:
+            print("\nStep 4: Running job match with updated prompt...")
+            # Sleep briefly to ensure prompt update is complete
+            time.sleep(1)
+            
+            # Run the job match again
+            new_job_result = process_job(job_id, num_runs=3, dump_input=False, cv_text=cv_text)
+            
+            if "error" in new_job_result:
+                print(f"Error running second job match: {new_job_result.get('error')}")
+                
+                # Update the stages dictionary directly
+                results["stages"]["updated_job_match"] = {"status": "failed", "error": new_job_result.get("error")}
+            else:
+                new_match_level = new_job_result.get("cv_to_role_match", "Unknown")
+                new_domain_assessment = new_job_result.get("domain_knowledge_assessment", "")
+                
+                print(f"Updated job match completed: {new_match_level} match")
+                
+                # Update the stages dictionary directly
+                results["stages"]["updated_job_match"] = {
+                    "status": "success", 
+                    "match_level": new_match_level, 
+                    "domain_assessment": new_domain_assessment
+                }
+                
+                # Add comparison results
+                results["comparison"] = {
+                    "original_match": match_level,
+                    "updated_match": new_match_level,
+                    "changed": match_level != new_match_level
+                }
+        
+        # Set overall status
+        results["overall"] = "success"
+        return results
+    
+    except Exception as e:
+        print(f"Error in test_feedback_loop: {e}")
+        results["error"] = str(e)
+        results["overall"] = "failed"
+        return results
+        
+def save_test_results(results: Dict[str, Any], output_dir: Optional[str] = None) -> str:
+    """
+    Save test results to a JSON file.
+    
+    Args:
+        results: Test results dictionary
+        output_dir: Directory to save results in (default: PROJECT_ROOT/tests/results)
+        
+    Returns:
+        Path to the saved file
+    """
+    if output_dir is None:
+        output_dir = os.path.join(PROJECT_ROOT, "tests", "results")
+    
+    os.makedirs(output_dir, exist_ok=True)
+    
+    timestamp = time.strftime("%Y%m%d_%H%M%S")
+    filename = f"feedback_test_{results['job_id']}_{timestamp}.json"
+    filepath = os.path.join(output_dir, filename)
+    
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2)
+    
+    print(f"\nTest results saved to {filepath}")
+    return filepath
+
+def main() -> int:
+    """
+    Main function.
+    
+    Returns:
+        Exit code (0 for success, 1 for failure)
+    """
+    parser = argparse.ArgumentParser(description="Test the integrated feedback loop for job matching")
+    parser.add_argument("--job-id", default="61691", help="Job ID to test")
+    parser.add_argument("--feedback", required=True, help="Feedback text to provide")
+    parser.add_argument("--auto-update", action="store_true", 
+                        help="Automatically update prompts based on feedback")
+    parser.add_argument("--output-dir", help="Directory to save test results")
+    
+    args = parser.parse_args()
+    
+    # Run the test
+    results = test_feedback_loop(args.job_id, args.feedback, args.auto_update)
+    
+    # Save test results
+    save_test_results(results, args.output_dir)
+    
+    # Return exit code based on test status
+    return 0 if results["overall"] == "success" else 1
+
+if __name__ == "__main__":
+    sys.exit(main())

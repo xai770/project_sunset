@@ -1,0 +1,18 @@
+{
+  "job_id": "61691",
+  "stages": {
+    "job_match": {
+      "status": "success",
+      "match_level": "Low",
+      "domain_assessment": "The CV shows some experience in required domain/industry (banking tax, UK/EU VAT), but lacks a proven track record for all domain-specific requirements. There are also gaps in the general transferable skills required, such as system changes and ERP general ledger applications."
+    },
+    "save_feedback": {
+      "status": "success"
+    },
+    "process_feedback": {
+      "status": "failed",
+      "error": "No match level found for job 61691"
+    }
+  },
+  "overall": "failed"
+}

@@ -1,0 +1,159 @@
+{
+  "personal": {
+    "name": "Gershon Urs Pollatschek",
+    "contact": {
+      "email": "gershon.pollatschek@gmail.com",
+      "phone": "+49 1512 5098515",
+      "address": "Quellenstraße 1A, 64385 Reichelsheim, Germany"
+    }
+  },
+  "skill_categories": {
+    "IT_Technical": [
+      {
+        "name": "Data Warehouse Design",
+        "level": 4,
+        "evidence": ["Data Warehouse design and implementation", "Designed frontend and backend systems to collect, maintain, analyze and report all information relevant to SAP license management"]
+      },
+      {
+        "name": "Database Development",
+        "level": 3,
+        "evidence": ["Rule based reporting and analysis database design and implementation", "Developed database application for budgeting process and to support administrative tasks"]
+      },
+      {
+        "name": "Application Development",
+        "level": 3,
+        "evidence": ["Programming and application design experience", "Automatized daily workflows via macro programming", "Developed database application for budgeting process"]
+      },
+      {
+        "name": "Ontology/Taxonomy Development",
+        "level": 4,
+        "evidence": ["Ontology/Taxonomy development", "Generated ontologies for structured content, such as scientific articles, legal texts, and technical documents"]
+      },
+      {
+        "name": "IT Systems Rollout",
+        "level": 3,
+        "evidence": ["Rollout and management of cross divisional IT systems", "Coordinated application development, rollout and coaching of the new team"]
+      }
+    ],
+    "IT_Management": [
+      {
+        "name": "Software License Management",
+        "level": 5,
+        "evidence": ["Led Deutsche Bank's Software License Management organization", "Global Lead, Software License Management at Novartis", "Managed major software compliance challenges"]
+      },
+      {
+        "name": "Software Escrow Management",
+        "level": 5,
+        "evidence": ["Project Lead Software Escrow Management", "Established escrow management framework to mitigate risks associated with third-party software dependencies"]
+      },
+      {
+        "name": "IT Project Management",
+        "level": 4,
+        "evidence": ["IT project and change management", "Project manager of project ZUM (Zentrales User-Management)", "Coordinated application development, rollout and coaching"]
+      },
+      {
+        "name": "Enterprise IT Governance",
+        "level": 4,
+        "evidence": ["Responsible for the governance of the global IT category of the Novartis group", "Regulatory compliance and governance implementation"]
+      }
+    ],
+    "Sourcing_and_Procurement": [
+      {
+        "name": "Strategic Sourcing",
+        "level": 5,
+        "evidence": ["Strategic sourcing and contract negotiation", "Led software category management in EMEA and co-led the category globally"]
+      },
+      {
+        "name": "Vendor Relationship Management",
+        "level": 5,
+        "evidence": ["Design and implementation of vendor relationship management processes", "Software Licenses and Services Vendor Manager (Global Banking IT)", "Led Software Licenses and Services team for Deutsche Bank's Global Banking IT division globally"]
+      },
+      {
+        "name": "Contract Negotiation",
+        "level": 5,
+        "evidence": ["Strategic sourcing and contract negotiation", "Led Global Banking team in negotiations of strategic five-year outsourcing deal for software testing services to IBM (12m€+)"]
+      },
+      {
+        "name": "IT Asset Management",
+        "level": 4,
+        "evidence": ["Enterprise Information Technology contract and asset management", "Led SAP Enterprise License Management Program"]
+      },
+      {
+        "name": "Spend Management",
+        "level": 4,
+        "evidence": ["Spend, sourcing benefits and targets planning, tracking and reporting", "Reviewed trends in spending, compared to forecast and plan, initiated appropriate action"]
+      }
+    ],
+    "Leadership_and_Management": [
+      {
+        "name": "Team Leadership",
+        "level": 4,
+        "evidence": ["Cross functional team management in IT and sourcing", "Managed core aspects of the category team consisting of 15+ sub-category managers and business partners"]
+      },
+      {
+        "name": "Process Design and Implementation",
+        "level": 4,
+        "evidence": ["Development and implementation of enterprise-wide end-to-end sourcing strategies and processes", "Implemented standard operating procedures for sourcing and support processes"]
+      },
+      {
+        "name": "Risk Management",
+        "level": 4,
+        "evidence": ["Risk management and business continuity planning", "Software License and Vendor conflict management", "Software Escrow management and vendor risk mitigation"]
+      },
+      {
+        "name": "Stakeholder Management",
+        "level": 4,
+        "evidence": ["Set up a network of divisional stakeholders and held monthly review sessions with all parts of DB", "Prepared monthly updates for review by Board of Director member"]
+      }
+    ],
+    "Analysis_and_Reporting": [
+      {
+        "name": "Decision Framework Development",
+        "level": 4,
+        "evidence": ["Decision framework development for technology risk assessment", "Created decision framework and flowchart for assessing when software escrow is necessary"]
+      },
+      {
+        "name": "Data Analysis",
+        "level": 4,
+        "evidence": ["Provided leading TEMS providers with detailed analysis of Connection Data Records (CDRs)", "Compiled and evaluated project scenarios by risk, cost, usability and TCO"]
+      },
+      {
+        "name": "KPI Reporting",
+        "level": 4,
+        "evidence": ["Provide automated KPI reporting on involved processes", "Designed and built suite of automated reports (dashboard), publicizing vendor management activities"]
+      },
+      {
+        "name": "Process Analysis",
+        "level": 4,
+        "evidence": ["Analyze gaps in process and propose new process", "Understand and reverse engineer the process which was followed up to this point"]
+      }
+    ],
+    "Domain_Knowledge": [
+      {
+        "name": "Enterprise IT",
+        "level": 5,
+        "evidence": ["I originally come from an IT background", "I am very much at home in the IT category"]
+      },
+      {
+        "name": "Financial Services Industry",
+        "level": 4,
+        "evidence": ["Deutsche Bank, Frankfurt, Chief Technology Office (2020 - Present)", "Deutsche Bank AG, Frankfurt (2005 - 2010)"]
+      },
+      {
+        "name": "Pharmaceutical Industry",
+        "level": 4,
+        "evidence": ["Novartis, Basel (2010 - 2016)", "F. Hoffmann – La Roche, Rollout Manager, Basel (1998)"]
+      },
+      {
+        "name": "Regulatory Compliance",
+        "level": 4,
+        "evidence": ["Regulatory compliance and governance implementation", "Researched and ensured compliance with financial industry regulatory requirements"]
+      },
+      {
+        "name": "Software Licensing",
+        "level": 5,
+        "evidence": ["Global Software Compliance Manager", "Software License and Vendor conflict management"]
+      }
+    ]
+  }
+}

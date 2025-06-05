@@ -1,0 +1,108 @@
+{
+  "id": "skill_decomposition",
+  "name": "Skill Decomposition",
+  "description": "Break down complex skills into elementary components",
+  "version": "1.0.0",
+  "input": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "skill_name": {"type": "string"},
+        "context": {"type": "string"}
+      },
+      "required": ["skill_name"]
+    },
+    "examples": [
+      {
+        "skill_name": "Machine Learning",
+        "context": "Data Science role in finance sector"
+      },
+      {
+        "skill_name": "Full Stack Development",
+        "context": "Web application team"
+      }
+    ],
+    "validations": [],
+    "property_validations": {
+      "skill_name": ["non_empty_skill", "valid_skill_name"],
+      "context": []
+    }
+  },
+  "output": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "elementary_skills": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skill": {"type": "string"},
+              "related_to": {"type": "string"},
+              "relationship_type": {"type": "string"}
+            }
+          }
+        }
+      },
+      "required": ["elementary_skills"]
+    },
+    "examples": [
+      {
+        "elementary_skills": [
+          "Statistics", 
+          "Linear Algebra", 
+          "Python Programming", 
+          "Data Preprocessing", 
+          "Model Evaluation",
+          "Feature Engineering",
+          "Algorithm Selection",
+          "Hyperparameter Tuning"
+        ],
+        "relationships": [
+          {"skill": "Statistics", "related_to": "Model Evaluation", "relationship_type": "prerequisite"},
+          {"skill": "Linear Algebra", "related_to": "Algorithm Selection", "relationship_type": "prerequisite"},
+          {"skill": "Data Preprocessing", "related_to": "Feature Engineering", "relationship_type": "complementary"}
+        ]
+      }
+    ],
+    "validations": ["min_skills_count_3", "no_duplicate_skills", "valid_relationship_types"]
+  },
+  "prompts": [
+    {
+      "id": "standard",
+      "text": "Decompose the complex skill '{{skill_name}}' into its fundamental elementary components. List only the core skills required, without explanations.",
+      "template_variables": ["skill_name"],
+      "usage_conditions": {"default": true}
+    },
+    {
+      "id": "with_context",
+      "text": "Decompose the complex skill '{{skill_name}}' into its fundamental elementary components, specifically in the context of {{context}}. List only the core skills required, without explanations.",
+      "template_variables": ["skill_name", "context"],
+      "usage_conditions": {"when": "context_provided"}
+    },
+    {
+      "id": "detailed",
+      "text": "Provide a detailed decomposition of the complex skill '{{skill_name}}' into its fundamental components. For each component skill:\n1. List the name of the elementary skill\n2. Note any prerequisite relationships between skills\n3. Identify any complementary skill pairs\n\nFocus on core technical and conceptual skills, not soft skills or general abilities.",
+      "template_variables": ["skill_name"],
+      "usage_conditions": {"when": "detailed_relationships_required"}
+    }
+  ],
+  "verification": {
+    "method": "hierarchical",
+    "parameters": {
+      "verification_prompt": "Verify if this skill decomposition for '{{skill_name}}' is complete and accurate: {{decomposition}}. List any missing critical skills or incorrect inclusions.",
+      "min_confidence": 0.8,
+      "verification_model_quality_threshold": 0.85
+    },
+    "fallback_strategy": "human_review"
+  },
+  "model_ranking_criteria": {
+    "quality_priority": 0.8,
+    "speed_priority": 0.2,
+    "context_size": "small"
+  }
+}

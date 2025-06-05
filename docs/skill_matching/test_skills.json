@@ -1,0 +1,42 @@
+{
+  "job_skills_count": 1147,
+  "cv_skills_count": 27,
+  "sample_job_skills": [
+    "mathematics or economics",
+    "bachelor",
+    "finance and banking",
+    "excellent knowledge in areas",
+    "knowledge on how to",
+    "regular use of databases",
+    "access",
+    "oracle",
+    "perfect handling of ms",
+    "office"
+  ],
+  "sample_cv_skills": {
+    "IT_Technical": [
+      "Data Warehouse Design",
+      "Database Development"
+    ],
+    "IT_Management": [
+      "Software License Management",
+      "Software Escrow Management"
+    ],
+    "Sourcing_and_Procurement": [
+      "Strategic Sourcing",
+      "Vendor Relationship Management"
+    ],
+    "Leadership_and_Management": [
+      "Team Leadership",
+      "Process Design and Implementation"
+    ],
+    "Analysis_and_Reporting": [
+      "Decision Framework Development",
+      "Data Analysis"
+    ],
+    "Domain_Knowledge": [
+      "Enterprise IT",
+      "Financial Services Industry"
+    ]
+  }
+}

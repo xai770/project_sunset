@@ -1,0 +1,414 @@
+{
+  "self_assessment": [
+    {
+      "model": "gemma3:1b",
+      "quality_score": 0.8999999999999999,
+      "speed_score": 0.85
+    },
+    {
+      "model": "llama3.2:latest",
+      "quality_score": 0.8999999999999999,
+      "speed_score": 0.7
+    },
+    {
+      "model": "codegemma:2b",
+      "quality_score": 0.79,
+      "speed_score": 0.79
+    },
+    {
+      "model": "mistral:latest",
+      "quality_score": 0.78,
+      "speed_score": 0.78
+    },
+    {
+      "model": "dolphin3:latest",
+      "quality_score": 0.8,
+      "speed_score": 0.7
+    },
+    {
+      "model": "qwen3:0.6b",
+      "quality_score": 0.7,
+      "speed_score": 0.83
+    },
+    {
+      "model": "qwen3:1.7b",
+      "quality_score": 0.8,
+      "speed_score": 0.65
+    },
+    {
+      "model": "phi3:3.8b",
+      "quality_score": 0.8999999999999999,
+      "speed_score": 0.5
+    },
+    {
+      "model": "gemma3:4b",
+      "quality_score": 0.89,
+      "speed_score": 0.38
+    },
+    {
+      "model": "qwen3:4b",
+      "quality_score": 0.82,
+      "speed_score": 0.44
+    },
+    {
+      "model": "phi4-mini-reasoning:latest",
+      "quality_score": 0.77,
+      "speed_score": 0.37
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "quality_score": 0.81,
+      "speed_score": 0.1
+    },
+    {
+      "model": "codegemma:latest",
+      "quality_score": 0.79,
+      "speed_score": 0.1
+    },
+    {
+      "model": "qwen3:latest",
+      "quality_score": 0.78,
+      "speed_score": 0.1
+    },
+    {
+      "model": "olmo2:latest",
+      "quality_score": 0.72,
+      "speed_score": 0.1
+    }
+  ],
+  "skill_decomposition": [
+    {
+      "model": "llama3.2:latest",
+      "quality_score": 0.8999999999999999,
+      "speed_score": 0.85
+    },
+    {
+      "model": "gemma3:1b",
+      "quality_score": 0.8999999999999999,
+      "speed_score": 0.85
+    },
+    {
+      "model": "phi3:3.8b",
+      "quality_score": 0.95,
+      "speed_score": 0.4
+    },
+    {
+      "model": "dolphin3:latest",
+      "quality_score": 0.85,
+      "speed_score": 0.7
+    },
+    {
+      "model": "mistral:latest",
+      "quality_score": 0.82,
+      "speed_score": 0.78
+    },
+    {
+      "model": "qwen3:0.6b",
+      "quality_score": 0.76,
+      "speed_score": 0.81
+    },
+    {
+      "model": "qwen3:4b",
+      "quality_score": 0.83,
+      "speed_score": 0.52
+    },
+    {
+      "model": "gemma3:4b",
+      "quality_score": 0.83,
+      "speed_score": 0.38
+    },
+    {
+      "model": "qwen3:1.7b",
+      "quality_score": 0.75,
+      "speed_score": 0.65
+    },
+    {
+      "model": "phi4-mini-reasoning:latest",
+      "quality_score": 0.77,
+      "speed_score": 0.42
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "quality_score": 0.8,
+      "speed_score": 0.15
+    },
+    {
+      "model": "codegemma:2b",
+      "quality_score": 0.72,
+      "speed_score": 0.23
+    },
+    {
+      "model": "qwen3:latest",
+      "quality_score": 0.74,
+      "speed_score": 0.13
+    },
+    {
+      "model": "olmo2:latest",
+      "quality_score": 0.74,
+      "speed_score": 0.1
+    },
+    {
+      "model": "codegemma:latest",
+      "quality_score": 0.73,
+      "speed_score": 0.1
+    }
+  ],
+  "domain_relationship": [
+    {
+      "model": "phi3:3.8b",
+      "quality_score": 0.92,
+      "speed_score": 0.4
+    },
+    {
+      "model": "gemma3:4b",
+      "quality_score": 0.88,
+      "speed_score": 0.38
+    },
+    {
+      "model": "llama3.2:latest",
+      "quality_score": 0.88,
+      "speed_score": 0.8
+    },
+    {
+      "model": "qwen3:4b",
+      "quality_score": 0.86,
+      "speed_score": 0.5
+    },
+    {
+      "model": "dolphin3:latest",
+      "quality_score": 0.85,
+      "speed_score": 0.7
+    },
+    {
+      "model": "mistral:latest",
+      "quality_score": 0.83,
+      "speed_score": 0.78
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "quality_score": 0.82,
+      "speed_score": 0.1
+    },
+    {
+      "model": "qwen3:1.7b",
+      "quality_score": 0.77,
+      "speed_score": 0.71
+    },
+    {
+      "model": "olmo2:latest",
+      "quality_score": 0.75,
+      "speed_score": 0.13
+    },
+    {
+      "model": "codegemma:latest",
+      "quality_score": 0.74,
+      "speed_score": 0.1
+    },
+    {
+      "model": "qwen3:0.6b",
+      "quality_score": 0.73,
+      "speed_score": 0.84
+    },
+    {
+      "model": "qwen3:latest",
+      "quality_score": 0.71,
+      "speed_score": 0.21
+    },
+    {
+      "model": "phi4-mini-reasoning:latest",
+      "quality_score": 0.7,
+      "speed_score": 0.48
+    },
+    {
+      "model": "codegemma:2b",
+      "quality_score": 0.7,
+      "speed_score": 0.26
+    },
+    {
+      "model": "gemma3:1b",
+      "quality_score": 0.7,
+      "speed_score": 0.95
+    }
+  ],
+  "cover_letter": [
+    {
+      "model": "phi3:3.8b",
+      "quality_score": 0.92,
+      "speed_score": 0.4
+    },
+    {
+      "model": "llama3.2:latest",
+      "quality_score": 0.9,
+      "speed_score": 0.8
+    },
+    {
+      "model": "gemma3:4b",
+      "quality_score": 0.86,
+      "speed_score": 0.39
+    },
+    {
+      "model": "dolphin3:latest",
+      "quality_score": 0.85,
+      "speed_score": 0.7
+    },
+    {
+      "model": "qwen3:4b",
+      "quality_score": 0.84,
+      "speed_score": 0.55
+    },
+    {
+      "model": "mistral:latest",
+      "quality_score": 0.83,
+      "speed_score": 0.78
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "quality_score": 0.79,
+      "speed_score": 0.11
+    },
+    {
+      "model": "olmo2:latest",
+      "quality_score": 0.78,
+      "speed_score": 0.1
+    },
+    {
+      "model": "codegemma:2b",
+      "quality_score": 0.76,
+      "speed_score": 0.27
+    },
+    {
+      "model": "codegemma:latest",
+      "quality_score": 0.75,
+      "speed_score": 0.1
+    },
+    {
+      "model": "qwen3:1.7b",
+      "quality_score": 0.75,
+      "speed_score": 0.71
+    },
+    {
+      "model": "gemma3:1b",
+      "quality_score": 0.75,
+      "speed_score": 0.95
+    },
+    {
+      "model": "qwen3:latest",
+      "quality_score": 0.75,
+      "speed_score": 0.25
+    },
+    {
+      "model": "qwen3:0.6b",
+      "quality_score": 0.73,
+      "speed_score": 0.81
+    },
+    {
+      "model": "phi4-mini-reasoning:latest",
+      "quality_score": 0.72,
+      "speed_score": 0.5
+    }
+  ],
+  "job_requirements": [
+    {
+      "model": "phi3:3.8b",
+      "quality_score": 0.88,
+      "speed_score": 0.4
+    },
+    {
+      "model": "llama3.2:latest",
+      "quality_score": 0.85,
+      "speed_score": 0.8
+    },
+    {
+      "model": "qwen3:4b",
+      "quality_score": 0.84,
+      "speed_score": 0.55
+    },
+    {
+      "model": "gemma3:4b",
+      "quality_score": 0.82,
+      "speed_score": 0.46
+    },
+    {
+      "model": "mistral:latest",
+      "quality_score": 0.82,
+      "speed_score": 0.78
+    },
+    {
+      "model": "deepseek-r1:8b",
+      "quality_score": 0.82,
+      "speed_score": 0.2
+    },
+    {
+      "model": "gemma3:1b",
+      "quality_score": 0.8,
+      "speed_score": 0.95
+    },
+    {
+      "model": "dolphin3:latest",
+      "quality_score": 0.8,
+      "speed_score": 0.7
+    },
+    {
+      "model": "phi4-mini-reasoning:latest",
+      "quality_score": 0.79,
+      "speed_score": 0.43
+    },
+    {
+      "model": "codegemma:2b",
+      "quality_score": 0.79,
+      "speed_score": 0.14
+    },
+    {
+      "model": "qwen3:0.6b",
+      "quality_score": 0.78,
+      "speed_score": 0.84
+    },
+    {
+      "model": "qwen3:1.7b",
+      "quality_score": 0.77,
+      "speed_score": 0.65
+    },
+    {
+      "model": "qwen3:latest",
+      "quality_score": 0.76,
+      "speed_score": 0.15
+    },
+    {
+      "model": "codegemma:latest",
+      "quality_score": 0.74,
+      "speed_score": 0.44
+    },
+    {
+      "model": "olmo2:latest",
+      "quality_score": 0.74,
+      "speed_score": 0.12
+    }
+  ],
+  "job_extraction": [
+    {
+      "model": "llama3.2:latest",
+      "quality_score": 0.9,
+      "speed_score": 0.7
+    },
+    {
+      "model": "gemma3:1b",
+      "quality_score": 0.85,
+      "speed_score": 0.85
+    },
+    {
+      "model": "phi3:3.8b",
+      "quality_score": 0.92,
+      "speed_score": 0.5
+    },
+    {
+      "model": "dolphin3:latest",
+      "quality_score": 0.87,
+      "speed_score": 0.65
+    },
+    {
+      "model": "mistral:latest",
+      "quality_score": 0.85,
+      "speed_score": 0.75
+    }
+  ]
+}

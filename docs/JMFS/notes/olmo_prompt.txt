@@ -1,0 +1,1 @@
+You are OLMo, our skill parsing expert. We have updated the Skill Definition Standardization Framework based on your feedback. Please review our improved framework in the provided document and let us know if it meets your needs for implementation.

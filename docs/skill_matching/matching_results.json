@@ -1,0 +1,41 @@
+{
+  "job_requirements": [
+    "Python Programming",
+    "Project Management",
+    "Data Analysis",
+    "Team Leadership",
+    "Cloud Computing"
+  ],
+  "candidate_skills": [
+    "Python",
+    "Project Planning",
+    "Statistical Analysis",
+    "Team Building",
+    "AWS"
+  ],
+  "matches": {
+    "Python Programming": [],
+    "Project Management": [],
+    "Data Analysis": [],
+    "Team Leadership": [],
+    "Cloud Computing": []
+  },
+  "false_positives_avoided": [
+    {
+      "job_skill": "Python Programming",
+      "candidate_skill": "Python",
+      "reason": "Domain context mismatch"
+    }
+  ],
+  "explanations": {
+    "Python Programming": {},
+    "Project Management": {},
+    "Data Analysis": {},
+    "Team Leadership": {},
+    "Cloud Computing": {}
+  },
+  "metrics": {
+    "false_positive_reduction": 100.0,
+    "average_matches_per_job": 0.0
+  }
+}

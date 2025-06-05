@@ -1,0 +1,281 @@
+#!/usr/bin/env python3
+"""
+Job processing functions for the fetch module.
+Contains functions for processing job data and saving to structured formats.
+"""
+
+import os
+import json
+import logging
+from pathlib import Path
+from datetime import date, datetime
+from bs4 import BeautifulSoup
+
+logger = logging.getLogger('fetch_module.job_processing')
+
+# Constants
+CAREERS_BASE_URL = "https://careers.db.com/professionals/search-roles/#/professional/job/"
+
+
+def extract_job_id_from_position_id(position_id):
+    """
+    Extract numeric job ID from a position ID.
+    
+    Args:
+        position_id (str or int): Position ID from API response
+        
+    Returns:
+        int or None: Extracted job ID or None if extraction fails
+    """
+    if position_id is None:
+        return None
+        
+    try:
+        # Sometimes the position ID is directly a number
+        if isinstance(position_id, int):
+            return position_id
+        else:
+            # Try to extract numeric job ID from the position ID
+            return int(position_id.split('/')[-1])
+    except (ValueError, IndexError, AttributeError):
+        logger.warning(f"Failed to extract job ID from position ID: {position_id}")
+        return None
+
+
+def process_and_save_jobs(jobs, output_dir, generate_daily_summary=False, force_reprocess=False):
+    """
+    Process job data and save them to JSON files, avoiding duplicates
+    
+    Args:
+        jobs (list): List of job data dictionaries
+        output_dir (Path or str): Directory to save job data
+        generate_daily_summary (bool): Whether to generate the daily summary JSON file
+        force_reprocess (bool): Whether to reprocess jobs even if they already exist
+        
+    Returns:
+        tuple: (int: processed jobs, int: skipped jobs)
+    """
+    # Normalize output_dir to a Path object
+    if isinstance(output_dir, str):
+        output_dir = Path(output_dir)
+    
+    # Create output directory if it doesn't exist
+    os.makedirs(output_dir, exist_ok=True)
+    
+    logger.info(f"Processing {len(jobs)} jobs and saving to {output_dir}")
+    logger.info(f"Output directory absolute path: {output_dir.absolute()}")
+    logger.info(f"Output directory exists: {output_dir.exists()}")
+    
+    processed_jobs = 0
+    skipped_jobs = 0
+    enriched_jobs = []  # For summary
+    
+    for i, job in enumerate(jobs):
+        job_id = job["job_id"]
+        job_file = os.path.join(output_dir, f"job{job_id}.json")
+        
+        # Construct base URL if not provided
+        job_url = job.get("url", f"https://careers.db.com/professionals/search-roles/#/professional/job/{job_id}")
+        job_detail_url = job.get("detail_url", f"https://api-deutschebank.beesite.de/jobhtml/{job_id}.json")
+        job_title = job.get("title", "Unknown Title")
+        job_career_level = job.get("career_level", "")
+        job_date_posted = job.get("date_posted", "")
+        
+        # Check if this job already exists
+        if os.path.exists(job_file) and not force_reprocess:
+            logger.info(f"Job {i+1}/{len(jobs)}: {job_title} (ID: {job_id}) already exists, skipping")
+            
+            # Add to enriched jobs for summary
+            try:
+                with open(job_file, 'r', encoding='utf-8') as f:
+                    existing_job = json.load(f)
+                    # Add a clean version to enriched_jobs
+                    enriched_jobs.append({
+                        "job_id": job_id,
+                        "title": job_title,
+                        "url": job_url,
+                        "detail_url": job_detail_url,
+                        "career_level": job_career_level,
+                        "date_posted": job_date_posted,
+                        "locations": job.get("locations", [])
+                    })
+            except Exception as e:
+                logger.error(f"Error reading existing job file {job_file}: {e}")
+                
+            skipped_jobs += 1
+            continue
+            
+        logger.info(f"Processing job {i+1}/{len(jobs)}: {job_title} (ID: {job_id})")
+        
+        # Get HTML content from api_details if available
+        html_content = ""
+        api_details = job.get("api_details", {})
+        if isinstance(api_details, dict):
+            html_content = api_details.get("html", "")
+            
+        # Create a standardized job structure
+        standardized_data = {
+            "job_id": job_id,
+            "api_details": job.get("api_details", {}),
+            "search_details": job.get("search_details", {}),  # Changed from api_data to search_details
+            "web_details": {
+                "url": job_url,
+                "position_title": job_title,
+                "locations": job.get("locations", []),
+                "full_description": html_content
+            },
+            "metadata": {
+                "created_at": datetime.now().isoformat(),
+                "last_updated": {
+                    "created_at": datetime.now().isoformat(),
+                    "api_checked_at": datetime.now().isoformat(),
+                    "scraped_at": None,
+                    "cleaned_at": None
+                },
+                "source": "fetch_module"
+            },
+            "log": [
+                {
+                    "timestamp": datetime.now().isoformat(),
+                    "module": "fetch_module",
+                    "action": "create_job_file",
+                    "message": f"Created job file for ID {job_id} from API data"
+                }
+            ]
+        }
+        
+        # Save the job to a JSON file
+        try:
+            logger.info(f"Attempting to save job data to {job_file}")
+            logger.info(f"Directory exists: {os.path.exists(os.path.dirname(job_file))}")
+            
+            with open(job_file, 'w', encoding='utf-8') as f:
+                json.dump(standardized_data, f, indent=2, ensure_ascii=False)
+            
+            logger.info(f"Successfully saved job data to {job_file}")
+            processed_jobs += 1
+            
+            # Add to enriched jobs for summary
+            enriched_jobs.append({
+                "job_id": job_id,
+                "title": job_title,
+                "url": job_url,
+                "detail_url": job_detail_url,
+                "career_level": job_career_level,
+                "date_posted": job_date_posted,
+                "locations": job.get("locations", [])
+            })
+            
+        except Exception as e:
+            logger.error(f"Error saving job data for job {job_id}: {e}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
+    
+    # Save summary of all enriched jobs to a single JSON file if enabled
+    if generate_daily_summary and enriched_jobs:
+        try:
+            today_string = date.today().strftime('%Y-%m-%d')
+            summary_file = os.path.join(output_dir, f"frankfurt_jobs_{today_string}.json")
+            
+            with open(summary_file, 'w', encoding='utf-8') as f:
+                summary_data = {
+                    "date": today_string,
+                    "count": len(enriched_jobs),
+                    "jobs": enriched_jobs
+                }
+                json.dump(summary_data, f, indent=2, ensure_ascii=False)
+                
+            logger.info(f"Daily summary saved to {summary_file}")
+            
+        except Exception as e:
+            logger.error(f"Error generating daily summary: {e}")
+    
+    logger.info(f"Processed {processed_jobs} jobs, skipped {skipped_jobs} existing jobs")
+    return processed_jobs, skipped_jobs
+
+
+def extract_job_metadata(job_item, job_details):
+    """
+    Extract metadata from job item and job details
+    
+    Args:
+        job_item (dict): Job search result item
+        job_details (dict): Job details from API
+        
+    Returns:
+        dict: Job metadata
+    """
+    job_id = None
+    matched_object = job_item.get("MatchedObjectDescriptor", {})
+    
+    # Handle case where matched_object could be a list instead of dict
+    if isinstance(matched_object, list):
+        logger.debug("MatchedObjectDescriptor is a list, using first item if available")
+        if matched_object:  # Check if list is not empty
+            matched_object = matched_object[0]
+        else:
+            logger.warning("Empty MatchedObjectDescriptor list, returning None")
+            return None
+    
+    position_id = matched_object.get("PositionID") if isinstance(matched_object, dict) else None
+    
+    if position_id:
+        try:
+            # Sometimes the position ID is directly a number
+            if isinstance(position_id, int):
+                job_id = position_id
+            else:
+                # Try to extract numeric job ID from the position ID
+                job_id = int(position_id.split('/')[-1])
+        except (ValueError, IndexError, AttributeError) as e:
+            logger.warning(f"Failed to extract job ID from {position_id}: {e}")
+            return None
+    
+    if job_id is None:
+        return None
+    
+    # Extract job title and career level - handle safely in case matched_object is not a dict
+    if isinstance(matched_object, dict):
+        job_title = matched_object.get('PositionTitle', '')
+        
+        # Safely access nested dict
+        career_level = matched_object.get('CareerLevel', {})
+        job_career_level = career_level.get('Name', '') if isinstance(career_level, dict) else ''
+        
+        job_date_posted = matched_object.get('PublicationStartDate', '')
+    else:
+        job_title = ''
+        job_career_level = ''
+        job_date_posted = ''
+        logger.warning(f"Invalid matched_object type for job {job_id}: {type(matched_object)}")
+    
+    # Extract basic info from HTML content
+    locations = []
+    html_content = job_details.get("html", "") if isinstance(job_details, dict) else ""
+    if html_content:
+        try:
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Extract job location
+            location_tag = soup.find('strong', text='Location:')
+            if location_tag and location_tag.parent:
+                location_text = location_tag.parent.get_text(strip=True).replace('Location:', '').strip()
+                locations = [loc.strip() for loc in location_text.split(',')]
+        except Exception as e:
+            logger.warning(f"Error extracting metadata from HTML for job {job_id}: {e}")
+    
+    # Create job data
+    job_data = {
+        "job_id": job_id,
+        "title": job_title,
+        "url": CAREERS_BASE_URL + str(job_id),
+        "detail_url": f"https://api-deutschebank.beesite.de/jobhtml/{job_id}.json",
+        "career_level": job_career_level,
+        "date_posted": job_date_posted,
+        "locations": locations,
+        "html_content": html_content,
+        "search_details": matched_object,  # Changed from api_data to search_details for consistency
+        "api_details": job_details
+    }
+    
+    return job_data
