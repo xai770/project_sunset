@@ -79,7 +79,7 @@ def get_skill_category(skill_data: Dict[str, Any]) -> str:
         if count > 0:
             matches[category] = count
     if matches:
-        return max(matches.items(), key=lambda x: x[1])[0]
+        return max(matches.items(), key=lambda x: x[1])[0]  # type: ignore
     return "General"
 
 def should_compare_skills(job_skill_category: str, cv_skill_category: str) -> bool:

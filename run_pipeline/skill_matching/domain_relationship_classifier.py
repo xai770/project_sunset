@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Domain Relationship Classifier - Implements domain relationship classification for the SDR framework
+Domain Re    def __init__(self):
+        self.enriched_skills = []
+        self.skill_map = {}  # Maps skill names to their enriched definitions
+        self.relationship_matrix: Dict[str, Dict[str, float]] = defaultdict(dict)onship Classifier - Implements domain relationship classification for the SDR framework
 
 This script implements the domain relationship classification component of the SDR framework,
 which categorizes the relationship between skills based on their domain components using
@@ -11,6 +14,7 @@ import json
 import os
 import logging
 from collections import defaultdict
+from typing import Dict
 from typing import Dict, List, Any, Set, Tuple, Optional
 
 # Configure logging
@@ -37,7 +41,7 @@ class DomainRelationshipClassifier:
     def __init__(self):
         self.enriched_skills = []
         self.skill_map = {}  # Maps skill names to their enriched definitions
-        self.relationship_matrix = defaultdict(dict)
+        self.relationship_matrix: dict = defaultdict(dict)
         
     def load_enriched_skills(self):
         """Load the enriched skill definitions"""

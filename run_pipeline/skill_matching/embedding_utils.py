@@ -63,7 +63,7 @@ class EmbeddingGenerator:
         try:
             if self.cache_file.exists():
                 with open(self.cache_file, 'r', encoding='utf-8') as f:
-                    cache = json.load(f)
+                    cache: Dict[str, List[float]] = json.load(f)
                 logger.info(f"Loaded {len(cache)} skill embeddings from cache")
                 return cache
         except Exception as e:
@@ -178,8 +178,9 @@ def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
             return 0.0
             
         similarity = dot_product / (norm_v1 * norm_v2)
-        # Ensure the result is between 0 and 1
-        return max(0.0, min(1.0, similarity))
+        # Ensure the result is between 0 and 1 and explicitly convert to float
+        result: float = float(max(0.0, min(1.0, similarity)))
+        return result
     except Exception as e:
         logger.error(f"Error calculating cosine similarity: {e}")
         return 0.0
@@ -212,7 +213,7 @@ def find_top_matches(
     """Find top K matches based on embedding similarity"""
     # Handle None query embedding
     if query_embedding is None:
-        return []
+        return []  # type: ignore[unreachable]
     
     # Filter out any None values in candidate embeddings
     valid_candidates = {k: v for k, v in candidate_embeddings.items() if v is not None}

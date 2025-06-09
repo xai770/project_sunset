@@ -57,7 +57,7 @@ class SkillAnalyzer:
         self.job_skills = []
         self.cv_skills = {}
         self.all_skills = set()
-        self.skill_frequencies = Counter()
+        self.skill_frequencies: Counter[str] = Counter()
         self.skill_domains = {}
         self.skill_ambiguity = {}
         self.skill_impact = {}

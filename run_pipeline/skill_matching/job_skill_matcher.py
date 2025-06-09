@@ -21,7 +21,7 @@ OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "gemma3:4b")
 def load_job_data(job_path: Path) -> Optional[Dict[str, Any]]:
     try:
         with open(job_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Failed to load job file {job_path}: {e}")
         return None

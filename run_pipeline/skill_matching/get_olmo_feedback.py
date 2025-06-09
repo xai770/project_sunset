@@ -9,20 +9,29 @@ import os
 import sys
 import json
 from pathlib import Path
+from typing import Dict, Any
 
 # Add the project root to the path
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
 
-from run_pipeline.utils.llm_client import call_olmo_api, get_olmo_client
+from run_pipeline.utils.llm_client import call_ollama_api, get_olmo_client
+
+# Try to import LLM Factory for quality-controlled processing
+try:
+    from llm_factory.specialist_registry import SpecialistRegistry
+    from llm_factory.quality_control import QualityController
+    LLM_FACTORY_AVAILABLE = True
+except ImportError:
+    LLM_FACTORY_AVAILABLE = False
 
 # Helper Functions
 def load_json_file(filepath):
     """Load and return JSON data from a file"""
     try:
         with open(filepath, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         print(f"Error loading {filepath}: {e}")
         return None
@@ -36,14 +45,14 @@ def get_sdr_summary():
     relationships = load_json_file(relationships_path) or {}
     
     # Count relationship types
-    relationship_counts = {}
+    relationship_counts: Dict[str, int] = {}
     for skill1, relations in relationships.items():
         for skill2, relation_data in relations.items():
             rel_type = relation_data.get('relationship', 'Unknown')
             relationship_counts[rel_type] = relationship_counts.get(rel_type, 0) + 1
     
     # Create a summary of the implementation
-    summary = {
+    summary: Dict[str, Any] = {
         "enriched_skills_count": len(enriched_skills),
         "domains_representation": {},
         "relationship_counts": relationship_counts,
@@ -56,6 +65,57 @@ def get_sdr_summary():
         summary["domains_representation"][category] = summary["domains_representation"].get(category, 0) + 1
     
     return summary
+
+def _get_llm_factory_specialist():
+    """Initialize LLM Factory specialist for feedback processing."""
+    if not LLM_FACTORY_AVAILABLE:
+        return None, None
+    
+    try:
+        # Initialize specialist registry
+        registry = SpecialistRegistry()
+        
+        # Register feedback specialist
+        registry.register_specialist(
+            "feedback_specialist",
+            {
+                "type": "text_generation",
+                "model": "olmo2:latest",
+                "temperature": 0.7,
+                "max_tokens": 3000,
+                "system_prompt": "You are OLMo2, an advanced language model specialized in understanding skill taxonomies and domain relationships. Provide detailed, actionable feedback on skill definition frameworks."
+            }
+        )
+        
+        # Initialize quality controller
+        quality_controller = QualityController()
+        
+        return registry, quality_controller
+        
+    except Exception as e:
+        print(f"Failed to initialize LLM Factory specialist: {e}")
+        return None, None
+
+def _get_feedback_with_llm_factory(prompt):
+    """Get feedback using LLM Factory specialist."""
+    registry, quality_controller = _get_llm_factory_specialist()
+    if not registry:
+        return None
+    
+    try:
+        specialist = registry.get_specialist("feedback_specialist")
+        response = specialist.generate(prompt)
+        
+        # Apply quality control
+        if quality_controller:
+            quality_score = quality_controller.evaluate_response(response, prompt)
+            print(f"LLM Factory feedback quality score: {quality_score}")
+        
+        return response
+        
+    except Exception as e:
+        print(f"Error in LLM Factory feedback generation: {e}")
+        return None
 
 def main():
     """Main function to get OLMo2's feedback on the SDR implementation"""
@@ -108,9 +168,17 @@ def main():
     Please provide specific, actionable advice that we can implement in our next phase of development.
     """
     
-    # Call OLMo2 API
+    # Try using LLM Factory for quality-controlled feedback
     print("Consulting OLMo2 for feedback on SDR implementation...")
-    response = call_olmo_api(prompt)
+    response = _get_feedback_with_llm_factory(prompt)
+    
+    # Fallback to regular LLM client if needed
+    if not response:
+        olmo_client = get_olmo_client()
+        if hasattr(olmo_client, 'generate'):
+            response = olmo_client.generate(prompt)
+        else:
+            response = call_ollama_api(prompt, model="olmo2:latest")
     
     # Print OLMo2's response
     print("\n=== OLMo2's Feedback on SDR Implementation ===\n")

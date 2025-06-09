@@ -27,8 +27,16 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
 
-# Import llm_client for feedback processing
-from run_pipeline.utils.llm_client import call_olmo_api#type: ignore
+# Import llm_client for feedback processing and LLM Factory
+from run_pipeline.utils.llm_client import call_ollama_api  # Fixed import
+
+# Try to import LLM Factory for quality-controlled processing
+try:
+    from llm_factory.specialist_registry import SpecialistRegistry
+    from llm_factory.quality_control import QualityController
+    LLM_FACTORY_AVAILABLE = True
+except ImportError:
+    LLM_FACTORY_AVAILABLE = False
 
 # Configure logging
 logging.basicConfig(
@@ -62,6 +70,62 @@ class SkillValidationSystem:
         
         # Load existing feedback if available
         self.feedback_data = self._load_feedback_data()
+        
+        # Initialize LLM Factory
+        self.llm_factory_registry = None
+        self.quality_controller = None
+        self._init_llm_factory()
+    
+    def _init_llm_factory(self):
+        """Initialize LLM Factory specialists for skill validation."""
+        if not LLM_FACTORY_AVAILABLE:
+            logger.info("LLM Factory not available, using fallback LLM client")
+            return
+        
+        try:
+            # Initialize specialist registry
+            self.llm_factory_registry = SpecialistRegistry()
+            
+            # Register skill analysis specialist
+            self.llm_factory_registry.register_specialist(
+                "skill_analyzer",
+                {
+                    "type": "document_analysis",
+                    "model": "olmo2:latest", 
+                    "temperature": 0.2,
+                    "max_tokens": 2000,
+                    "system_prompt": "You are a professional skill analysis specialist. Analyze skill definitions and feedback to generate improved prompts with precision and clarity."
+                }
+            )
+            
+            # Initialize quality controller
+            self.quality_controller = QualityController()
+            logger.info("LLM Factory initialized for skill validation")
+            
+        except Exception as e:
+            logger.warning(f"Failed to initialize LLM Factory: {e}")
+            self.llm_factory_registry = None
+            self.quality_controller = None
+    
+    def _generate_improvement_prompt_with_llm_factory(self, prompt):
+        """Generate improvement prompt using LLM Factory specialist."""
+        if not self.llm_factory_registry:
+            return None
+        
+        try:
+            specialist = self.llm_factory_registry.get_specialist("skill_analyzer")
+            response = specialist.generate(prompt)
+            
+            # Apply quality control
+            if self.quality_controller:
+                quality_score = self.quality_controller.evaluate_response(response, prompt)
+                logger.info(f"LLM Factory skill analysis quality score: {quality_score}")
+            
+            return response
+            
+        except Exception as e:
+            logger.error(f"Error in LLM Factory skill analysis: {e}")
+            return None
     
     def validate_skills(self, enriched_skills_path: str) -> Dict[str, Any]:
         """
@@ -422,7 +486,7 @@ class SkillValidationSystem:
         if os.path.exists(feedback_file):
             try:
                 with open(feedback_file, 'r') as f:
-                    return json.load(f)
+                    return json.load(f)  # type: ignore
             except Exception as e:
                 logger.error(f"Error loading feedback database: {e}")
                 return {
@@ -502,13 +566,19 @@ class SkillValidationSystem:
             The prompt should be specific and guide the LLM to focus on the areas mentioned in the feedback.
             """
             
-            # Use OLMo2 to generate improvement prompts if available
-            try:
-                response = call_olmo_api(prompt.strip())
+            # Try using LLM Factory for quality-controlled improvement prompt generation
+            response = self._generate_improvement_prompt_with_llm_factory(prompt.strip())
+            
+            # Fallback to regular OLMo API if needed
+            if response:
                 improvement_prompts["prompts_by_skill"][skill_name] = response
-            except Exception as e:
-                logger.error(f"Error generating improvement prompt for {skill_name}: {e}")
-                improvement_prompts["prompts_by_skill"][skill_name] = f"Error generating prompt: {str(e)}"
+            else:
+                try:
+                    response = call_ollama_api(prompt.strip(), model="olmo2:latest")
+                    improvement_prompts["prompts_by_skill"][skill_name] = response
+                except Exception as e:
+                    logger.error(f"Error generating improvement prompt for {skill_name}: {e}")
+                    improvement_prompts["prompts_by_skill"][skill_name] = f"Error generating prompt: {str(e)}"
         
         return improvement_prompts
     

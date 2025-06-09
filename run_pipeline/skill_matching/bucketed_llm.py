@@ -39,7 +39,8 @@ def compare_skill_buckets_llm(bucket_name: str, job_skills: List[str], cv_skills
         cached_score = bucket_cache.get(bucket_name, job_skills, cv_skills)
         if cached_score is not None:
             logger.info(f"Cache hit for {bucket_name} bucket comparison")
-            return cached_score
+            cached_float: float = float(cached_score)
+            return cached_float
     
     # If either skill list is empty, return 0
     if not job_skills or not cv_skills:
@@ -99,7 +100,7 @@ def compare_skill_buckets_llm(bucket_name: str, job_skills: List[str], cv_skills
             llm_response = result.get("message", {}).get("content", "")
             
             # Extract percentage from response
-            percentage_match = extract_percentage(llm_response)
+            percentage_match: float = extract_percentage(llm_response)
             
             # Cache the result if cache is provided
             if bucket_cache is not None:

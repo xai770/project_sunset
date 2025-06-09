@@ -24,7 +24,7 @@ class SkillMatchCache:
         try:
             if self.cache_file.exists():
                 with open(self.cache_file, 'r', encoding='utf-8') as f:
-                    cache = json.load(f)
+                    cache: Dict[str, Dict[str, Any]] = json.load(f)
                 logger.info(f"Loaded {len(cache)} skill match entries from cache")
                 return cache
         except Exception as e:

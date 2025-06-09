@@ -2,7 +2,17 @@
 """
 Domain Matcher Integration Module
 
-This module provides a unified interface to the domain matching functionality,
+This module provides a unifi    try:
+        if CONFIG_PATH.exists():
+            with open(CONFIG_PATH, 'r') as f:
+                config = json.load(f)
+                return config  # type: ignore
+        else:
+            logger.warning(f"Configuration file not found: {CONFIG_PATH}, using defaults")
+            return DEFAULT_CONFIG
+    except Exception as e:
+        logger.error(f"Error loading configuration: {e}")
+        return DEFAULT_CONFIGe to the domain matching functionality,
 integrating both basic and advanced domain matchers. It serves as a bridge between
 the older domain matching system and the newer Skill Domain Relationship (SDR) framework.
 
@@ -34,7 +44,7 @@ if parent_dir not in sys.path:
 # Try importing the different domain matcher implementations
 try:
     # Import basic domain matcher
-    from scripts.utils.domain_matcher import (
+    from scripts.utils.domain_matcher import (  # type: ignore
         get_skill_domain as basic_get_skill_domain,
         get_domain_aware_similarity as basic_get_domain_aware_similarity,
         domain_analyze_matches as basic_domain_analyze_matches,
@@ -49,14 +59,14 @@ except ImportError as e:
 
 try:
     # Import advanced domain matcher (SDR framework)
-    from scripts.utils.skill_decomposer.domain_overlap_rater import (
+    from scripts.utils.skill_decomposer.domain_overlap_rater import (  # type: ignore
         calculate_domain_overlap,
         get_skill_domain_info,
         analyze_job_domain_focus,
         enhance_matches_with_domain_info
     )
     
-    from scripts.utils.skill_decomposer.skill_domain_relationship import (
+    from scripts.utils.skill_decomposer.skill_domain_relationship import (  # type: ignore
         classify_relationship,
         is_valid_match,
         get_enriched_skill
@@ -91,7 +101,7 @@ def _load_config() -> Dict[str, Any]:
     try:
         if CONFIG_PATH.exists():
             with open(CONFIG_PATH, 'r') as f:
-                config = json.load(f)
+                config: Dict[str, Any] = json.load(f)
                 return config
         else:
             logger.warning(f"Configuration file not found: {CONFIG_PATH}, using defaults")
@@ -138,17 +148,19 @@ def get_skill_domain(skill: str) -> Optional[str]:
         return _domain_cache[skill.lower()]
     
     implementation = _get_implementation_preference()
-    domain = None
+    domain: Optional[str] = None
     
     if implementation == "advanced" and SDR_AVAILABLE:
         # Use SDR framework for domain lookup
         domain_info = get_skill_domain_info(skill)
         if domain_info:
-            domain = domain_info.get("domain", None)
+            domain_value = domain_info.get("domain", None)
+            domain = str(domain_value) if domain_value is not None else None
     
     if (domain is None or implementation == "basic") and BASIC_MATCHER_AVAILABLE:
         # Fall back to basic domain matcher
-        domain = basic_get_skill_domain(skill)
+        domain_result = basic_get_skill_domain(skill)
+        domain = str(domain_result) if domain_result is not None else None
     
     # Cache the result
     config = _load_config()
@@ -183,11 +195,11 @@ def get_domain_aware_similarity(skill1: str, skill2: str, base_threshold: float 
         # Scale domain overlap to similarity score (0-1)
         similarity = domain_overlap
         
-        return similarity, same_domain
+        return similarity, same_domain  # type: ignore
     
     elif implementation == "basic" and BASIC_MATCHER_AVAILABLE:
         # Use basic domain matcher
-        return basic_get_domain_aware_similarity(skill1, skill2, base_threshold)
+        return basic_get_domain_aware_similarity(skill1, skill2, base_threshold)  # type: ignore
     
     # Default fallback if no implementation available
     return 0.5, False
@@ -208,11 +220,12 @@ def analyze_matches(matches: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     if implementation == "advanced" and SDR_AVAILABLE:
         # Use SDR framework for enhanced matching
         min_overlap = config.get("minimum_domain_overlap", 0.3)
-        return enhance_matches_with_domain_info(matches, min_domain_overlap=min_overlap)
+        return enhance_matches_with_domain_info(matches, min_domain_overlap=min_overlap)  # type: ignore
     
     elif implementation == "basic" and BASIC_MATCHER_AVAILABLE:
         # Use basic domain matcher
-        return basic_domain_analyze_matches(matches)
+        enhanced_matches: List[Dict[str, Any]] = basic_domain_analyze_matches(matches)
+        return enhanced_matches
     
     # No enhancement if no implementation available
     return matches
@@ -234,7 +247,7 @@ def rerank_by_domain_relevance(matches: List[Dict[str, Any]]) -> List[Dict[str, 
         enhanced_matches = enhance_matches_with_domain_info(matches)
         
         # Sort by domain relevance and match strength
-        return sorted(
+        return sorted(  # type: ignore
             enhanced_matches,
             key=lambda m: (
                 m.get("domain_data", {}).get("overlap_score", 0),
@@ -245,7 +258,8 @@ def rerank_by_domain_relevance(matches: List[Dict[str, Any]]) -> List[Dict[str, 
     
     elif implementation == "basic" and BASIC_MATCHER_AVAILABLE:
         # Use basic domain matcher
-        return basic_rerank_by_domain_relevance(matches)
+        reranked_matches: List[Dict[str, Any]] = basic_rerank_by_domain_relevance(matches)
+        return reranked_matches
     
     # No reranking if no implementation available
     return matches
@@ -263,7 +277,8 @@ def get_skill_relationship(skill1: str, skill2: str) -> Dict[str, Any]:
     """
     if SDR_AVAILABLE:
         # Use SDR framework for relationship classification
-        return classify_relationship(skill1, skill2)
+        relationship_result: Dict[str, Any] = classify_relationship(skill1, skill2)
+        return relationship_result
     
     # Simplified relationship if SDR not available
     domain1 = get_skill_domain(skill1)
@@ -294,7 +309,8 @@ def is_domain_match(requirement: str, skill: str, threshold: float = 0.3) -> Tup
     """
     if SDR_AVAILABLE:
         # Use SDR framework for domain matching
-        return is_valid_match(requirement, skill, min_compatibility=threshold)
+        match_result: Tuple[bool, Dict[str, Any]] = is_valid_match(requirement, skill, min_compatibility=threshold)
+        return match_result
     
     # Simplified check if SDR not available
     domain1 = get_skill_domain(requirement)
@@ -339,7 +355,8 @@ def analyze_job_domains(job_requirements: List[Dict[str, Any]]) -> Dict[str, Any
     """
     if SDR_AVAILABLE:
         # Use SDR framework for job domain analysis
-        return analyze_job_domain_focus(job_requirements)
+        analysis_result: Dict[str, Any] = analyze_job_domain_focus(job_requirements)
+        return analysis_result
     
     # Simplified domain analysis if SDR not available
     domains = {}
