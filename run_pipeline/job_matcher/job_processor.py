@@ -57,7 +57,7 @@ def load_job_data(job_id: str) -> Dict[str, Any]:
     """
     job_path = os.path.join(JOB_DATA_DIR, f"job{job_id}.json")
     with open(job_path, "r", encoding="utf-8") as jf:
-        return json.load(jf)
+        return json.load(jf)  # type: ignore
 
 def prepare_job_description(job_data: Dict[str, Any]) -> str:
     """

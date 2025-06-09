@@ -11,7 +11,7 @@ from pathlib import Path
 # Get the project root directory
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
-def load_cv_text():
+def load_cv_text() -> str:
     """
     Load CV text from the config directory.
     

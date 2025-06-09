@@ -115,7 +115,7 @@ class SkillsGapAnalyzer:
         """
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
-                self.cv_skills = json.load(f)
+                self.cv_skills = json.load(f)  # type: ignore
             logger.info(f"Successfully loaded CV skills from {file_path}")
         except Exception as e:
             logger.error(f"Error loading CV skills: {e}")

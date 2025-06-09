@@ -11,7 +11,7 @@ import sys
 # Get the project root directory
 PROJECT_ROOT = Path(__file__).parent.parent.parent
 
-def get_cv_markdown_text():
+def get_cv_markdown_text() -> str:
     """
     Get the CV text from the Markdown file.
     

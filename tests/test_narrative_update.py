@@ -20,7 +20,7 @@ def load_job_data(job_id="61951"):
     
     try:
         with open(job_path, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Failed to load job {job_id}: {e}")
         return None

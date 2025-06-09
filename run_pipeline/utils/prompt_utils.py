@@ -82,11 +82,12 @@ The result should be a clean, professional job description in English only, with
             data = json.load(f)
         
         active_version = data.get("active_version", default_version)
-        if active_version not in data.get("versions", {}):
+        versions_dict = data.get("versions", {})  # type: ignore
+        if active_version not in versions_dict:
             logger.warning(f"Active version {active_version} not found in prompt file")
             return default_prompt, default_version
         
-        prompt = data["versions"][active_version].get("prompt", default_prompt)
+        prompt = versions_dict[active_version].get("prompt", default_prompt)  # type: ignore
         return prompt, active_version
     except Exception as e:
         logger.error(f"Error loading prompt file: {str(e)}")

@@ -9,11 +9,140 @@ import os
 from datetime import datetime
 from typing import Dict, Any, List, Optional
 
-# Import configured LLM client
+# Import configured LLM client and LLM Factory
 from run_pipeline.utils.llm_client import call_ollama_api, call_ollama_api_json
+
+# Try to import LLM Factory for quality-controlled processing
+try:
+    from llm_factory.specialist_registry import SpecialistRegistry
+    from llm_factory.quality_control import QualityController
+    LLM_FACTORY_AVAILABLE = True
+except ImportError:
+    LLM_FACTORY_AVAILABLE = False
 
 # Configure logging
 logger = logging.getLogger("jmfs.feedback.llm_handlers")
+
+def _get_llm_factory_specialists():
+    """Initialize LLM Factory specialists for feedback processing."""
+    if not LLM_FACTORY_AVAILABLE:
+        return None, None
+    
+    try:
+        # Initialize specialist registry
+        registry = SpecialistRegistry()
+        
+        # Register feedback analysis specialist
+        registry.register_specialist(
+            "feedback_analyzer",
+            {
+                "type": "document_analysis",
+                "model": "llama3.2:latest",
+                "temperature": 0.3,
+                "max_tokens": 2000,
+                "system_prompt": "You are a professional feedback analysis specialist for a job matching system. Analyze reviewer feedback and determine appropriate actions with precision and consistency."
+            }
+        )
+        
+        # Register content generation specialist
+        registry.register_specialist(
+            "content_generator", 
+            {
+                "type": "text_generation",
+                "model": "llama3.2:latest",
+                "temperature": 0.7,
+                "max_tokens": 1500,
+                "system_prompt": "You are a professional content generation specialist. Create high-quality, contextually appropriate content for business communications."
+            }
+        )
+        
+        # Initialize quality controller
+        quality_controller = QualityController()
+        
+        return registry, quality_controller
+        
+    except Exception as e:
+        logger.warning(f"Failed to initialize LLM Factory specialists: {e}")
+        return None, None
+
+def _analyze_feedback_with_llm_factory(feedback_summary, config):
+    """Analyze feedback using LLM Factory document analysis specialist."""
+    registry, quality_controller = _get_llm_factory_specialists()
+    if not registry:
+        return None
+    
+    try:
+        # Create the master analysis prompt
+        master_prompt = f"""
+You are a Feedback Dispatcher coordinating a job matching system. 
+Analyze reviewer feedback and determine what actions to take for each job.
+
+For each job with feedback, determine the action type:
+1. GENERATE_COVER_LETTER: Reviewer says they ARE qualified (false negative)
+2. RESOLVE_CONFLICT: Contradictory feedback vs. previous assessment  
+3. CLARIFY_GIBBERISH: Feedback is unclear or nonsensical
+4. PROCESS_LEARNING: Valid feedback for system improvement
+5. IGNORE: Feedback is empty or clearly not actionable
+
+Jobs with feedback:
+{json.dumps(feedback_summary, indent=2)}
+
+Output JSON format:
+{{
+  "actions": [
+    {{
+      "job_id": "12345",
+      "action_type": "GENERATE_COVER_LETTER|RESOLVE_CONFLICT|CLARIFY_GIBBERISH|PROCESS_LEARNING|IGNORE",
+      "feedback_text": "actual reviewer feedback",
+      "reasoning": "why this action was chosen",
+      "priority": "high|medium|low"
+    }}
+  ],
+  "summary": "Brief summary of analysis"
+}}
+"""
+        
+        # Use feedback analyzer specialist
+        specialist = registry.get_specialist("feedback_analyzer")
+        response = specialist.generate(master_prompt)
+        
+        # Apply quality control
+        if quality_controller:
+            quality_score = quality_controller.evaluate_response(response, master_prompt)
+            logger.info(f"LLM Factory feedback analysis quality score: {quality_score}")
+        
+        # Parse the JSON response
+        if isinstance(response, str):
+            return json.loads(response)
+        return response
+        
+    except Exception as e:
+        logger.error(f"Error in LLM Factory feedback analysis: {e}")
+    
+    return None
+
+def _generate_content_with_llm_factory(prompt, config, content_type="professional"):
+    """Generate content using LLM Factory text generation specialist."""
+    registry, quality_controller = _get_llm_factory_specialists()
+    if not registry:
+        return None
+    
+    try:
+        # Use content generator specialist
+        specialist = registry.get_specialist("content_generator")
+        response = specialist.generate(prompt)
+        
+        # Apply quality control
+        if quality_controller:
+            quality_score = quality_controller.evaluate_response(response, prompt)
+            logger.info(f"LLM Factory content generation quality score: {quality_score}")
+        
+        return response
+        
+    except Exception as e:
+        logger.error(f"Error in LLM Factory content generation: {e}")
+    
+    return None
 
 def analyze_feedback_with_master_llm(jobs_with_feedback, config):
     """
@@ -68,7 +197,14 @@ Output JSON format:
 """
     
     try:
-        # Use the LLM client to analyze feedback
+        # Try using LLM Factory first for quality-controlled analysis
+        response = _analyze_feedback_with_llm_factory(feedback_summary, config)
+        
+        if response:
+            logger.info(f"LLM Factory analysis complete: {len(response.get('actions', []))} actions identified")
+            return response
+        
+        # Fallback to regular LLM client
         model = config.get('llm_model', 'llama3.2:latest')
         response = call_ollama_api_json(
             master_prompt,
@@ -113,13 +249,21 @@ Create a concise, professional cover letter (200-300 words) that:
 Cover Letter:
 """
         
-        # Call the LLM to generate the cover letter
-        model = config.get('llm_model', 'llama3.2:latest')
-        cover_letter = call_ollama_api(
-            cover_letter_prompt,
-            model=model,
-            temperature=0.7  # Higher temperature for creative writing
+        # Try using LLM Factory for quality-controlled content generation
+        cover_letter = _generate_content_with_llm_factory(
+            cover_letter_prompt, 
+            config, 
+            content_type="cover_letter"
         )
+        
+        # Fallback to regular LLM client if needed
+        if not cover_letter:
+            model = config.get('llm_model', 'llama3.2:latest')
+            cover_letter = call_ollama_api(
+                cover_letter_prompt,
+                model=model,
+                temperature=0.7  # Higher temperature for creative writing
+            )
         
         # Save cover letter to file
         cover_letter_dir = config.get('cover_letter_output_dir', '../docs/cover_letters')
@@ -181,13 +325,21 @@ Write a professional email that:
 Email Content:
 """
         
-        # Call the LLM to generate the clarification email
-        model = config.get('llm_model', 'llama3.2:latest')
-        clarification_email = call_ollama_api(
+        # Try using LLM Factory for quality-controlled content generation
+        clarification_email = _generate_content_with_llm_factory(
             conflict_prompt,
-            model=model,
-            temperature=0.5  # Moderate temperature for professional tone
+            config,
+            content_type="professional_email"
         )
+        
+        # Fallback to regular LLM client if needed
+        if not clarification_email:
+            model = config.get('llm_model', 'llama3.2:latest')
+            clarification_email = call_ollama_api(
+                conflict_prompt,
+                model=model,
+                temperature=0.5  # Moderate temperature for professional tone
+            )
         
         return {
             'job_id': job_id,
@@ -230,13 +382,21 @@ Write a friendly, helpful email that:
 Email Content:
 """
         
-        # Call the LLM to generate the clarification email
-        model = config.get('llm_model', 'llama3.2:latest')
-        clarification_email = call_ollama_api(
+        # Try using LLM Factory for quality-controlled content generation
+        clarification_email = _generate_content_with_llm_factory(
             gibberish_prompt,
-            model=model,
-            temperature=0.6  # Slightly higher temperature for friendly tone
+            config,
+            content_type="friendly_email"
         )
+        
+        # Fallback to regular LLM client if needed
+        if not clarification_email:
+            model = config.get('llm_model', 'llama3.2:latest')
+            clarification_email = call_ollama_api(
+                gibberish_prompt,
+                model=model,
+                temperature=0.6  # Slightly higher temperature for friendly tone
+            )
         
         # Add chat link if configured
         chat_link = config.get('chat_interface_url', 'mailto:support@yourcompany.com')

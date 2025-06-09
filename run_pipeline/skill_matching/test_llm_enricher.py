@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Test script for the LLM Skill Enricher
+Test script for the Enhanced SDR Skill Analysis
 
-This script tests the LLM-based skill enrichment module with a set of sample skills
+This script tests the enhanced SDR skill analysis module with a set of sample skills
 across different domains to validate its effectiveness.
 """
 
@@ -18,22 +18,22 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
 
-from run_pipeline.skill_matching.llm_skill_enricher import LLMSkillEnricher
+from run_pipeline.skill_matching.skill_analyzer import SkillAnalyzer
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
-logger = logging.getLogger("test_llm_enricher")
+logger = logging.getLogger("test_sdr_enricher")
 
 # Output directory
 OUTPUT_DIR = os.path.join(project_root, 'docs', 'skill_matching')
 
 def main():
-    """Main function to test the LLM Skill Enricher"""
-    # Create the enricher
-    enricher = LLMSkillEnricher()
+    """Main function to test the Enhanced SDR Skill Analysis"""
+    # Create the analyzer
+    analyzer = SkillAnalyzer()
     
     # Sample skills across domains
     test_skills = [
@@ -50,7 +50,8 @@ def main():
     for skill in test_skills:
         logger.info(f"Testing enrichment for: {skill['name']}")
         try:
-            enriched = enricher.enrich_skill(skill["name"], skill["category"])
+            # Use the enhanced SDR pipeline approach instead of deprecated LLM enricher
+            enriched = analyzer.create_enriched_skill_definition(skill["name"], use_llm=False)
             enriched_skills.append(enriched)
             
             # Print a summary of the enrichment
@@ -63,7 +64,7 @@ def main():
     
     # Save the results
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    output_file = os.path.join(OUTPUT_DIR, 'llm_enriched_skills_test.json')
+    output_file = os.path.join(OUTPUT_DIR, 'sdr_enriched_skills_test.json')
     
     with open(output_file, 'w') as f:
         json.dump(enriched_skills, f, indent=2)

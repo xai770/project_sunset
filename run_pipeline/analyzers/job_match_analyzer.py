@@ -92,7 +92,7 @@ def _load_job_data(job_id: str) -> Optional[Dict[str, Any]]:
         
     try:
         with open(job_file, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Error loading job data: {e}")
         return None
@@ -115,7 +115,7 @@ def _load_module_results(job_id: str, module_name: str) -> Optional[Dict[str, An
         
     try:
         with open(cache_file, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Error loading module results: {e}")
         return None

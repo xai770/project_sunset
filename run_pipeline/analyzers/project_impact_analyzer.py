@@ -87,7 +87,7 @@ def _load_job_data(job_id: str) -> Optional[Dict[str, Any]]:
         
     try:
         with open(job_file, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Error loading job data: {e}")
         return None

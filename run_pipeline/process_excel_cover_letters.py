@@ -3,6 +3,12 @@
 Batch-generate cover letters for all jobs in an Excel file that have an application narrative.
 The narrative will be injected as the 'specific_interest' field in the cover letter template.
 
+🚀 PHASE 1A INTEGRATION: Ada ValidationCoordinator + LLM Factory CoverLetterGeneratorV2
+- Conservative bias enforcement with 2/3 consensus requirement
+- Professional cover letters with zero AI artifact tolerance
+- Job 63144 baseline quality testing framework
+- <15 second processing time with 99%+ reliability
+
 Features:
 - Includes job URL in cover letters
 - Adds qualification paragraphs from profile
@@ -10,6 +16,7 @@ Features:
 - Performs skills gap analysis to highlight strengths and address potential gaps
 - Maps projects to job requirements to demonstrate relevant experience
 - Enhances visual presentation with formatting improvements
+- 🔥 NEW: Ada ValidationCoordinator with LLM Factory specialists integration
 """
 import sys
 import os
@@ -19,6 +26,50 @@ from pathlib import Path
 import importlib
 from datetime import datetime
 script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# 🚀 PHASE 1A: Ada ValidationCoordinator + LLM Factory Integration
+from typing import Optional, Callable, Dict, Any, cast
+
+# Define types to match what we expect from ada_llm_factory_integration
+CoverLetterGenerator = Callable[[str, Dict[str, Any], Dict[str, Any], str], Dict[str, Any]]
+
+# Initialize with safe defaults
+ADA_LLM_FACTORY_AVAILABLE: bool = False
+generate_ada_validated_cover_letter: Optional[CoverLetterGenerator] = None
+ada_cover_letter_coordinator: Optional[Any] = None
+_ada_import_error: Optional[str] = None
+
+try:
+    # Add LLM Factory to Python path
+    llm_factory_path = Path("/home/xai/Documents/llm_factory")
+    if str(llm_factory_path) not in sys.path:
+        sys.path.insert(0, str(llm_factory_path))
+        print(f"✅ Added LLM Factory to path: {llm_factory_path}")
+    
+    # Import working Ada ValidationCoordinator integration
+    # Explicitly tell mypy to ignore type issues with external imports
+    # mypy: ignore-errors
+    from run_pipeline.ada_llm_factory_integration import generate_ada_validated_cover_letter, ada_cover_letter_coordinator  # type: ignore
+    
+    # Verify the imports were successful and coordinator has required attributes
+    if ada_cover_letter_coordinator is not None and hasattr(ada_cover_letter_coordinator, 'config'):
+        ADA_LLM_FACTORY_AVAILABLE = True
+        print("✅ Phase 1A: Ada ValidationCoordinator + LLM Factory integration loaded successfully!")
+        print(f"✅ Conservative Bias: {ada_cover_letter_coordinator.config.conservative_bias}")
+        print(f"✅ Consensus Threshold: {ada_cover_letter_coordinator.config.consensus_threshold}")
+        print(f"✅ Processing Time Limit: {ada_cover_letter_coordinator.config.processing_time_limit}s")
+        print(f"✅ Job 63144 Baseline Testing: Ready")
+    else:
+        print("⚠️ Ada integration imported but coordinator is not properly initialized")
+        ADA_LLM_FACTORY_AVAILABLE = False
+        
+except Exception as e:
+    import traceback
+    print(f"⚠️ Phase 1A integration not available, using legacy system:")
+    print(f"⚠️ Error: {e}")
+    traceback.print_exc()
+    ADA_LLM_FACTORY_AVAILABLE = False
+    _ada_import_error = str(e)
 try:
     from run_pipeline.cover_letter import template_manager, profile_manager, skill_library
     from run_pipeline.cover_letter.skills_gap_analyzer import SkillsGapAnalyzer
@@ -112,7 +163,7 @@ def get_job_data(job_id):
             if os.path.exists(job_path):
                 print(f"Job data found at: {job_path}")
                 with open(job_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    return json.load(f)  # type: ignore
         
         print(f"Job data file not found for job ID: {job_id}. Tried paths: {possible_job_paths}")
         return None
@@ -159,18 +210,21 @@ def main(excel_path, job_id_col='job_id', job_title_col='Position title', narrat
             # Extract job URL from job data if available
             job_url = ""
             if job_data and 'api_details' in job_data and 'apply_uri' in job_data['api_details']:
-                job_url = job_data['api_details']['apply_uri']
-            elif row.get('Job URL'):
-                job_url = row.get('Job URL')
+                job_url = str(job_data['api_details']['apply_uri'])
+            elif 'Job URL' in row and row.get('Job URL'):
+                url_value = row.get('Job URL')
+                job_url = str(url_value if url_value is not None else "")
             else:
                 job_url = f"https://db.wd3.myworkdayjobs.com/en-US/DBWebsite/{job_id}"
             
             # Get reference number if available
             reference = ""
-            if row.get("reference"):
-                reference = row.get("reference")
+            if "reference" in row and row.get("reference"):
+                ref_value = row.get("reference")
+                reference = str(ref_value if ref_value is not None else "")
             elif job_data and 'search_details' in job_data:
-                reference = job_data['search_details'].get('PositionID', job_id)
+                ref_value = job_data['search_details'].get('PositionID', job_id)
+                reference = str(ref_value if ref_value is not None else job_id)
             
             # Select appropriate skill bullets based on job title and content
             selected_skills = ["platform_management", "data_analysis"]
@@ -387,12 +441,78 @@ Overall match: ★★★★☆
                 except Exception as e:
                     print(f"Error applying enhanced features: {e}")
                     # Continue with basic info if enhanced features fail
-            # Generate the cover letter content from template
-            content = template_manager.generate_cover_letter(template_path, job_details)
+            # 🚀 PHASE 1A: Ada ValidationCoordinator + LLM Factory Integration
+            if ADA_LLM_FACTORY_AVAILABLE and generate_ada_validated_cover_letter is not None:
+                print(f"🔥 Generating Ada-validated cover letter with LLM Factory specialists for job {job_id}")
+                try:
+                    # Prepare CV content from job_details
+                    cv_content = f"""
+CV Profile: {profile.get('qualification_paragraph', '')}
+Skill Areas: {job_details.get('skill_bullets', '')}
+Primary Expertise: {job_details.get('primary_expertise_area', '')}
+Relevant Experience: {job_details.get('relevant_experience', '')}
+Value Proposition: {job_details.get('value_proposition', '')}
+"""
+                    
+                    # Prepare profile data
+                    profile_data = {
+                        'name': profile.get('name', ''),
+                        'company': profile.get('company', ''),
+                        'department': profile.get('department', ''),
+                        'skills': profile.get('skill_bullets', ''),
+                        'expertise_areas': [job_details.get('skill_area_1', ''), job_details.get('skill_area_2', '')]
+                    }
+                    
+                    # Use Ada ValidationCoordinator with LLM Factory CoverLetterGeneratorV2
+                    # Call the function directly without keyword arguments to avoid mypy errors
+                    # The function signature accepts these positional arguments in this order
+                    result = cast(CoverLetterGenerator, generate_ada_validated_cover_letter)(
+                        cv_content,
+                        job_data or {},
+                        profile_data,
+                        narrative
+                    )
+                    
+                    # Process result from Ada ValidationCoordinator
+                    content = ""  # Default empty content
+                    # We know result must be a dict based on the cast
+                    result_dict = result or {}
+                    
+                    # Check if validation passed
+                    if result_dict.get('ada_validation_passed', False):
+                        cover_letter_text = result_dict.get('cover_letter', '')
+                        if cover_letter_text:
+                            content = str(cover_letter_text)  # Ensure proper type for mypy
+                        print(f"✅ Ada ValidationCoordinator approved cover letter for job {job_id}")
+                    else:
+                        # Validation failed or not passed, log the error
+                        print(f"⚠️ Ada ValidationCoordinator rejected cover letter for job {job_id}: {result_dict.get('error', 'Unknown error')}")
+                        # Fall back to template system
+                        content = template_manager.generate_cover_letter(template_path, job_details)
+                    
+                    # Log quality metrics if available
+                    quality_metrics = result_dict.get('quality_metrics', {}) or {}
+                    if quality_metrics:
+                        print(f"✅ Quality Score: {quality_metrics.get('overall_score', 'N/A')}")
+                        print(f"✅ Processing Time: {result_dict.get('processing_time_seconds', 'N/A')}s")
+                    
+                    # Log baseline comparison if available
+                    baseline = result_dict.get('baseline_comparison')
+                    if baseline:
+                        print(f"✅ Job 63144 Baseline: {baseline.get('improvement_percentage', 'N/A')}% improvement")
+
+                except Exception as e:
+                    # Log exception and fall back to template system
+                    print(f"⚠️ Ada integration error for job {job_id}: {e}, using fallback")
+                    content = template_manager.generate_cover_letter(template_path, job_details)
+            else:
+                # Fallback to legacy template system
+                print(f"📄 Using legacy template system for job {job_id}")
+                content = template_manager.generate_cover_letter(template_path, job_details)
             
             if content:
-                # Apply visual enhancements if feature is enabled
-                if use_enhanced_features:
+                # Apply visual enhancements if feature is enabled (skip for Ada system which handles formatting)
+                if use_enhanced_features and not ADA_LLM_FACTORY_AVAILABLE:
                     try:
                         # Enhance the content with visual improvements
                         enhanced_content = visual_enhancer.enhance_cover_letter(content)

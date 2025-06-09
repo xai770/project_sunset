@@ -20,11 +20,23 @@ if str(PROJECT_ROOT) not in sys.path:
 # Import local modulesmd
 # from run_pipeline.job_matcher.prompt_adapter import get_formatted_prompt
 from run_pipeline.utils.prompt_manager import add_prompt_version
-from run_pipeline.utils.llm_client import call_ollama_api
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger('feedback_handler')
+
+# LLM Factory Integration for Feedback Analysis
+try:
+    import sys
+    sys.path.insert(0, '/home/xai/Documents/llm_factory')
+    from llm_factory.core.specialist_registry import SpecialistRegistry
+    from llm_factory.core.base_specialist import BaseSpecialist
+    LLM_FACTORY_AVAILABLE = True
+    logger.info("✅ LLM Factory integration available for feedback analysis")
+except ImportError as e:
+    logger.warning(f"⚠️ LLM Factory not available, falling back to basic implementation: {e}")
+    from run_pipeline.utils.llm_client import call_ollama_api
+    LLM_FACTORY_AVAILABLE = False
 
 # Define constants
 FEEDBACK_DIR = PROJECT_ROOT / "data" / "feedback"
@@ -144,12 +156,15 @@ Proposed Prompt Changes:
 [Specific text that should be added, removed or modified in the prompt]
 """
         
-        # Call the LLM for analysis
-        analysis_response = call_ollama_api(
-            analysis_prompt, 
-            model=FEEDBACK_ANALYSIS_MODEL,
-            temperature=0.7
-        )
+        # Call the LLM for analysis using LLM Factory if available
+        if LLM_FACTORY_AVAILABLE:
+            analysis_response = _analyze_feedback_with_llm_factory(analysis_prompt)
+        else:
+            analysis_response = call_ollama_api(
+                analysis_prompt, 
+                model=FEEDBACK_ANALYSIS_MODEL,
+                temperature=0.7
+            )
         
         # Extract parts from the response
         analysis_section = None
@@ -245,11 +260,15 @@ which will be replaced with the actual CV and job description.
 Updated prompt:
 """
             
-            updated_prompt = call_ollama_api(
-                update_prompt, 
-                model=FEEDBACK_ANALYSIS_MODEL,
-                temperature=0.3
-            )
+            # Update prompt using LLM Factory if available
+            if LLM_FACTORY_AVAILABLE:
+                updated_prompt = _analyze_feedback_with_llm_factory(update_prompt)
+            else:
+                updated_prompt = call_ollama_api(
+                    update_prompt, 
+                    model=FEEDBACK_ANALYSIS_MODEL,
+                    temperature=0.3
+                )
             
             # Extract the updated prompt
             if "Updated prompt:" in updated_prompt:
@@ -261,13 +280,13 @@ Updated prompt:
             
             # Save the updated prompt as a new version
             # Use the correct parameters for add_prompt_version
-            new_version = add_prompt_version(
+            new_version = str(add_prompt_version(
                 PROMPT_NAME, 
                 updated_prompt,
                 description="Updated based on feedback analysis",
                 author="FeedbackSystem",
                 set_active=True
-            )
+            ))
             
             logger.info(f"Updated prompt to version {new_version} based on feedback")
             return new_version
@@ -278,3 +297,46 @@ Updated prompt:
     except Exception as e:
         logger.error(f"Error updating prompt based on feedback: {e}")
         return None
+
+def _analyze_feedback_with_llm_factory(prompt: str) -> str:
+    """
+    Analyze feedback using LLM Factory specialists for better quality.
+    
+    Args:
+        prompt: The analysis prompt to process
+        
+    Returns:
+        Analysis response from LLM Factory specialists
+    """
+    try:
+        registry = SpecialistRegistry()
+        
+        # Try document analysis specialist for feedback analysis
+        config = {
+            "model": "llama3.2:latest",
+            "temperature": 0.7,
+            "max_tokens": 2048
+        }
+        
+        specialist = registry.load_specialist("document_analysis", config)
+        
+        input_data = {
+            "text": prompt,
+            "task": "feedback_analysis",
+            "context": "Analyze user feedback for job matching system improvement"
+        }
+        
+        result = specialist.process(input_data)
+        
+        if result.success and result.data.get('analysis'):
+            logger.info("✅ Used LLM Factory document analysis for feedback")
+            return str(result.data['analysis'])
+        else:
+            logger.warning("⚠️ LLM Factory specialist failed, using fallback")
+            from run_pipeline.utils.llm_client import call_ollama_api
+            return call_ollama_api(prompt, model=FEEDBACK_ANALYSIS_MODEL, temperature=0.7)
+            
+    except Exception as e:
+        logger.error(f"❌ LLM Factory feedback analysis failed: {e}")
+        from run_pipeline.utils.llm_client import call_ollama_api
+        return call_ollama_api(prompt, model=FEEDBACK_ANALYSIS_MODEL, temperature=0.7)

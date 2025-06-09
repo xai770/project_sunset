@@ -119,7 +119,7 @@ def _load_job_data(job_id: str) -> Optional[Dict[str, Any]]:
         
     try:
         with open(job_file, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Error loading job data: {e}")
         return None
@@ -137,7 +137,7 @@ def _load_profile_data() -> Optional[Dict[str, Any]]:
         
     try:
         with open(PROFILE_DATA_PATH, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Error loading profile data: {e}")
         return None
@@ -293,7 +293,7 @@ def analyze_regulatory_expertise(job_id: str, force_reprocess: bool = False) -> 
     candidate_certifications = _extract_certifications(profile_text)
     
     # Calculate domain match score
-    domain_matches = 0
+    domain_matches = 0.0
     total_job_domains = len(job_domains)
     
     for domain, job_score in job_domains.items():
@@ -340,7 +340,7 @@ def analyze_regulatory_expertise(job_id: str, force_reprocess: bool = False) -> 
         )
     
     # Prepare results
-    results = {
+    results: Dict[str, Any] = {
         "success": True,
         "job_id": job_id,
         "score": regulatory_score,

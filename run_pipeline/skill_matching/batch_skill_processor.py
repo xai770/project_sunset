@@ -26,7 +26,7 @@ project_root = os.path.dirname(os.path.dirname(current_dir))
 sys.path.append(project_root)
 
 # Import components
-from run_pipeline.skill_matching.llm_skill_enricher import LLMSkillEnricher
+from run_pipeline.skill_matching.skill_analyzer import SkillAnalyzer
 
 # Configure logging
 logging.basicConfig(
@@ -58,10 +58,10 @@ class BatchProcessor:
         """
         self.max_workers = max_workers
         self.rate_limit = rate_limit
-        self.results_queue = queue.Queue()
+        self.results_queue: queue.Queue[Dict[str, Any]] = queue.Queue()
         self.lock = threading.Lock()
-        self.last_request_time = 0
-        self.enricher = LLMSkillEnricher()
+        self.last_request_time: float = 0.0
+        self.analyzer = SkillAnalyzer()
     
     def process_skills_file(self, input_file, batch_size=10):
         """
@@ -194,7 +194,7 @@ class BatchProcessor:
         # Process the skill
         try:
             logger.info(f"Processing skill: {skill_name} (Category: {category})")
-            enriched_skill = self.enricher.enrich_skill(skill_name, category)
+            enriched_skill = self.analyzer.create_enriched_skill_definition(skill_name, use_llm=False)
             logger.info(f"Successfully enriched skill: {skill_name}")
             return enriched_skill
         except Exception as e:

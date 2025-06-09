@@ -1,0 +1,38 @@
+{
+    "include": [
+        "run_pipeline",
+        "test_*.py"
+    ],
+    "exclude": [
+        "llm_factory/**"
+    ],
+    "ignore": [
+        "run_pipeline/cover_letter/**"
+    ],
+    "defineConstant": {},
+    "typeCheckingMode": "basic",
+    "useLibraryCodeForTypes": true,
+    "reportMissingImports": false,
+    "reportMissingTypeStubs": false,
+    "pythonVersion": "3.9",
+    "pythonPlatform": "Linux",
+    "venvPath": ".",
+    "extraPaths": [
+        "/home/xai/Documents/sunset",
+        "/home/xai/Documents/llm_factory"
+    ],
+    "stubPath": "./typings",
+    "typeStubSearchPaths": [
+        "./typings",
+        "./run_pipeline"
+    ],
+    "diagnosticSeverityOverrides": {
+        "reportMissingImports": "none",
+        "reportMissingModuleSource": "none",
+        "reportMissingTypeStubs": "none",
+        "reportUnknownMemberType": "none",
+        "reportUnknownArgumentType": "none",
+        "reportUntypedFunctionDecorator": "none",
+        "reportUntypedClassDecorator": "none"
+    }
+}

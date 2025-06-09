@@ -131,7 +131,7 @@ def _load_job_data(job_id: str) -> Optional[Dict[str, Any]]:
         
     try:
         with open(job_file, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Error loading job data: {e}")
         return None
@@ -149,7 +149,7 @@ def _load_profile_data() -> Optional[Dict[str, Any]]:
         
     try:
         with open(PROFILE_DATA_PATH, 'r') as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Error loading profile data: {e}")
         return None
@@ -222,7 +222,7 @@ def match_terminology(job_id: str, force_reprocess: bool = False) -> Dict[str, A
     terminology_score = len(profile_terms) / max(len(job_terms), 1) if job_terms else 0.0
     
     # Prepare detailed results
-    results = {
+    results: Dict[str, Any] = {
         "success": True,
         "job_id": job_id,
         "score": min(1.0, terminology_score),  # Cap at 1.0

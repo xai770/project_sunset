@@ -21,6 +21,14 @@ sys.path.insert(0, str(PROJECT_ROOT))
 # Import the original LLM client
 from run_pipeline.utils.llm_client import LLMClient, OllamaClient
 
+# Try to import LLM Factory for quality-controlled processing
+try:
+    from llm_factory.specialist_registry import SpecialistRegistry
+    from llm_factory.quality_control import QualityController
+    LLM_FACTORY_AVAILABLE = True
+except ImportError:
+    LLM_FACTORY_AVAILABLE = False
+
 # Configure logging
 logger = logging.getLogger("run_pipeline.utils.logging_llm_client")
 
@@ -46,7 +54,63 @@ class LoggingOllamaClient(OllamaClient):
         with open(self.log_file, "w", encoding="utf-8") as f:
             json.dump({"model": model, "dialogues": []}, f, indent=2)
             
+        # Initialize LLM Factory
+        self.llm_factory_registry = None
+        self.quality_controller = None
+        self._init_llm_factory()
+            
         logger.info(f"Logging LLM dialogues to {self.log_file}")
+    
+    def _init_llm_factory(self):
+        """Initialize LLM Factory for quality-controlled logging."""
+        if not LLM_FACTORY_AVAILABLE:
+            logger.info("LLM Factory not available for logging client")
+            return
+        
+        try:
+            # Initialize specialist registry
+            self.llm_factory_registry = SpecialistRegistry()
+            
+            # Register logging specialist
+            self.llm_factory_registry.register_specialist(
+                "logging_assistant",
+                {
+                    "type": "text_generation",
+                    "model": self.model,
+                    "temperature": 0.7,
+                    "max_tokens": 2048,
+                    "system_prompt": "You are a helpful AI assistant. Provide accurate, helpful responses while maintaining conversation quality."
+                }
+            )
+            
+            # Initialize quality controller
+            self.quality_controller = QualityController()
+            logger.info("LLM Factory initialized for logging client")
+            
+        except Exception as e:
+            logger.warning(f"Failed to initialize LLM Factory for logging: {e}")
+            self.llm_factory_registry = None
+            self.quality_controller = None
+    
+    def _get_completion_with_llm_factory(self, prompt: str):
+        """Get completion using LLM Factory with quality control."""
+        if not self.llm_factory_registry:
+            return None
+        
+        try:
+            specialist = self.llm_factory_registry.get_specialist("logging_assistant")
+            response = specialist.generate(prompt)
+            
+            # Apply quality control
+            if self.quality_controller:
+                quality_score = self.quality_controller.evaluate_response(response, prompt)
+                logger.info(f"LLM Factory logging response quality score: {quality_score}")
+            
+            return response
+            
+        except Exception as e:
+            logger.error(f"Error in LLM Factory logging completion: {e}")
+            return None
     
     def get_completion(self, prompt: str) -> str:
         """
@@ -62,12 +126,18 @@ class LoggingOllamaClient(OllamaClient):
         dialogue_entry = {
             "timestamp": datetime.now().isoformat(),
             "prompt": prompt,
-            "response": None
+            "response": None,
+            "llm_factory_used": False
         }
         
         try:
-            # Call the original method to get the response
-            response = super().get_completion(prompt)
+            # Try LLM Factory first for quality-controlled completion
+            response = self._get_completion_with_llm_factory(prompt)
+            if response:
+                dialogue_entry["llm_factory_used"] = True
+            else:
+                # Fallback to original method
+                response = super().get_completion(prompt)
             
             # Log the response
             dialogue_entry["response"] = response

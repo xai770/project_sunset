@@ -261,7 +261,7 @@ def get_cv_json_text(force_regenerate=False) -> str:
         # Fallback to loading directly
         logger.info("Using fallback: loading CV data directly from file")
         with open(CV_DATA_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
+            data = json.load(f)  # type: ignore
         return json.dumps(data, ensure_ascii=False, indent=2)
     except Exception as e:
         logger.error(f"Error getting CV JSON text: {str(e)}")

@@ -107,7 +107,7 @@ def extract_job_domain(job_description: str) -> str:
     
     return primary_domain[0]
 
-def analyze_domain_knowledge_gaps(domain_assessment: str) -> tuple:
+def analyze_domain_knowledge_gaps(domain_assessment: str) -> tuple[bool, bool, int, float]:
     """
     Analyze domain knowledge gaps in the assessment text.
     

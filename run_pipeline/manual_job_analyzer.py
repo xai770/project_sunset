@@ -27,7 +27,7 @@ def load_job_data(job_id: str) -> Dict[str, Any]:
     job_path = postings_DIR / f"job{job_id}.json"
     try:
         with open(job_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Failed to load job file {job_path}: {e}")
         return {}
@@ -36,7 +36,7 @@ def load_your_skills() -> Dict[str, Any]:
     """Load your skills profile"""
     try:
         with open(YOUR_SKILLS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Failed to load skills file {YOUR_SKILLS_FILE}: {e}")
         return {}

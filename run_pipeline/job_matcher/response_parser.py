@@ -51,7 +51,7 @@ def extract_match_level(response: str) -> Optional[str]:
         
     return None
 
-def get_lowest_match(match_levels: list) -> Optional[str]:
+def get_lowest_match(match_levels: list[str]) -> Optional[str]:
     """
     Get the lowest match level from a list of match levels.
     

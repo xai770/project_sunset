@@ -204,29 +204,12 @@ class SkillAnalyzer:
         ambiguity_factor = self.skill_ambiguity.get(skill, 0.5)
         
         if use_llm:
-            try:
-                # Import here to avoid circular import
-                from run_pipeline.skill_matching.llm_skill_enricher import LLMSkillEnricher
-                
-                # Create the enricher
-                enricher = LLMSkillEnricher()
-                
-                # Get enriched definition
-                logger.info(f"Using LLM to enrich skill: {skill}")
-                enriched_definition = enricher.enrich_skill(skill, domain)
-                
-                # Add ambiguity factor which is specific to our analysis
-                enriched_definition["ambiguity_factor"] = ambiguity_factor
-                
-                return enriched_definition
-            
-            except Exception as e:
-                logger.error(f"Error using LLM for skill enrichment: {e}")
-                logger.info("Falling back to placeholder enrichment")
-                # Fall back to placeholder method
-                return self._create_placeholder_enrichment(skill, domain, ambiguity_factor)
+            # LLM-based enrichment is now handled by direct specialist integration
+            # For now, we use enhanced placeholder enrichment until SkillAnalysisSpecialist is available
+            logger.info(f"LLM enrichment requested for skill: {skill}, using enhanced placeholder until specialist is available")
+            return self._create_placeholder_enrichment(skill, domain, ambiguity_factor)
         else:
-            # Use placeholder method (legacy approach)
+            # Use enhanced placeholder method
             return self._create_placeholder_enrichment(skill, domain, ambiguity_factor)
     
     def _create_placeholder_enrichment(self, skill, domain, ambiguity_factor):

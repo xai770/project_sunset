@@ -19,6 +19,10 @@ The central workflow component handling the extraction, processing and analysis 
     - Job Matcher (`run_pipeline/core/job_matcher.py`): Matches CV to jobs using LLM
     - Feedback Loop (`run_pipeline/core/feedback_loop.py`): Handles Excel export, cover letters, email
     - Test Integration (`run_pipeline/core/test_integration.py`): Testing utilities
+  - **LLM Factory Integration**:
+    - Ada Integration (`run_pipeline/ada_llm_factory_integration.py`): Integrates LLM Factory specialists
+    - Type Stubs (`run_pipeline/llm_factory_stubs.py`): Type definitions for LLM Factory components
+    - Cover Letter Generator V2 integration with proper type checking
   - Job Metadata Fetcher (`run_pipeline/core/fetch_module.py`): Retrieves job listings from the Deutsche Bank careers API
   - Job Details Scraper (`run_pipeline/core/scraper_module.py`): Extracts detailed job descriptions using Firefox
   - Job Description Cleaner (`run_pipeline/core/cleaner_module.py`): Generates concise job descriptions using the staged job processor

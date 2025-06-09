@@ -37,7 +37,7 @@ def load_job_data(job_path: Path) -> Optional[Dict[str, Any]]:
     """Load job data from file"""
     try:
         with open(job_path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            return json.load(f)  # type: ignore
     except Exception as e:
         logger.error(f"Failed to load job file {job_path}: {e}")
         return None
