@@ -29,8 +29,9 @@ logger = logging.getLogger('feedback_handler')
 try:
     import sys
     sys.path.insert(0, '/home/xai/Documents/llm_factory')
-    from llm_factory.core.specialist_registry import SpecialistRegistry
-    from llm_factory.core.base_specialist import BaseSpecialist
+    from llm_factory.modules.quality_validation.specialists_versioned.registry import SpecialistRegistry
+    from llm_factory.core.types import ModuleConfig
+    from llm_factory.core.ollama_client import OllamaClient
     LLM_FACTORY_AVAILABLE = True
     logger.info("✅ LLM Factory integration available for feedback analysis")
 except ImportError as e:
@@ -300,43 +301,119 @@ Updated prompt:
 
 def _analyze_feedback_with_llm_factory(prompt: str) -> str:
     """
-    Analyze feedback using LLM Factory specialists for better quality.
+    Enhanced feedback analysis using LLM Factory with multi-layer fallback strategy.
     
     Args:
         prompt: The analysis prompt to process
         
     Returns:
-        Analysis response from LLM Factory specialists
+        Analysis response from best available method
     """
     try:
         registry = SpecialistRegistry()
+        ollama_client = OllamaClient()
         
-        # Try document analysis specialist for feedback analysis
-        config = {
-            "model": "llama3.2:latest",
-            "temperature": 0.7,
-            "max_tokens": 2048
-        }
-        
-        specialist = registry.load_specialist("document_analysis", config)
-        
-        input_data = {
-            "text": prompt,
-            "task": "feedback_analysis",
-            "context": "Analyze user feedback for job matching system improvement"
-        }
-        
-        result = specialist.process(input_data)
-        
-        if result.success and result.data.get('analysis'):
-            logger.info("✅ Used LLM Factory document analysis for feedback")
-            return str(result.data['analysis'])
-        else:
-            logger.warning("⚠️ LLM Factory specialist failed, using fallback")
-            from run_pipeline.utils.llm_client import call_ollama_api
-            return call_ollama_api(prompt, model=FEEDBACK_ANALYSIS_MODEL, temperature=0.7)
+        # Primary: Try multiple specialists for consensus
+        try:
+            # Method 1: Document analysis specialist
+            doc_config = ModuleConfig(
+                models=["llama3.2:latest"],
+                conservative_bias=True,
+                quality_threshold=8.0,
+                ollama_client=ollama_client
+            )
             
+            doc_specialist = registry.load_specialist("document_analysis", doc_config)
+            doc_input = {
+                "text": prompt,
+                "task": "feedback_analysis",
+                "context": "Analyze user feedback for job matching system improvement"
+            }
+            
+            doc_result = doc_specialist.process(doc_input)
+            
+            # Method 2: Text generation specialist for comparison
+            text_config = ModuleConfig(
+                models=["llama3.2:latest"],
+                conservative_bias=True,
+                quality_threshold=7.5,
+                ollama_client=ollama_client
+            )
+            
+            text_specialist = registry.load_specialist("text_generation", text_config)
+            text_input = {
+                "text": prompt,
+                "task": "analysis",
+                "context": "Generate comprehensive feedback analysis"
+            }
+            
+            text_result = text_specialist.process(text_input)
+            
+            # Use the best result or combine insights
+            if doc_result.success and doc_result.data.get('analysis'):
+                if text_result.success and text_result.data.get('generated_text'):
+                    # Both succeeded - use document analysis as primary
+                    logger.info("✅ Used LLM Factory consensus feedback analysis")
+                    analysis = doc_result.data['analysis']
+                    # Add any additional insights from text generation
+                    if len(str(text_result.data['generated_text'])) > len(str(analysis)):
+                        analysis += f"\n\nAdditional insights: {text_result.data['generated_text'][:200]}..."
+                    return str(analysis)
+                else:
+                    logger.info("✅ Used LLM Factory document analysis for feedback")
+                    return str(doc_result.data['analysis'])
+            elif text_result.success and text_result.data.get('generated_text'):
+                logger.info("✅ Used LLM Factory text generation for feedback")
+                return str(text_result.data['generated_text'])
+            else:
+                logger.warning("⚠️ Both LLM Factory specialists failed")
+                
+        except Exception as e:
+            logger.warning(f"⚠️ LLM Factory multi-specialist approach failed: {e}")
+        
+        # Secondary: Single specialist fallback
+        try:
+            config = ModuleConfig(
+                models=["llama3.2:latest"],
+                conservative_bias=True,
+                quality_threshold=7.0,
+                ollama_client=ollama_client
+            )
+            
+            specialist = registry.load_specialist("text_generation", config)
+            input_data = {
+                "text": prompt,
+                "task": "feedback_analysis",
+                "context": "Analyze feedback for system improvement"
+            }
+            
+            result = specialist.process(input_data)
+            
+            if result.success and result.data.get('generated_text'):
+                logger.info("✅ Used LLM Factory single specialist fallback")
+                return str(result.data['generated_text'])
+            else:
+                logger.warning("⚠️ LLM Factory single specialist failed")
+                
+        except Exception as e:
+            logger.warning(f"⚠️ LLM Factory single specialist failed: {e}")
+        
     except Exception as e:
-        logger.error(f"❌ LLM Factory feedback analysis failed: {e}")
-        from run_pipeline.utils.llm_client import call_ollama_api
+        logger.warning(f"⚠️ LLM Factory registry failed: {e}")
+    
+    # Tertiary: Enhanced client fallback (still better than direct calls)
+    try:
+        from run_pipeline.utils.llm_client_enhanced import call_ollama_api
+        logger.info("🔄 Using enhanced client fallback for feedback analysis")
         return call_ollama_api(prompt, model=FEEDBACK_ANALYSIS_MODEL, temperature=0.7)
+    except Exception as e:
+        logger.warning(f"⚠️ Enhanced client fallback failed: {e}")
+    
+    # Final: Direct client (existing behavior)
+    try:
+        from run_pipeline.utils.llm_client import call_ollama_api
+        logger.info("🔄 Using direct client fallback for feedback analysis")
+        return call_ollama_api(prompt, model=FEEDBACK_ANALYSIS_MODEL, temperature=0.7)
+    except Exception as e:
+        logger.error(f"❌ All feedback analysis methods failed: {e}")
+        return f"Error: Unable to analyze feedback - {str(e)}"

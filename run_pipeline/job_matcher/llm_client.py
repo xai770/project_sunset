@@ -20,8 +20,9 @@ logger = logging.getLogger('job_matcher.llm_client')
 # LLM Factory Integration
 try:
     sys.path.insert(0, '/home/xai/Documents/llm_factory')
-    from llm_factory.core.specialist_registry import SpecialistRegistry
-    from llm_factory.core.base_specialist import BaseSpecialist
+    from llm_factory.modules.quality_validation.specialists_versioned.registry import SpecialistRegistry
+    from llm_factory.core.types import ModuleConfig
+    from llm_factory.core.ollama_client import OllamaClient
     LLM_FACTORY_AVAILABLE = True
     logger.info("✅ LLM Factory integration available for job matching")
 except ImportError as e:
@@ -59,13 +60,15 @@ def _call_llm_factory_api(prompt: str) -> str:
     """
     try:
         registry = SpecialistRegistry()
+        ollama_client = OllamaClient()
         
         # Use text generation specialist for general prompts
-        config = {
-            "model": "llama3.2:latest",
-            "temperature": 0.9,  # Higher temperature for varied responses
-            "max_tokens": 2048
-        }
+        config = ModuleConfig(
+            models=["llama3.2:latest"],
+            conservative_bias=False,  # Allow varied responses
+            quality_threshold=7.0,
+            ollama_client=ollama_client
+        )
         
         specialist = registry.load_specialist("text_generation", config)
         
@@ -111,8 +114,13 @@ def _call_fallback_api(prompt: str) -> str:
             "Make sure Ollama is running and the service is accessible."
         )
     
-    # Use a higher temperature (0.9) to get more varied responses
-    response = call_ollama_api(prompt, model="llama3.2:latest", temperature=0.9)
+    # Enhanced LLM call - try enhanced client first for better quality
+    try:
+        from run_pipeline.utils.llm_client_enhanced import call_ollama_api as enhanced_call
+        response = enhanced_call(prompt, model="llama3.2:latest", temperature=0.9)
+    except Exception as e:
+        # Fallback to direct call if enhanced client fails
+        response = call_ollama_api(prompt, model="llama3.2:latest", temperature=0.9)
     
     # Check if the response looks like a mock response
     if "Mock LLM response" in response:

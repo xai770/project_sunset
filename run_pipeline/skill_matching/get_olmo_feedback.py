@@ -175,10 +175,17 @@ def main():
     # Fallback to regular LLM client if needed
     if not response:
         olmo_client = get_olmo_client()
-        if hasattr(olmo_client, 'generate'):
-            response = olmo_client.generate(prompt)
+        if hasattr(olmo_client, 'get_completion'):
+            response = olmo_client.get_completion(prompt)
         else:
-            response = call_ollama_api(prompt, model="olmo2:latest")
+            # Enhanced fallback - try enhanced client first, then direct
+            try:
+                from run_pipeline.utils.llm_client_enhanced import call_ollama_api as enhanced_call_ollama_api
+                print("🔄 Using enhanced client for OLMo2 feedback...")
+                response = enhanced_call_ollama_api(prompt, model="olmo2:latest", temperature=0.3)
+            except Exception as e:
+                print(f"⚠️ Enhanced client failed, using direct client: {e}")
+                response = call_ollama_api(prompt, model="olmo2:latest")
     
     # Print OLMo2's response
     print("\n=== OLMo2's Feedback on SDR Implementation ===\n")

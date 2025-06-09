@@ -25,6 +25,13 @@ from run_pipeline.job_matcher.response_parser import (
     extract_match_level, get_lowest_match, extract_domain_knowledge_assessment,
     extract_narrative_or_rationale
 )
+
+# LLM Factory integration for enhanced job processing
+try:
+    from run_pipeline.core.llm_factory_match_and_cover import LLMFactoryJobMatcher
+    LLM_FACTORY_AVAILABLE = True
+except ImportError:
+    LLM_FACTORY_AVAILABLE = False
 from run_pipeline.job_matcher.domain_analyzer import (
     get_domain_specific_requirements, extract_job_domain, analyze_domain_knowledge_gaps
 )
@@ -254,6 +261,72 @@ def run_llm_evaluation(cv_text: str, job_description: str, num_runs: int = 5) ->
     
     return results
 
+def run_enhanced_llm_evaluation(cv_text: str, job_description: str, num_runs: int = 5) -> Dict[str, Any]:
+    """
+    Enhanced LLM evaluation using LLM Factory when available, with fallback to original method.
+    
+    Args:
+        cv_text: The CV text
+        job_description: The job description text
+        num_runs: Number of times to run the LLM (default: 5)
+        
+    Returns:
+        A dictionary with the evaluation results
+    """
+    if LLM_FACTORY_AVAILABLE:
+        try:
+            print("🚀 Using LLM Factory for enhanced job evaluation...")
+            job_matcher = LLMFactoryJobMatcher()
+            
+            # Get professional assessment from LLM Factory
+            fitness_data = job_matcher.get_job_fitness_assessment(cv_text, job_description)
+            
+            if fitness_data and 'match_percentage' in fitness_data:
+                # Convert LLM Factory output to compatible format
+                match_percentage = fitness_data['match_percentage']
+                
+                # Map percentage to match levels
+                if match_percentage >= 75:
+                    cv_to_role_match = "Good"
+                    field_type = "Application narrative"
+                    content = f"Based on the comprehensive analysis, my skills and experience show a strong {match_percentage}% alignment with this position. " + \
+                             f"Key strengths include: {', '.join(fitness_data.get('strengths', [])[:3])}."
+                elif match_percentage >= 50:
+                    cv_to_role_match = "Moderate"
+                    field_type = "Application narrative" 
+                    content = f"My background shows {match_percentage}% compatibility with this role. " + \
+                             f"Areas for consideration: {', '.join(fitness_data.get('weaknesses', [])[:2])}."
+                else:
+                    cv_to_role_match = "Low"
+                    field_type = "No-go rationale"
+                    content = f"After careful analysis, I have a {match_percentage}% match with this position. " + \
+                             f"Key gaps include: {', '.join(fitness_data.get('weaknesses', [])[:3])}. I have decided not to apply."
+                
+                # Create enhanced results with LLM Factory data
+                results = {
+                    "cv_to_role_match": cv_to_role_match,
+                    "domain_knowledge_assessment": f"LLM Factory Assessment: {fitness_data.get('fitness_rating', 'Unknown')} " + \
+                                                 f"(Confidence: {fitness_data.get('confidence', 'Medium')})",
+                    "llm_factory_data": fitness_data,
+                    "assessment_method": "llm_factory_enhanced",
+                    "processing_time": fitness_data.get('processing_time', 0)
+                }
+                
+                # Add the narrative/rationale field
+                results[field_type] = content
+                
+                print(f"✅ LLM Factory assessment complete: {cv_to_role_match} match ({match_percentage}%)")
+                return results
+            else:
+                print("⚠️ LLM Factory returned incomplete data, falling back to original method")
+                
+        except Exception as e:
+            print(f"⚠️ LLM Factory evaluation failed ({e}), falling back to original method")
+    
+    # Fallback to original statistical method
+    print("📊 Using original statistical LLM evaluation method...")
+    return run_llm_evaluation(cv_text, job_description, num_runs)
+
 def process_job(job_id: str, cv_text: str, num_runs: int = 5, dump_input: bool = False) -> Dict[str, Any]:
     """
     Process a single job with LLM evaluation.
@@ -319,8 +392,8 @@ def process_job(job_id: str, cv_text: str, num_runs: int = 5, dump_input: bool =
             outf.write(f"PROMPT SENT TO LLM:\n\n{prompt}\n\n---\n\njob_title: {job_title}\n\nconcise_desc:\n{concise_desc}\n\njob_description:\n{job_description}\n")
         print(f"LLM input dumped to {dump_path}")
     
-    # Run LLM evaluation
-    results = run_llm_evaluation(cv_text, job_description, num_runs)
+    # Run enhanced LLM evaluation (LLM Factory when available, fallback to original)
+    results = run_enhanced_llm_evaluation(cv_text, job_description, num_runs)
     
     if "error" in results:
         print(f"Error in LLM evaluation: {results['error']}")
