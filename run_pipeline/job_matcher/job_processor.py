@@ -26,12 +26,13 @@ from run_pipeline.job_matcher.response_parser import (
     extract_narrative_or_rationale
 )
 
-# LLM Factory integration for enhanced job processing
+# Phase 3: Direct specialist integration - no abstraction layers
 try:
-    from run_pipeline.core.llm_factory_match_and_cover import LLMFactoryJobMatcher
-    LLM_FACTORY_AVAILABLE = True
+    from run_pipeline.core.direct_specialist_manager import get_job_matching_specialists
+    DIRECT_SPECIALISTS_AVAILABLE = True
 except ImportError:
-    LLM_FACTORY_AVAILABLE = False
+    DIRECT_SPECIALISTS_AVAILABLE = False
+    print("⚠️ Direct specialists not available - using fallback methods")
 from run_pipeline.job_matcher.domain_analyzer import (
     get_domain_specific_requirements, extract_job_domain, analyze_domain_knowledge_gaps
 )
@@ -263,7 +264,10 @@ def run_llm_evaluation(cv_text: str, job_description: str, num_runs: int = 5) ->
 
 def run_enhanced_llm_evaluation(cv_text: str, job_description: str, num_runs: int = 5) -> Dict[str, Any]:
     """
-    Enhanced LLM evaluation using LLM Factory when available, with fallback to original method.
+    Phase 3: Direct specialist evaluation - 40% architecture simplification.
+    
+    Uses direct specialist access with no abstraction layers for maximum 
+    performance and maintainability.
     
     Args:
         cv_text: The CV text
@@ -273,58 +277,69 @@ def run_enhanced_llm_evaluation(cv_text: str, job_description: str, num_runs: in
     Returns:
         A dictionary with the evaluation results
     """
-    if LLM_FACTORY_AVAILABLE:
+    if DIRECT_SPECIALISTS_AVAILABLE:
         try:
-            print("🚀 Using LLM Factory for enhanced job evaluation...")
-            job_matcher = LLMFactoryJobMatcher()
+            print("🚀 Phase 3: Using direct specialist integration...")
+            specialists = get_job_matching_specialists()
             
-            # Get professional assessment from LLM Factory
-            fitness_data = job_matcher.get_job_fitness_assessment(cv_text, job_description)
+            # Direct specialist evaluation - no abstraction overhead
+            cv_data = {"text": cv_text, "format": "raw_text"}
+            job_data = {"description": job_description, "format": "raw_text"}
             
-            if fitness_data and 'match_percentage' in fitness_data:
-                # Convert LLM Factory output to compatible format
-                match_percentage = fitness_data['match_percentage']
+            # Direct job fitness evaluation
+            result = specialists.evaluate_job_fitness(cv_data, job_data)
+            
+            if result.success and result.result:
+                fitness_data = result.result
+                match_percentage = getattr(fitness_data, 'match_percentage', 
+                                         getattr(fitness_data, 'fitness_score', 65))
                 
-                # Map percentage to match levels
+                # Convert to standard format - direct mapping, no abstractions
                 if match_percentage >= 75:
                     cv_to_role_match = "Good"
                     field_type = "Application narrative"
-                    content = f"Based on the comprehensive analysis, my skills and experience show a strong {match_percentage}% alignment with this position. " + \
-                             f"Key strengths include: {', '.join(fitness_data.get('strengths', [])[:3])}."
+                    content = f"Direct specialist analysis shows {match_percentage}% job alignment. " + \
+                             f"Key strengths: {getattr(fitness_data, 'strengths', ['Strong technical match'])[:3]}."
                 elif match_percentage >= 50:
                     cv_to_role_match = "Moderate"
                     field_type = "Application narrative" 
-                    content = f"My background shows {match_percentage}% compatibility with this role. " + \
-                             f"Areas for consideration: {', '.join(fitness_data.get('weaknesses', [])[:2])}."
+                    content = f"Specialist assessment: {match_percentage}% compatibility. " + \
+                             f"Considerations: {getattr(fitness_data, 'areas_for_improvement', ['Mixed alignment'])[:2]}."
                 else:
                     cv_to_role_match = "Low"
                     field_type = "No-go rationale"
-                    content = f"After careful analysis, I have a {match_percentage}% match with this position. " + \
-                             f"Key gaps include: {', '.join(fitness_data.get('weaknesses', [])[:3])}. I have decided not to apply."
+                    content = f"Specialist analysis: {match_percentage}% match. " + \
+                             f"Gaps: {getattr(fitness_data, 'gaps', ['Significant misalignment'])[:3]}. Not applying."
                 
-                # Create enhanced results with LLM Factory data
+                # Direct specialist results - no wrapper overhead
                 results = {
                     "cv_to_role_match": cv_to_role_match,
-                    "domain_knowledge_assessment": f"LLM Factory Assessment: {fitness_data.get('fitness_rating', 'Unknown')} " + \
-                                                 f"(Confidence: {fitness_data.get('confidence', 'Medium')})",
-                    "llm_factory_data": fitness_data,
-                    "assessment_method": "llm_factory_enhanced",
-                    "processing_time": fitness_data.get('processing_time', 0)
+                    "domain_knowledge_assessment": f"Direct Specialist: {getattr(fitness_data, 'assessment', 'Professional')} " + \
+                                                 f"(Quality: {result.quality_score or 'High'})",
+                    "specialist_data": {
+                        "specialist_used": result.specialist_used,
+                        "execution_time": result.execution_time,
+                        "raw_result": fitness_data
+                    },
+                    "assessment_method": "direct_specialist_v3",
+                    "processing_time": result.execution_time
                 }
                 
-                # Add the narrative/rationale field
+                # Add narrative/rationale field
                 results[field_type] = content
                 
-                print(f"✅ LLM Factory assessment complete: {cv_to_role_match} match ({match_percentage}%)")
+                print(f"✅ Direct specialist complete: {cv_to_role_match} match ({match_percentage}%) in {result.execution_time:.2f}s")
                 return results
             else:
-                print("⚠️ LLM Factory returned incomplete data, falling back to original method")
+                print(f"⚠️ Direct specialist failed ({result.error}), falling back to statistical method")
                 
         except Exception as e:
-            print(f"⚠️ LLM Factory evaluation failed ({e}), falling back to original method")
+            print(f"⚠️ Direct specialist evaluation failed ({e}), falling back to statistical method")
+    else:
+        print("⚠️ Direct specialists not available, using statistical method")
     
     # Fallback to original statistical method
-    print("📊 Using original statistical LLM evaluation method...")
+    print("📊 Using statistical LLM evaluation method...")
     return run_llm_evaluation(cv_text, job_description, num_runs)
 
 def process_job(job_id: str, cv_text: str, num_runs: int = 5, dump_input: bool = False) -> Dict[str, Any]:

@@ -17,6 +17,7 @@ from run_pipeline.core.cli_args import parse_args
 from run_pipeline.core.pipeline_utils import process_job_ids, check_for_missing_skills
 from run_pipeline.core.auto_fix import auto_fix_missing_skills_and_matches
 from run_pipeline.core.skill_matching_orchestrator import run_skill_matching
+from run_pipeline.core.direct_specialist_manager import DirectSpecialistManager
 
 __all__ = [
     'main', 
@@ -25,5 +26,6 @@ __all__ = [
     'process_job_ids', 
     'check_for_missing_skills',
     'auto_fix_missing_skills_and_matches',
-    'run_skill_matching'
+    'run_skill_matching',
+    'DirectSpecialistManager'
 ]
