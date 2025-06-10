@@ -1,0 +1,37 @@
+{
+  "session_id": "phase4_benchmark_20250610_113944",
+  "start_time": "2025-06-10T11:39:44.988872",
+  "end_time": "2025-06-10T11:48:12.750477",
+  "total_tests": 2,
+  "successful_tests": 2,
+  "failed_tests": 0,
+  "average_execution_time": 88.58011959700002,
+  "total_memory_usage": 446062839,
+  "architecture_version": "Phase3_DirectSpecialist_v3",
+  "metrics": [
+    {
+      "test_name": "direct_specialist_integration",
+      "execution_time": 45.5150561180003,
+      "memory_peak": 222689423,
+      "memory_current": 222559752,
+      "cpu_percent": 14.350000000000001,
+      "specialist_used": "job_fitness_evaluator",
+      "timestamp": "2025-06-10T11:40:30.506847",
+      "quality_score": null,
+      "error_occurred": false,
+      "error_message": ""
+    },
+    {
+      "test_name": "memory_profiling",
+      "execution_time": 131.64518307599974,
+      "memory_peak": 223373416,
+      "memory_current": 222341548,
+      "cpu_percent": 13.4,
+      "specialist_used": "multiple",
+      "timestamp": "2025-06-10T11:42:42.476426",
+      "quality_score": null,
+      "error_occurred": false,
+      "error_message": ""
+    }
+  ]
+}
