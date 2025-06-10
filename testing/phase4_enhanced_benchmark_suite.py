@@ -222,7 +222,7 @@ class EnhancedBenchmarkSuite:
             complexity_metrics["function_count"] / 100
         )
         
-        complexity_metrics["complexity_score"] = complexity_score
+        complexity_metrics["complexity_score"] = int(complexity_score)
         complexity_metrics["simplification_achieved"] = True if complexity_metrics["direct_specialist_patterns"] > complexity_metrics["legacy_abstraction_layers"] else False
         
         print(f"📊 Direct specialist patterns: {complexity_metrics['direct_specialist_patterns']}")
@@ -352,9 +352,9 @@ class EnhancedBenchmarkSuite:
                 }
             }
             
-            print(f"📊 Mean execution time: {stats['execution_time']['mean']:.6f}s")
-            print(f"📊 Std deviation: {stats['execution_time']['std_dev']:.6f}s")
-            print(f"🧠 Mean memory peak: {stats['memory_peak']['mean'] / 1024 / 1024:.2f} MB")
+            print(f"📊 Mean execution time: {stats['execution_time']['mean']:.6f}s")  # type: ignore[index]
+            print(f"📊 Std deviation: {stats['execution_time']['std_dev']:.6f}s")  # type: ignore[index]
+            print(f"🧠 Mean memory peak: {stats['memory_peak']['mean'] / 1024 / 1024:.2f} MB")  # type: ignore[index]
             
             return stats
         else:

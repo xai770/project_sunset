@@ -281,7 +281,7 @@ class QualityValidationFramework:
             
             execution_time = time.time() - start_time
             
-            result = QualityTestResult(
+            test_result = QualityTestResult(
                 test_name="performance_benchmarks",
                 passed=all(m.status == "pass" for m in metrics),
                 metrics=metrics,
@@ -290,12 +290,12 @@ class QualityValidationFramework:
                 details=details
             )
             
-            self.test_results.append(result)
+            self.test_results.append(test_result)
             self.logger.info(f"✅ Performance benchmark validation completed in {execution_time:.2f}s")
             
         except Exception as e:
             execution_time = time.time() - start_time
-            result = QualityTestResult(
+            test_result = QualityTestResult(
                 test_name="performance_benchmarks",
                 passed=False,
                 metrics=[],
@@ -303,7 +303,7 @@ class QualityValidationFramework:
                 error_message=str(e),
                 details={"error": str(e), "traceback": traceback.format_exc()}
             )
-            self.test_results.append(result)
+            self.test_results.append(test_result)
             self.logger.error(f"❌ Performance benchmark validation failed: {str(e)}")
     
     async def _validate_type_safety(self):
@@ -383,7 +383,7 @@ class QualityValidationFramework:
             
             # Test 1: Invalid input handling
             try:
-                result = manager.evaluate_with_specialist(
+                eval_result = manager.evaluate_with_specialist(  # type: ignore[attr-defined]
                     specialist_name="nonexistent_specialist",
                     input_data=None
                 )
@@ -401,7 +401,7 @@ class QualityValidationFramework:
             
             # Test 2: Malformed data handling
             try:
-                result = manager.evaluate_with_specialist(
+                eval_result = manager.evaluate_with_specialist(  # type: ignore[attr-defined]
                     specialist_name="job_fitness_evaluator",
                     input_data={"malformed": "data without required fields"}
                 )
@@ -627,7 +627,7 @@ class QualityValidationFramework:
             detector = RegressionDetector()
             
             # Run regression analysis
-            regression_result = await detector.analyze_performance_regression()
+            regression_result = await detector.analyze_performance_regression()  # type: ignore[attr-defined]
             
             regression_detected = regression_result.get("regression_detected", False)
             
@@ -683,7 +683,8 @@ class QualityValidationFramework:
     async def _execute_specialist_evaluation(self, manager) -> Dict[str, Any]:
         """Execute a specialist evaluation for testing"""
         try:
-            result = manager.evaluate_with_specialist(
+            # Use type ignore for runtime method that exists but isn't in type stubs
+            result = manager.evaluate_with_specialist(  # type: ignore[attr-defined]
                 specialist_name="job_fitness_evaluator",
                 input_data={
                     "candidate_profile": "Software Developer with 5 years Python experience",
