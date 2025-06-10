@@ -82,7 +82,7 @@ class EnhancedOllamaClient(LLMClient):
     
     def __init__(self, model: str = "llama3.2:latest", api_url: str = "http://localhost:11434"):
         self.api_url = api_url
-        self.registry = None
+        self.registry: Optional['SpecialistRegistry'] = None
         self._setup_llm_factory()
         super().__init__(model)
         
@@ -150,7 +150,7 @@ class EnhancedOllamaClient(LLMClient):
             
             if result.success and result.data.get('generated_text'):
                 logger.debug("✅ Used LLM Factory text generation specialist")
-                return result.data['generated_text']
+                return str(result.data['generated_text'])  # Ensure string return
                 
         except Exception as e:  # type: ignore[unreachable]
             logger.debug(f"LLM Factory specialist unavailable: {e}")
@@ -322,10 +322,6 @@ def get_llm_client(force_new: bool = False, model: str = "llama3.2") -> LLMClien
             # For non-llama models, use mock client
             _llm_client_instance = MockLLMClient(model)
     
-    # Ensure we never return None
-    if _llm_client_instance is None:
-        _llm_client_instance = MockLLMClient(model)
-    
     return _llm_client_instance
 
 def get_olmo_client(version: str = "latest") -> LLMClient:
@@ -420,21 +416,20 @@ def call_ollama_api_json(
         
         if json_match:
             json_str = json_match.group()
-            parsed_json: Dict[str, Any] = json.loads(json_str)
-            return parsed_json
+            try:
+                parsed_json: Dict[str, Any] = json.loads(json_str)
+                return parsed_json
+            except json.JSONDecodeError:
+                pass  # Fall through to try parsing the whole response
         
         # If no JSON object found, try parsing the whole thing
         try:
-            parsed_json = json.loads(response_text) # type: ignore[unreachable]
+            parsed_json = json.loads(response_text)
             return parsed_json
-        except json.JSONDecodeError:  # type: ignore[unreachable]
+        except json.JSONDecodeError:
             # If still no valid JSON, return a default structure
             return {"error": "No valid JSON found in response", "raw_response": response_text}
             
-    except json.JSONDecodeError as e:
-        logger.error(f"Failed to parse JSON from LLM response: {e}")
-        logger.debug(f"Raw response: {response_text}")
-        raise Exception(f"Failed to parse JSON from LLM response: {str(e)}") 
     except Exception as e:
         logger.error(f"Error in JSON LLM call: {e}")
         raise Exception(f"JSON LLM call failed: {str(e)}")

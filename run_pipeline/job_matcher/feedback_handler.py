@@ -9,6 +9,7 @@ import os
 import sys
 import json
 import logging
+import time
 from pathlib import Path
 from typing import Dict, List, Any, Optional, Tuple
 
@@ -339,3 +340,41 @@ def _analyze_feedback_with_direct_specialists(prompt: str) -> str:
     except Exception as e:
         logger.error(f"❌ Direct feedback analysis failed: {e}")
         return f"Error: Unable to analyze feedback - {str(e)}"
+
+
+def process_feedback(feedback_data: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process feedback using Phase 3 direct specialist integration
+    
+    This function provides compatibility for legacy code that expects
+    process_feedback to exist. It wraps the analyze_feedback function.
+    
+    Args:
+        feedback_data: Dictionary containing feedback information
+        
+    Returns:
+        Dictionary containing processed feedback results
+    """
+    try:
+        # Extract required fields with defaults
+        job_id = feedback_data.get('job_id', 'unknown')
+        match_level = feedback_data.get('match_level', 'unknown')
+        domain_assessment = feedback_data.get('domain_assessment', 'unknown')
+        feedback_text = feedback_data.get('feedback_text', '')
+        
+        # Call the main analyze_feedback function
+        result = analyze_feedback(job_id, match_level, domain_assessment, feedback_text)
+        
+        return {
+            'success': True,
+            'result': result,
+            'processed_at': time.time()
+        }
+        
+    except Exception as e:
+        logger.error(f"❌ Feedback processing failed: {e}")
+        return {
+            'success': False,
+            'error': str(e),
+            'processed_at': time.time()
+        }

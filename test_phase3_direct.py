@@ -63,7 +63,12 @@ def test_feedback_handler_direct_integration():
         feedback_text = "The job matching was not accurate"
         
         print("   🚀 Running feedback analysis...")
-        result = analyze_feedback(feedback_text)
+        result = analyze_feedback(
+            job_id="test123",
+            match_level="good",
+            domain_assessment="relevant",
+            feedback_text=feedback_text
+        )
         
         print(f"   ✅ Feedback analysis complete: {len(result) if result else 0} chars")
         return True

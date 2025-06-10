@@ -14,6 +14,7 @@ Goals:
 
 import sys
 import os
+from typing import Dict, List, Any
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -28,7 +29,7 @@ def audit_available_specialists() -> Dict[str, Any]:
     print("🔍 PHASE 1: SPECIALIST INVENTORY")
     print("=" * 60)
     
-    specialists_info = {
+    specialists_info: Dict[str, Any] = {
         "available": [],
         "missing": [],
         "total_discovered": 0
@@ -97,7 +98,7 @@ def map_current_llm_usage() -> Dict[str, List[str]]:
     print(f"\n🗺️ MAPPING CURRENT LLM USAGE")
     print("=" * 60)
     
-    usage_map = {
+    usage_map: Dict[str, List[str]] = {
         "direct_llm_calls": [],
         "enhanced_client_usage": [],
         "factory_wrapper_usage": [],
@@ -153,7 +154,7 @@ def plan_migration_paths(specialists_info: Dict[str, Any], usage_map: Dict[str, 
     print(f"\n📋 MIGRATION PATH PLANNING")
     print("=" * 60)
     
-    migration_plan = {
+    migration_plan: Dict[str, Any] = {
         "high_priority": [],  # Files that should be migrated first
         "medium_priority": [], # Files that can be migrated after core files
         "low_priority": [],   # Files that can be migrated last

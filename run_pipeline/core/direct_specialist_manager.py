@@ -48,8 +48,8 @@ class DirectJobMatchingSpecialists:
     
     def __init__(self, model: str = "llama3.2:latest"):
         self.model = model
-        self.registry = None
-        self.client = None
+        self.registry: Optional['SpecialistRegistry'] = None
+        self.client: Optional['OllamaClient'] = None
         self._init_direct_access()
         
     def _init_direct_access(self):
@@ -71,13 +71,23 @@ class DirectJobMatchingSpecialists:
         """
         Direct job fitness evaluation - Phase 3 simplified architecture
         """
+        # Check if direct specialist access is available
+        if not LLM_FACTORY_AVAILABLE:
+            return SpecialistResult(
+                success=False, 
+                result=None,
+                specialist_used="none",
+                execution_time=0.0,
+                error="LLM Factory not available"
+            )
+        
         if not self.registry or not self.client:
             return SpecialistResult(
                 success=False, 
                 result=None,
                 specialist_used="none",
                 execution_time=0.0,
-                error="Direct specialist access not available"
+                error="Direct specialist access not initialized"
             )
         
         try:
@@ -139,6 +149,74 @@ class DirectJobMatchingSpecialists:
                 execution_time=0.0,
                 error=str(e)
             )
+    
+    def process_feedback(self, feedback_data: Dict[str, Any]) -> SpecialistResult:
+        """
+        Process feedback using direct specialist access - Phase 3 architecture
+        """
+        # Check if direct specialist access is available
+        if not LLM_FACTORY_AVAILABLE:
+            return SpecialistResult(
+                success=False,
+                result=None,
+                specialist_used="none",
+                execution_time=0.0,
+                error="LLM Factory not available"
+            )
+        
+        if not self.registry or not self.client:
+            return SpecialistResult(
+                success=False,
+                result=None,
+                specialist_used="none",
+                execution_time=0.0,
+                error="Direct specialist access not initialized"
+            )
+        
+        try:
+            start_time = time.time()
+            
+            # Direct specialist configuration for feedback processing
+            config = ModuleConfig(  # type: ignore
+                models=[self.model],
+                conservative_bias=True,
+                quality_threshold=8.0,
+                ollama_client=self.client
+            )
+            
+            # Load feedback specialist directly from registry
+            specialist = self.registry.load_specialist("feedback_analyzer", config)  # type: ignore
+            
+            # Direct feedback processing
+            result = specialist.process(feedback_data)
+            execution_time = time.time() - start_time
+            
+            if result.success:
+                return SpecialistResult(
+                    success=True,
+                    result=result.data,
+                    specialist_used="feedback_analyzer",
+                    execution_time=execution_time,
+                    quality_score=getattr(result, 'quality_score', None)
+                )
+            else:
+                return SpecialistResult(
+                    success=False,
+                    result=None,
+                    specialist_used="feedback_analyzer",
+                    execution_time=execution_time,
+                    error="Feedback processing failed"
+                )
+                
+        except Exception as e:
+            logger.error(f"❌ Direct feedback processing failed: {e}")
+            return SpecialistResult(
+                success=False,
+                result=None,
+                specialist_used="feedback_analyzer",
+                execution_time=0.0,
+                error=str(e)
+            )
 
 class DirectSpecialistManager:
     """
@@ -150,7 +228,7 @@ class DirectSpecialistManager:
     
     def __init__(self, model: str = "llama3.2:latest"):
         self.model = model
-        self.job_matching = get_job_matching_specialists(model)
+        self.job_matching: DirectJobMatchingSpecialists = get_job_matching_specialists(model)
         
     def get_job_matching_specialists(self) -> DirectJobMatchingSpecialists:
         """Get direct job matching specialist access"""
