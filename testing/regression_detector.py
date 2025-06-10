@@ -349,39 +349,6 @@ class RegressionDetector:
             print(f"❌ Regression test failed: {e}")
             return {"error": str(e), "test_date": datetime.now().isoformat()}
 
-    async def analyze_performance_regression(self) -> Dict[str, Any]:
-        """Async wrapper for regression analysis"""
-        try:
-            results = self.run_regression_test()
-            
-            # Determine if regression was detected
-            regression_detected = results.get("regressions_detected", 0) > 0
-            
-            # Calculate baseline compliance
-            total_checks = results.get("total_checks", 0)
-            if total_checks > 0:
-                baseline_compliance = 1.0 - (results.get("regressions_detected", 0) / total_checks)
-            else:
-                baseline_compliance = 1.0
-            
-            return {
-                "regression_detected": regression_detected,
-                "baseline_compliance": baseline_compliance,
-                "total_checks": total_checks,
-                "regressions_detected": results.get("regressions_detected", 0),
-                "severity_breakdown": results.get("severity_breakdown", {}),
-                "test_date": results.get("test_date", datetime.now().isoformat()),
-                "measurements_taken": results.get("measurements_taken", 0)
-            }
-            
-        except Exception as e:
-            return {
-                "regression_detected": False,
-                "baseline_compliance": 0.5,  # Unknown compliance
-                "error": str(e),
-                "test_date": datetime.now().isoformat()
-            }
-
 def main():
     """Main execution function"""
     detector = RegressionDetector()
