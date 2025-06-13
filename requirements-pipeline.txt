@@ -1,4 +1,18 @@
+# Core pipeline dependencies
 beautifulsoup4>=4.11.1
 langdetect>=1.0.9
 requests>=2.28.1
 html5lib>=1.1
+
+# Beautiful CLI and configuration management
+rich>=13.0.0
+click>=8.1.0
+pydantic>=2.0.0
+
+# Excel export functionality  
+openpyxl>=3.1.0
+pandas>=2.0.0
+
+# Enhanced logging and monitoring
+structlog>=23.0.0
+coloredlogs>=15.0.0
