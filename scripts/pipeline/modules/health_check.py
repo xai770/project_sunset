@@ -8,7 +8,7 @@ Handles system health checks for the Project Sunset pipeline.
 
 from core import JobMatchingAPI
 from core.config_manager import get_config
-from core.beautiful_cli import print_info, print_success, print_error, show_progress_spinner
+from core.rich_cli import print_info, print_success, print_error, show_progress_spinner
 
 
 def health_check():

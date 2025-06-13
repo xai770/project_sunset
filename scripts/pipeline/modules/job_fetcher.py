@@ -8,7 +8,7 @@ Handles job fetching using the enhanced job fetcher with search criteria.
 
 import logging
 from core.enhanced_job_fetcher import EnhancedJobFetcher
-from core.beautiful_cli import print_info, print_success, print_warning, print_error, show_progress_spinner, display_job_summary
+from core.rich_cli import print_info, print_success, print_warning, print_error, show_progress_spinner, display_job_summary
 from .config_loader import load_search_criteria
 
 

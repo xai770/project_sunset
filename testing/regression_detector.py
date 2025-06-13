@@ -339,9 +339,10 @@ class RegressionDetector:
             if regression_summary['regressions_detected'] == 0:
                 print("🎉 NO REGRESSIONS DETECTED - System performing within baseline!")
             else:
-                print(f"⚠️ Severe: {regression_summary['severity_breakdown']['severe']}")
-                print(f"⚠️ Moderate: {regression_summary['severity_breakdown']['moderate']}")
-                print(f"⚠️ Minor: {regression_summary['severity_breakdown']['minor']}")
+                severity_breakdown = regression_summary['severity_breakdown']  # type: ignore[index]
+                print(f"⚠️ Severe: {severity_breakdown['severe']}")  # type: ignore[index]
+                print(f"⚠️ Moderate: {severity_breakdown['moderate']}")  # type: ignore[index]
+                print(f"⚠️ Minor: {severity_breakdown['minor']}")  # type: ignore[index]
             
             return regression_summary
             

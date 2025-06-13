@@ -527,7 +527,7 @@ def fetch_jobs_beautiful(max_jobs: int = 10, quick_mode: bool = False) -> List[D
 
 if __name__ == "__main__":
     # Test the enhanced fetcher
-    from core.beautiful_cli import print_sunset_banner, print_success
+    from core.rich_cli import print_sunset_banner, print_success
     
     print_sunset_banner()
     

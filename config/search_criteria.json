@@ -1,0 +1,100 @@
+{
+  "search_profiles": {
+    "xai_frankfurt_focus": {
+      "description": "XAI's current focus on Deutsche Bank Frankfurt positions",
+      "active": true,
+      "criteria": {
+        "websites": ["deutsche_bank"],
+        "locations": {
+          "cities": ["Frankfurt"],
+          "countries": ["Deutschland", "Germany"],
+          "country_codes": [46],
+          "city_codes": [1698],
+          "remote_allowed": false
+        },
+        "job_types": {
+          "employment_types": ["permanent", "full_time"],
+          "career_levels": ["experienced", "senior", "expert"],
+          "exclude_keywords": ["internship", "working student", "praktikum"]
+        },
+        "domains": {
+          "preferred": ["Technology", "Engineering", "Product Management", "Data & Analytics"],
+          "excluded": [
+            "Executive Protection", "Driver", "Security Guard",
+            "Personenschützer", "Fahrer", "Vorstandsfahrer", 
+            "Sicherheitsdienst", "Chauffeur", "Kraftfahrer"
+          ]
+        },
+        "language_requirements": {
+          "required": ["German", "English"],
+          "preferred": ["English"]
+        }
+      },
+      "fetching": {
+        "max_jobs_per_run": 10,
+        "min_description_length": 500,
+        "use_wireguard_rotation": true,
+        "wireguard_profiles": ["wg-DE-1", "wg-DE-2", "wg-DE-3", "wg-DE-4", "wg-DE-5"]
+      },
+      "processing": {
+        "llm_model": "llama3.2:latest",
+        "specialist": "job_analyst_v2",
+        "match_threshold": 0.7,
+        "auto_apply_threshold": 0.9
+      }
+    },
+    
+    "xai_global_tech": {
+      "description": "Global technology positions (future expansion)",
+      "active": false,
+      "criteria": {
+        "websites": ["deutsche_bank", "talent_yoga_marketplace"],
+        "locations": {
+          "cities": ["Frankfurt", "London", "New York", "Singapore"],
+          "countries": ["Deutschland", "United Kingdom", "United States", "Singapore"],
+          "remote_allowed": true
+        },
+        "job_types": {
+          "employment_types": ["permanent", "contract"],
+          "career_levels": ["senior", "expert", "principal"],
+          "exclude_keywords": ["internship", "junior"]
+        },
+        "domains": {
+          "preferred": ["Software Engineering", "Platform Engineering", "DevOps", "AI/ML"],
+          "excluded": ["Manual Testing", "Data Entry"]
+        }
+      }
+    },
+    
+    "sarah_pm_focus": {
+      "description": "Example profile for future multi-user support",
+      "active": false,
+      "criteria": {
+        "websites": ["deutsche_bank"],
+        "locations": {
+          "cities": ["Berlin", "Hamburg", "München"],
+          "countries": ["Deutschland"],
+          "remote_allowed": true
+        },
+        "domains": {
+          "preferred": ["Product Management", "Strategy", "Business Analysis"],
+          "excluded": ["Technical Implementation"]
+        }
+      }
+    }
+  },
+  
+  "global_settings": {
+    "default_profile": "xai_frankfurt_focus",
+    "cleanup_policy": {
+      "remove_non_matching_jobs": true,
+      "archive_before_removal": true,
+      "archive_directory": "data/postings_archived"
+    },
+    "quality_control": {
+      "min_job_description_length": 200,
+      "required_fields": ["title", "location", "description"],
+      "auto_reject_keywords": ["driver", "security guard", "cleaner"]
+    }
+  }
+}

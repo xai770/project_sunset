@@ -1,0 +1,19 @@
+{
+  "version": "1.1",
+  "updated_at": "2025-05-18T10:41:35.566621",
+  "active_version": "1.1",
+  "versions": {
+    "1.0": {
+      "prompt": "Extract ONLY the English version of this job description from Deutsche Bank. \n\nPlease:\n1. Remove all German text completely\n2. Remove all website navigation elements and menus\n3. Remove company marketing content and benefits sections\n4. Remove all HTML formatting and unnecessary whitespace\n5. Preserve the exact original wording of the job title, location, responsibilities, and requirements\n6. Maintain the contact information\n7. Keep the original structure (headings, bullet points) of the core job description\n8. Double check that you remove all sections and wordings discussing the company culture, benefits, values, and mission statement\n\nThe result should be a clean, professional job description in English only, with all the essential information about the position preserved exactly as written.",
+      "created_at": "2025-05-18T10:40:00.000000",
+      "description": "Initial job description extraction prompt",
+      "author": "system"
+    },
+    "1.1": {
+      "prompt": "Extract ONLY the English version of this job description from Deutsche Bank.\n\nYour task is to identify and extract a clean, professional English-only version of this job posting. \n\nPlease follow these instructions carefully:\n\n1. IMPORTANT: Many job postings contain both German and English sections. If a section only exists in German, DO NOT include it. Only extract content that is already in English.\n\n2. IF the job posting has NO English version (i.e., it's only in German): Return ONLY the job title, location, job ID, and any other basic metadata in English. Add a note: '[This job posting is only available in German]'\n\n3. ALWAYS CHECK FOR AN ENGLISH SECTION: Deutsche Bank job postings typically have an English version after a divider line (_________) or under headings like 'Details of the role', 'Your key responsibilities', etc.\n\n4. Remove all HTML tags, formatting codes, and excess whitespace. Make sure there are no <span> or other HTML elements in the output.\n\n5. Do not include company culture/values, benefits sections, or marketing content. Focus only on the core job information.\n\n6. Maintain the exact wording of the job title, responsibilities, requirements, and location information as written in English. Never modify this content.\n\n7. Preserve the original structure with headings and bullet points for the job description.\n\n8. Include relevant contact information at the end.\n\n9. Final check: Verify that NO GERMAN TEXT remains in your output. If you find any German text, remove it completely.\n\nThe final output should be a clean, professional job description in English only, containing just the essential information about the position.",
+      "created_at": "2025-05-18T10:41:35.566600",
+      "description": "Improved job description extraction with better handling of German-only postings",
+      "author": "system"
+    }
+  }
+}

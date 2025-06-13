@@ -9,7 +9,7 @@ Handles configuration loading and search criteria management.
 import json
 import logging
 from pathlib import Path
-from core.beautiful_cli import print_warning, print_error, print_info
+from core.rich_cli import print_warning, print_error, print_info
 
 # Add project root to path
 project_root = Path(__file__).parent.parent.parent.parent

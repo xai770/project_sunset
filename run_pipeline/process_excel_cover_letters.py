@@ -101,6 +101,14 @@ except ImportError:
     class VisualEnhancerPlaceholder:
         def enhance_cover_letter(self, content):
             return content
+        
+        def create_skill_match_chart(self, skill_matches, job_id=None):
+            """Placeholder implementation for skill match chart creation"""
+            return "# Skill Match Chart (placeholder)\nChart functionality not available in this environment."
+        
+        def create_qualification_summary(self, qualifications, rating):
+            """Placeholder implementation for qualification summary creation"""
+            return "# Qualification Summary (placeholder)\nSummary functionality not available in this environment."
     
     # Use implementations from the first import or fallback to placeholders
     skills_gap_analyzer_module = sys.modules.get('run_pipeline.cover_letter.skills_gap_analyzer')
@@ -163,7 +171,7 @@ def get_job_data(job_id):
             if os.path.exists(job_path):
                 print(f"Job data found at: {job_path}")
                 with open(job_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)  # type: ignore
+                    return json.load(f)
         
         print(f"Job data file not found for job ID: {job_id}. Tried paths: {possible_job_paths}")
         return None
@@ -183,6 +191,7 @@ def main(excel_path, job_id_col='job_id', job_title_col='Position title', narrat
         template_path = template_manager.find_best_template(script_dir, output_dir)
     profile = profile_manager.load_profile(script_dir)
     count = 0
+    skipped_count = 0
     
     # Initialize our revolutionary feature classes if enhanced features are enabled
     if use_enhanced_features:
@@ -195,12 +204,23 @@ def main(excel_path, job_id_col='job_id', job_title_col='Position title', narrat
             print(f"Error initializing enhanced features: {e}")
             use_enhanced_features = False
     for idx, row in df.iterrows():
+        # Skip completely empty rows
+        if row.isna().all():
+            skipped_count += 1
+            continue
+            
         job_id = str(row.get(job_id_col, '')).strip()
         if job_id.startswith("Job "):  # Handle "Job XXXXX" format
             job_id = job_id[4:].strip()
         job_title = str(row.get(job_title_col, '')).strip()
         narrative = str(row.get(narrative_col, '')).strip()
         match_level = str(row.get(match_level_col, '')).strip()
+        
+        # Skip rows with empty or invalid job IDs
+        if not job_id or job_id.lower() in ['nan', 'none', '']:
+            skipped_count += 1
+            continue
+            
         if job_id and job_title and narrative and narrative.lower() != 'nan' and match_level == match_level_value:
             print(f"Generating cover letter for job {job_id} ({job_title})...")
             
@@ -610,7 +630,11 @@ Value Proposition: {job_details.get('value_proposition', '')}
             elif match_level != match_level_value:
                 reason = f"match level '{match_level}' (not '{match_level_value}')"
             
-            print(f"Skipping row {idx}: {reason}")
+            skipped_count += 1
+            # Only log individual skips if there are very few total rows (for debugging)
+            if len(df) <= 20:
+                print(f"Skipping row {idx}: {reason}")
+                
             if update_excel_log and job_id:
                 update_excel_log_column(
                     excel_path, 
@@ -619,7 +643,12 @@ Value Proposition: {job_details.get('value_proposition', '')}
                     log_column='generate_cover_letters_log', 
                     job_id_col=job_id_col
                 )
-    print(f"Done. Generated {count} cover letters.")
+    
+    # Print summary with skipped rows info
+    if skipped_count > 0:
+        print(f"Done. Generated {count} cover letters. Skipped {skipped_count} rows (empty or missing job IDs).")
+    else:
+        print(f"Done. Generated {count} cover letters.")
     return count
 
 if __name__ == "__main__":

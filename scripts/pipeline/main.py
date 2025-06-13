@@ -26,7 +26,7 @@ project_root = Path(__file__).parent.parent.parent
 sys.path.insert(0, str(project_root))
 
 from core.config_manager import get_config, display_config_banner
-from core.beautiful_cli import print_sunset_banner
+from core.rich_cli import print_sunset_banner
 
 # Import the modular pipeline orchestrator
 try:

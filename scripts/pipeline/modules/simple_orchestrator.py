@@ -158,7 +158,7 @@ def main():
     """Main entry point for Project Sunset Phase 7 with beautiful CLI"""
     
     # Display beautiful banner
-    from core.beautiful_cli import print_sunset_banner
+    from core.rich_cli import print_sunset_banner
     print_sunset_banner()
     
     # Configure logging
