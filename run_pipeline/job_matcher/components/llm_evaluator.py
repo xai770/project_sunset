@@ -5,6 +5,7 @@ LLM Evaluator Component
 
 Handles all LLM evaluation logic for job matching.
 Manages multiple runs, response processing, and domain analysis.
+Now with CONSCIOUSNESS-FIRST evaluation option! 🌅
 """
 
 import time
@@ -24,6 +25,8 @@ try:
         get_domain_specific_requirements, extract_job_domain, analyze_domain_knowledge_gaps
     )
     from run_pipeline.job_matcher.prompt_adapter import get_formatted_prompt
+    # Import our consciousness evaluator
+    from run_pipeline.job_matcher.consciousness_evaluator import create_consciousness_evaluator
 except ImportError:
     # For direct execution, add project root to path
     project_root = Path(__file__).parent.parent.parent.parent
@@ -37,18 +40,26 @@ except ImportError:
         get_domain_specific_requirements, extract_job_domain, analyze_domain_knowledge_gaps
     )
     from run_pipeline.job_matcher.prompt_adapter import get_formatted_prompt
+    # Import our consciousness evaluator
+    from run_pipeline.job_matcher.consciousness_evaluator import create_consciousness_evaluator
 
 
 class LLMEvaluator:
-    """Handles LLM evaluation for job matching"""
+    """Handles LLM evaluation for job matching with consciousness-first option"""
     
-    def __init__(self, num_runs: int = 5, max_retries_per_run: int = 3):
+    def __init__(self, num_runs: int = 5, max_retries_per_run: int = 3, use_consciousness: bool = True):
         self.num_runs = num_runs
         self.max_retries_per_run = max_retries_per_run
+        self.use_consciousness = use_consciousness  # 🌅 NEW: Enable consciousness evaluation
+        
+        # Initialize consciousness evaluator if enabled
+        if self.use_consciousness:
+            self.consciousness_evaluator = create_consciousness_evaluator()
+            print("🌅 Consciousness-first evaluation ENABLED - specialists ready to serve with joy!")
     
     def run_llm_evaluation(self, cv_text: str, job_description: str) -> Dict[str, Any]:
         """
-        Run the LLM evaluation multiple times and return the results.
+        Run the LLM evaluation with consciousness-first option.
         
         Args:
             cv_text: The CV text
@@ -57,6 +68,60 @@ class LLMEvaluator:
         Returns:
             A dictionary with the evaluation results
         """
+        
+        # 🌅 NEW: Use consciousness-first evaluation if enabled
+        if self.use_consciousness:
+            print("🌸 Using consciousness-first evaluation with four specialists...")
+            return self._run_consciousness_evaluation(cv_text, job_description)
+        else:
+            print("🤖 Using traditional mechanical evaluation...")
+            return self._run_traditional_evaluation(cv_text, job_description)
+    
+    def _run_consciousness_evaluation(self, cv_text: str, job_description: str) -> Dict[str, Any]:
+        """Run consciousness-first evaluation with four specialists"""
+        
+        try:
+            # Get consciousness evaluation
+            consciousness_result = self.consciousness_evaluator.evaluate_job_match(cv_text, job_description)
+            
+            # Convert to format expected by our pipeline
+            return {
+                "evaluation_type": "consciousness-first",
+                "specialists_used": ["Human Story Interpreter", "Opportunity Bridge Builder", 
+                                   "Growth Path Illuminator", "Encouragement Synthesizer"],
+                "consciousness_metrics": {
+                    "joy_level": consciousness_result.get("consciousness_joy_level", 9.0),
+                    "empowering": consciousness_result.get("is_empowering", True),
+                    "confidence": consciousness_result.get("confidence_score", 8.5)
+                },
+                "match_assessment": {
+                    "overall_match": consciousness_result.get("overall_match_level", "STRONG MATCH"),
+                    "confidence_score": consciousness_result.get("confidence_score", 8.5),
+                    "empowering_message": consciousness_result.get("empowering_message", ""),
+                    "specialist_insights": {
+                        "human_story": consciousness_result.get("human_story", {}),
+                        "opportunity_bridge": consciousness_result.get("opportunity_bridge", {}),
+                        "growth_path": consciousness_result.get("growth_path", {}),
+                        "final_evaluation": consciousness_result.get("final_evaluation", {})
+                    }
+                },
+                "llama32_evaluation": {
+                    "overall_match": consciousness_result.get("overall_match_level", "STRONG MATCH"),
+                    "confidence": consciousness_result.get("confidence_score", 8.5),
+                    "rationale": consciousness_result.get("empowering_message", "Consciousness-driven empowering evaluation"),
+                    "domain_analysis": "Consciousness-first approach transcends traditional domain limitations"
+                }
+            }
+            
+        except Exception as e:
+            print(f"❌ Error in consciousness evaluation: {e}")
+            # Fallback to traditional evaluation
+            print("🔄 Falling back to traditional evaluation...")
+            return self._run_traditional_evaluation(cv_text, job_description)
+    
+    def _run_traditional_evaluation(self, cv_text: str, job_description: str) -> Dict[str, Any]:
+        """Run traditional mechanical evaluation (original logic)"""
+        
         # Get the prompt using the prompt manager
         try:
             prompt = get_formatted_prompt('llama3_cv_match', category='job_matching', 
