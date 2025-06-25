@@ -1,0 +1,392 @@
+Script started on 2025-06-05 14:22:31+02:00 [TERM="xterm-256color" TTY="/dev/pts/3" COLUMNS="134" LINES="32"]
+[?2004h]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ ls
+[?2004l ada_integration_test.log        'export_job_matches BAK.py'             [0m[01;34mprompts[0m                           [01;34mskill_matching[0m
+ ada_llm_factory_integration.py   export_job_matches.py                  [01;34m__pycache__[0m                       test_feedback_loop.py
+ [01;34manalyzers[0m                        generate_cover_letter.py               README.md                         test_feedback.py
+ [01;32mbackup_local_project.sh[0m          __init__.py                            [01;32mregister_job_matching_prompt.py[0m   test_fixes.py
+ comprehensive_test.py            [01;34mjob_matcher[0m                            [01;32mregister_prompt.py[0m                test_job_63144_baseline.py
+ [01;34mconfig[0m                           job_match_reviewer.py                  reset_pipeline.py                 test_job_match.py
+ [01;34mcore[0m                             [01;32mmanual_job_analyzer.py[0m                 [01;32mrestore_from_backup.sh[0m            [01;32mtest_migration.py[0m
+ [01;34mcover_letter[0m                     output.txt                             [01;32mrotate_wireguard_ip.py[0m            test_output.txt
+ [01;32mdemo_llm_logging.py[0m              process_excel_cover_letters.py         [01;32mrun_domain_enhanced_matcher.py[0m    [01;34mtests[0m
+ [01;34mdocs[0m                             process_excel_cover_letters.py.fixed   [01;32mrun.py[0m                            [01;34mutils[0m
+ email_sender.py                  process_excel_feedback.py              session.log
+[?2004h]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ tree
+[?2004l[01;34m.[0m
+├── ada_integration_test.log
+├── ada_llm_factory_integration.py
+├── [01;34manalyzers[0m
+│   ├── [01;32mjob_match_analyzer.py[0m
+│   ├── management_skills_differentiator.py
+│   ├── match_analyzer.py
+│   ├── project_impact_analyzer.py
+│   ├── README.md
+│   ├── regulatory_expertise_analyzer.py
+│   ├── synergy_analyzer.py
+│   └── terminology_matcher.py
+├── [01;32mbackup_local_project.sh[0m
+├── comprehensive_test.py
+├── [01;34mconfig[0m
+│   ├── __init__.py
+│   ├── paths.py
+│   ├── [01;34mprompts[0m
+│   │   ├── __init__.py
+│   │   ├── job_description_prompts.json
+│   │   ├── job_matching_llama3_cv_match_prompts.json
+│   │   └── job_prompts.py
+│   ├── [01;34m__pycache__[0m
+│   │   ├── __init__.cpython-311.pyc
+│   │   └── paths.cpython-311.pyc
+│   └── search_strategies.csv
+├── [01;34mcore[0m
+│   ├── auto_fix.py
+│   ├── cleaner_module.py
+│   ├── cleaner_module.py.bak
+│   ├── cleaning_utils.py
+│   ├── cli_args.py
+│   ├── cv_embeddings.py
+│   ├── [01;34mfeedback[0m
+│   │   ├── email_handlers.py
+│   │   ├── excel_handlers.py
+│   │   ├── __init__.py
+│   │   └── llm_handlers.py
+│   ├── feedback_config.py
+│   ├── feedback_dispatcher.py
+│   ├── feedback_loop.py
+│   ├── [01;34mfetch[0m
+│   │   ├── api.py
+│   │   ├── __init__.py
+│   │   ├── job_processing.py
+│   │   ├── progress.py
+│   │   └── [01;34m__pycache__[0m
+│   │       ├── api.cpython-311.pyc
+│   │       ├── __init__.cpython-311.pyc
+│   │       ├── job_processing.cpython-311.pyc
+│   │       └── progress.cpython-311.pyc
+│   ├── fetch_module.py
+│   ├── __init__.py
+│   ├── job_analysis.py
+│   ├── [01;32mjob_id_scanner.py[0m
+│   ├── job_matcher.py
+│   ├── job_processor.py
+│   ├── job_scanner.py
+│   ├── mailman_service.py
+│   ├── phi3_match_and_cover.py
+│   ├── pipeline_main.py
+│   ├── pipeline_orchestrator.py
+│   ├── pipeline_orchestrator.py.bak
+│   ├── pipeline_utils.py
+│   ├── [01;34m__pycache__[0m
+│   │   ├── auto_fix.cpython-311.pyc
+│   │   ├── cleaner_module.cpython-311.pyc
+│   │   ├── cleaning_utils.cpython-311.pyc
+│   │   ├── cli_args.cpython-311.pyc
+│   │   ├── feedback_loop.cpython-311.pyc
+│   │   ├── fetch_module.cpython-311.pyc
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── job_analysis.cpython-311.pyc
+│   │   ├── job_matcher.cpython-311.pyc
+│   │   ├── job_scanner.cpython-311.pyc
+│   │   ├── pipeline_main.cpython-311.pyc
+│   │   ├── pipeline_orchestrator.cpython-311.pyc
+│   │   ├── pipeline_utils.cpython-311.pyc
+│   │   ├── skill_matching_orchestrator.cpython-311.pyc
+│   │   ├── skills_io.cpython-311.pyc
+│   │   ├── skills_module.cpython-311.pyc
+│   │   ├── status_checker_module.cpython-311.pyc
+│   │   └── test_integration.cpython-311.pyc
+│   ├── scraper_module.py
+│   ├── skill_matching_orchestrator.py
+│   ├── skills_categorization.py
+│   ├── skills_decomposition.py
+│   ├── skills_extraction.py
+│   ├── skills_importance.py
+│   ├── skills_io.py
+│   ├── skills_module.py
+│   ├── status_checker_module.py
+│   ├── test_integration.py
+│   └── test_utils.py
+├── [01;34mcover_letter[0m
+│   ├── cover_letter_profile.json
+│   ├── cover_letter_template.md
+│   ├── [01;34mdata[0m
+│   │   ├── cv_skills.json
+│   │   └── project_data.json
+│   ├── [01;32mdemo_professional_timeline.py[0m
+│   ├── demo_skill_timeline_new.py
+│   ├── [01;32mgenerator_cli.py[0m
+│   ├── __init__.py
+│   ├── professional_timeline_generator.py
+│   ├── [01;32mprofile_manager.py[0m
+│   ├── project_value_mapper.py
+│   ├── [01;34m__pycache__[0m
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── profile_manager.cpython-311.pyc
+│   │   ├── project_value_mapper.cpython-311.pyc
+│   │   ├── skill_library.cpython-311.pyc
+│   │   ├── skills_gap_analyzer.cpython-311.pyc
+│   │   ├── template_manager.cpython-311.pyc
+│   │   └── visual_enhancer.cpython-311.pyc
+│   ├── README.md
+│   ├── [01;32mskill_library.py[0m
+│   ├── skills_gap_analyzer.py
+│   ├── skill_timeline_generator_new.py
+│   ├── [01;32mtemplate_manager.py[0m
+│   └── visual_enhancer.py
+├── [01;32mdemo_llm_logging.py[0m
+├── [01;34mdocs[0m
+│   ├── [01;36mllm_factory[0m -> [01;34m/home/xai/Documents/llm_factory[0m
+│   └── [01;34mskill_matching[0m
+│       ├── enriched_skills.json
+│       ├── matching_test_results.json
+│       ├── sdr_implementation_results.json
+│       └── skill_relationships.json
+├── email_sender.py
+├── export_job_matches BAK.py
+├── export_job_matches.py
+├── generate_cover_letter.py
+├── __init__.py
+├── [01;34mjob_matcher[0m
+│   ├── cli.py
+│   ├── cv_loader.py
+│   ├── cv_utils.py
+│   ├── default_prompt bak.py
+│   ├── default_prompt.py
+│   ├── domain_analyzer.py
+│   ├── [01;32mfeedback_handler.py[0m
+│   ├── __init__.py
+│   ├── job_processor.py
+│   ├── llm_client.py
+│   ├── prompt_adapter.py
+│   ├── [01;34m__pycache__[0m
+│   │   ├── cv_utils.cpython-311.pyc
+│   │   ├── domain_analyzer.cpython-311.pyc
+│   │   ├── feedback_handler.cpython-311.pyc
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── job_processor.cpython-311.pyc
+│   │   ├── llm_client.cpython-311.pyc
+│   │   ├── prompt_adapter.cpython-311.pyc
+│   │   └── response_parser.cpython-311.pyc
+│   ├── README.md
+│   └── response_parser.py
+├── job_match_reviewer.py
+├── [01;32mmanual_job_analyzer.py[0m
+├── output.txt
+├── process_excel_cover_letters.py
+├── process_excel_cover_letters.py.fixed
+├── process_excel_feedback.py
+├── [01;34mprompts[0m
+│   ├── __init__.py
+│   └── [01;34mjob_matching[0m
+│       ├── __init__.py
+│       └── [01;34mv1[0m
+│           ├── __init__.py
+│           └── llama3_cv_match.txt
+├── [01;34m__pycache__[0m
+│   ├── ada_llm_factory_integration.cpython-311.pyc
+│   ├── __init__.cpython-311.pyc
+│   └── process_excel_cover_letters.cpython-311.pyc
+├── README.md
+├── [01;32mregister_job_matching_prompt.py[0m
+├── [01;32mregister_prompt.py[0m
+├── reset_pipeline.py
+├── [01;32mrestore_from_backup.sh[0m
+├── [01;32mrotate_wireguard_ip.py[0m
+├── [01;32mrun_domain_enhanced_matcher.py[0m
+├── [01;32mrun.py[0m
+├── session.log
+├── [01;34mskill_matching[0m
+│   ├── batch_skill_processor.py
+│   ├── benchmark_skill_matcher.py
+│   ├── bucket_cache.py
+│   ├── bucketed_benchmark.py
+│   ├── bucketed_cache.py
+│   ├── bucketed_llm.py
+│   ├── bucketed_pipeline_enhanced.py
+│   ├── bucketed_pipeline_fixed.py
+│   ├── bucketed_pipeline.py
+│   ├── bucketed_skill_matcher_enhanced.py
+│   ├── bucketed_skill_matcher_fixed.py
+│   ├── bucketed_skill_matcher.py
+│   ├── bucketed_utils.py
+│   ├── bucketed_weights.py
+│   ├── bucket_matcher_fixed.py
+│   ├── bucket_matcher.py
+│   ├── bucket_utils_fixed.py
+│   ├── bucket_utils.py
+│   ├── cache.py
+│   ├── category_utils.py
+│   ├── confidence_scorer.py
+│   ├── continuous_learning.py
+│   ├── [01;32mdomain_aware_matcher.py[0m
+│   ├── [01;32mdomain_matcher_integration.py[0m
+│   ├── [01;32mdomain_relationship_classifier.py[0m
+│   ├── efficient_skill_matcher.py
+│   ├── embedding_matching.py
+│   ├── embedding_utils.py
+│   ├── enhanced_benchmark.py
+│   ├── enhanced_bucketed_pipeline.py
+│   ├── [01;32menhanced_domain_skill_matcher.py[0m
+│   ├── enhanced_skill_matcher.py
+│   ├── [01;32mgenerate_job_matches_csv.py[0m
+│   ├── [01;32mget_olmo2_feedback.sh[0m
+│   ├── [01;32mget_olmo_feedback.py[0m
+│   ├── [01;32mget_olmo_feedback.sh[0m
+│   ├── __init__.py
+│   ├── job_skill_matcher.py
+│   ├── job_updater.py
+│   ├── llm_matching.py
+│   ├── llm_skill_enricher.py
+│   ├── [01;34m__pycache__[0m
+│   │   ├── bucketed_cache.cpython-311.pyc
+│   │   ├── bucketed_llm.cpython-311.pyc
+│   │   ├── bucketed_pipeline_enhanced.cpython-311.pyc
+│   │   ├── bucketed_skill_matcher.cpython-311.pyc
+│   │   ├── bucketed_utils.cpython-311.pyc
+│   │   ├── bucketed_weights.cpython-311.pyc
+│   │   ├── cache.cpython-311.pyc
+│   │   ├── category_utils.cpython-311.pyc
+│   │   ├── domain_aware_matcher.cpython-311.pyc
+│   │   ├── domain_relationship_classifier.cpython-311.pyc
+│   │   ├── embedding_matching.cpython-311.pyc
+│   │   ├── embedding_utils.cpython-311.pyc
+│   │   ├── __init__.cpython-311.pyc
+│   │   ├── llm_matching.cpython-311.pyc
+│   │   └── skill_analyzer.cpython-311.pyc
+│   ├── README.md
+│   ├── requirements_enhanced.txt
+│   ├── run_bucket_matcher.py
+│   ├── run_enhanced_sdr.py
+│   ├── [01;32mrun_enhanced_sdr.sh[0m
+│   ├── [01;32mrun_sdr_implementation.py[0m
+│   ├── [01;32mrun_sdr.sh[0m
+│   ├── sdr_continuous_learning.py
+│   ├── sdr_job_update.py
+│   ├── sdr_pipeline.py
+│   ├── setup_bucket_matcher.py
+│   ├── [01;32mskill_analyzer.py[0m
+│   ├── skill_validation.py
+│   ├── [01;32mtest_bucketed_matching.py[0m
+│   ├── test_bucket_matcher.py
+│   ├── test_llm_enricher.py
+│   ├── test_sdr_imports.py
+│   ├── test_utilities.py
+│   ├── validation_utilities.py
+│   └── visualize_relationships.py
+├── test_feedback_loop.py
+├── test_feedback.py
+├── test_fixes.py
+├── test_job_63144_baseline.py
+├── test_job_match.py
+├── [01;32mtest_migration.py[0m
+├── test_output.txt
+├── [01;34mtests[0m
+│   ├── __init__.py
+│   ├── test_bucketed_only_pipeline.py
+│   ├── [01;32mtest_feedback_loop.py[0m
+│   ├── [01;32mtest_feedback.py[0m
+│   ├── test_integration.py
+│   ├── [01;32mtest_job_match.py[0m
+│   ├── [01;32mtest_pipeline_structure.py[0m
+│   ├── test_refactored_pipeline.py
+│   └── test_skills_module.py
+└── [01;34mutils[0m
+    ├── common_tools.py
+    ├── debug_imports.py
+    ├── firefox_utils.py
+    ├── [01;32mfix_job_titles.py[0m
+    ├── [01;32mfix_job_titles_v2.py[0m
+    ├── __init__.py
+    ├── llm_client.py
+    ├── logging_llm_client.py
+    ├── logging_utils.py
+    ├── [01;32mmanage_prompts.py[0m
+    ├── [01;32mprocess_remaining_jobs.py[0m
+    ├── process_utils.py
+    ├── prompt_manager.py
+    ├── prompt_utils.py
+    ├── [01;34m__pycache__[0m
+    │   ├── __init__.cpython-311.pyc
+    │   ├── llm_client.cpython-311.pyc
+    │   ├── logging_utils.cpython-311.pyc
+    │   ├── process_utils.cpython-311.pyc
+    │   └── prompt_manager.cpython-311.pyc
+    ├── rebuild_job_descriptions.py
+    ├── [01;32mremove_full_description.py[0m
+    ├── remove_full_descriptions.py
+    ├── staged_job_description_processor_fixed.py
+    ├── staged_job_description_processor.py
+    ├── [01;34mstaged_processor[0m
+    │   ├── cli.py
+    │   ├── extractors.py
+    │   ├── file_handler.py
+    │   ├── html_cleaner.py
+    │   ├── __init__.py
+    │   ├── language_handler.py
+    │   ├── processor.py
+    │   ├── README.md
+    │   ├── utils.py
+    │   └── versions.py
+    ├── strategy_loader.py
+    ├── [01;32mupdate_job_descriptions.py[0m
+    ├── [01;32mupdate_version.py[0m
+    ├── [01;32mvalidate_and_improve_job_descriptions.py[0m
+    └── [01;32mvalidate_job_descriptions.sh[0m
+
+27 directories, 292 files
+[?2004h]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ [K]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ ^C[?2004l[?2004h[?2004l
+[?2004h]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ cd /home/xai/Documents/sunset/run_pipeline && python test_job_63144_baseline.py
+[?2004lINFO:ada_llm_factory_integration:✅ LLM Factory specialists imported successfully
+ERROR:ada_llm_factory_integration:❌ Error initializing specialists: OllamaClient.__init__() got an unexpected keyword argument 'model'
+WARNING:ada_llm_factory_integration:⚠️ Using fallback specialist implementations
+🚀 STARTING JOB 63144 BASELINE TESTING
+Ada ValidationCoordinator + LLM Factory A/B Comparison
+------------------------------------------------------------
+📁 Loading test data...
+✅ Job 63144 loaded: DWS Operations Specialist - E-invoicing (m/w/d)
+
+📊 MEASURING CURRENT SYSTEM BASELINE...
+
+🚀 TESTING ADA + LLM FACTORY SYSTEM...
+ERROR:ada_llm_factory_integration:❌ Error in cover letter generation: AdaValidationCoordinator._create_fallback_specialists.<locals>.FallbackCoverLetterGenerator.generate_cover_letter() got an unexpected keyword argument 'cv_data'
+
+📈 A/B TESTING ANALYSIS...
+
+📄 Report saved to: /home/xai/Documents/sunset/output/quality_baseline_tests/job_63144_baseline_test_20250605_143050.json
+
+============================================================
+🎯 JOB 63144 BASELINE TESTING SUMMARY
+============================================================
+
+📊 QUALITY IMPROVEMENTS:
+   Processing Time: 12.5s → 0.0s
+   Quality Score: 0.45 → 0.00
+   AI Artifacts: 3 → 0
+   Manual Corrections: 37.5% reduction
+
+✅ ADA'S SUCCESS CRITERIA:
+   ✅ Processing Time Under 15S
+   ❌ Conservative Validation Passed
+   ❌ Human Review Not Required
+   ❌ Consensus Reached
+   ❌ No Ai Artifacts
+
+🎯 OVERALL RESULT: ❌ NEEDS IMPROVEMENT
+[?2004h]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ [K]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ cd /home/xai/Documents/sunset/run_pipeline && python test_job_63144_baseline.py[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ctree[K[2Plsecho $TERM_PROGRAM_VERSION[K_VERSIONls[Ktreecd /home/xai/Documents/sunset/run_pipeline && python test_job_63144_baseline.py[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kscript [7m/home/xai/Documents/sunset/session.log[27m/home/xai/Documents/sunset/session.log
+[?2004lScript started, output log file is '/home/xai/Documents/sunset/session.log'.
+[?2004h]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ ^C[?2004l[?2004h[?2004l
+[?2004h]0;xai@dev: ~/Documents/sunset/run_pipeline[01;32mxai@dev[00m:[01;34m~/Documents/sunset/run_pipeline[00m$ cd /home/xai/Documents/sunset && python -c "
+[?2004l[?2004h> import sys
+[?2004l[?2004h> sys.path.append('/home/xai/Documents/sunset/run_pipeline')
+[?2004l[?2004h> try:
+[?2004l[?2004h>     from ada_llm_factory_integration import ada_cover_letter_coordinator
+[?2004l[?2004h>     print('✅ Ada ValidationCoordinator imported successfully')
+[?2004l[?2004h>     print(f'✅ Conservative bias: {ada_cover_letter_coordinator.config.conservative_bias}')
+[?2004l[?2004h>     print(f'✅ Consensus threshold: {ada_cover_letter_coordinator.config.consensus_threshold}')
+[?2004l[?2004h>     print(f'✅ Processing time limit: {ada_cover_letter_coordinator.config.processing_time_limit}s')
+[?2004l[?2004h>     print(f'✅ Specialists initialized: {len(ada_cover_letter_coordinator.specialists)}')
+[?2004l[?2004h>     print('🎯 Interface fixes applied successfully!')
+[?2004l[?2004h> except Exception as e:
+[?2004l[?2004h>     print(f'❌ Error: {e}')
+[?2004l[?2004h>     import traceback
+[?2004l[?2004h>     traceback.print_exc()

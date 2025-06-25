@@ -1,0 +1,30 @@
+{
+  "timestamp": "2025-05-20T09:51:23.205632",
+  "phases": {
+    "skill_analysis": {
+      "status": "success",
+      "enriched_skills_count": 47,
+      "duration_seconds": 0.012176
+    },
+    "domain_relationship_classification": {
+      "status": "success",
+      "relationship_counts": {
+        "Exact match": 638,
+        "Unrelated": 1524
+      },
+      "duration_seconds": 0.01917
+    },
+    "matching_algorithm_testing": {
+      "status": "success",
+      "test_cases": 5,
+      "overall_improvement": -0.1383333333333333,
+      "false_positives_reduced": 1,
+      "duration_seconds": 0.003564
+    }
+  },
+  "overall_duration_seconds": 0.036394,
+  "summary": {
+    "success_rate": "3/3 phases completed successfully",
+    "overall_status": "success"
+  }
+}

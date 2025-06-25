@@ -1,0 +1,95 @@
+{
+  "id": "job_detail_extraction",
+  "name": "Job Detail Extraction",
+  "description": "Extract structured details from job postings",
+  "version": "1.0.0",
+  "input": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "job_posting": {"type": "string"},
+        "job_id": {"type": "string"}
+      },
+      "required": ["job_posting"]
+    },
+    "examples": [
+      {
+        "job_posting": "Senior Software Engineer - Remote\nCompany XYZ is looking for an experienced software engineer to join our team. In this role, you will design and implement scalable applications using modern technologies.\n\nResponsibilities:\n- Design and develop high-quality software solutions\n- Collaborate with cross-functional teams\n- Participate in code reviews and mentor junior developers\n- Troubleshoot and debug applications\n\nRequirements:\n- 5+ years of experience in software development\n- Strong knowledge of Java, Python, or similar languages\n- Experience with cloud platforms (AWS, Azure, GCP)\n- Bachelor's degree in Computer Science or equivalent\n\nContact: careers@xyz.com",
+        "job_id": "12345"
+      }
+    ],
+    "validations": ["non_empty_text"],
+    "property_validations": {
+      "job_posting": ["non_empty_text", "min_length_100"],
+      "job_id": ["non_empty_text"]
+    }
+  },
+  "output": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "job_title": {"type": "string"},
+        "location": {"type": "string"},
+        "responsibilities": {"type": "array", "items": {"type": "string"}},
+        "requirements": {"type": "array", "items": {"type": "string"}},
+        "contact": {"type": "string"},
+        "job_description": {"type": "string"}
+      },
+      "required": ["job_title", "responsibilities", "requirements"]
+    },
+    "examples": [
+      {
+        "job_title": "Senior Software Engineer",
+        "location": "Remote",
+        "responsibilities": [
+          "Design and develop high-quality software solutions",
+          "Collaborate with cross-functional teams",
+          "Participate in code reviews and mentor junior developers",
+          "Troubleshoot and debug applications"
+        ],
+        "requirements": [
+          "5+ years of experience in software development",
+          "Strong knowledge of Java, Python, or similar languages",
+          "Experience with cloud platforms (AWS, Azure, GCP)",
+          "Bachelor's degree in Computer Science or equivalent"
+        ],
+        "contact": "careers@xyz.com"
+      }
+    ],
+    "validations": ["has_required_fields", "no_empty_arrays"]
+  },
+  "prompts": [
+    {
+      "id": "html_extraction",
+      "text": "The following text contains HTML from a job posting page. Extract the actual job details exactly as they appear in the HTML content. Do NOT invent or generate any details that are not present in the HTML:\n\n- job_title: The EXACT title of the position as it appears in the HTML (look for lines containing phrases like 'Job Title:', 'Position:', or a prominent heading)\n- location: The EXACT location as stated in the HTML\n- responsibilities: List of key job responsibilities as bullet points, exactly as stated in the HTML\n- requirements: List of technical requirements as bullet points, exactly as stated in the HTML\n- contact: Contact information if available\n- job_description: A clean, well-formatted plain text version of the complete job description without HTML markup, navigation elements, headers, footers, and other non-relevant content\n\nIMPORTANT: For the job_title, do NOT generate a generic title like 'Senior Software Engineer'. Instead, look for the actual job title in the HTML which will often be near text like 'Job ID' or 'Position' or at the top of the job description.\n\nDiscard all HTML markup, navigation elements, footers, and other non-relevant page content. Focus only on extracting the job details.\n\nFor the job_description field, provide a complete, cleanly formatted version of the entire job description text with these guidelines:\n1. Remove all HTML markup, navigation elements, headers, footers, and website components\n2. Preserve the actual content including all sections (company overview, position details, responsibilities, requirements, benefits)\n3. Maintain proper paragraph structure with single line breaks between paragraphs\n4. Format section headings on their own lines\n5. Format bullet points with proper indentation\n6. Keep ample whitespace to ensure readability, but avoid excessive line breaks\n\nThe job_description field must have clean formatting with minimal line breaks between paragraphs. Do not include multiple blank lines. Ensure that bullet points are properly formatted with a dash or bullet character.\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"default": true}
+    },
+    {
+      "id": "html_extraction_detailed",
+      "text": "The following text contains HTML from a job posting page. Carefully extract these specific details from the HTML content:\n\n1. Job Title: The exact title of the position\n2. Location: Where the job is based (remote, office location, hybrid)\n3. Key Responsibilities: Numbered list of main duties and expectations\n4. Technical Requirements: Numbered list of required skills, experience, and qualifications\n5. Contact Information: Any contact details provided\n6. Job Description: A clean, well-formatted plain text version of the complete job description without HTML markup\n\nDiscard all HTML markup, navigation elements, headers, footers, and other non-relevant page content. Focus only on the actual job details.\n\nThe job_description field is critical - make sure it includes the complete job description in a clean, readable text format. Include all relevant sections like company overview, role details, responsibilities, requirements, and benefits.\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "high_accuracy_required"}
+    },
+    {
+      "id": "finance_html_extraction",
+      "text": "The following text contains HTML from a banking/finance job posting page. Extract these specific details from the HTML content:\n\n1. job_title: The exact title of the position\n2. location: Where the job is based\n3. responsibilities: List of key duties and responsibilities (as bullet points)\n4. requirements: List of general requirements (as bullet points)\n5. contact: Any contact information provided\n6. job_description: A clean, well-formatted plain text version of the complete job description without HTML markup\n\nPay special attention to:\n- Finance-specific terminology and requirements\n- Regulatory compliance requirements\n- Risk management skills\n- Financial analysis capabilities\n- Banking technology platforms mentioned\n\nFor the job_description field, provide a complete, cleanly formatted version of the entire job description text. Remove all HTML, navigation elements, headers, footers, and other website components. Preserve the actual content including all sections like company overview, position details, responsibilities, requirements, and benefits information.\n\nDiscard all HTML markup, navigation elements, headers, footers, and other non-relevant page content. Focus only on the actual job details.\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "finance_job"}
+    }
+  ],
+  "verification": {
+    "method": "consensus",
+    "parameters": {
+      "similarity_threshold": 0.75,
+      "min_models": 2,
+      "max_models": 3
+    },
+    "fallback_strategy": "use_highest_ranked_model"
+  },
+  "model_ranking_criteria": {
+    "quality_priority": 0.7,
+    "speed_priority": 0.3,
+    "context_size": "medium"
+  }
+}

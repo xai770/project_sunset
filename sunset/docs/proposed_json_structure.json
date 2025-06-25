@@ -1,0 +1,101 @@
+{
+  "job_metadata": {
+    "job_id": "64048",
+    "version": "1.0",
+    "created_at": "2025-06-11T06:36:12.080108",
+    "last_modified": "2025-06-11T06:38:17.123456",
+    "source": "deutsche_bank_api",
+    "processor": "job_fetcher_p5",
+    "status": "evaluated"
+  },
+  
+  "job_content": {
+    "title": "Vorstandsfahrer und Personenschützer (d/m/w)",
+    "description": "We are seeking a professional executive driver and personal protection specialist...",
+    "requirements": [
+      "Valid driver's license with clean record",
+      "Personal protection certification", 
+      "5+ years experience in executive protection",
+      "Excellent German and English communication"
+    ],
+    "location": {
+      "city": "Frankfurt",
+      "state": "Hessen", 
+      "country": "Deutschland",
+      "remote_options": false
+    },
+    "employment_details": {
+      "type": "Unbefristet",
+      "schedule": "Vollzeit", 
+      "career_level": "kein Corporate Title",
+      "salary_range": null,
+      "benefits": []
+    },
+    "organization": {
+      "name": "Deutsche Bank",
+      "division": "Executive Services",
+      "division_id": 10052
+    }
+  },
+  
+  "evaluation_results": {
+    "cv_to_role_match": "Low",
+    "match_confidence": 0.85,
+    "evaluation_date": "2025-06-11T06:38:17",
+    "evaluator": "llama3.2",
+    "domain_knowledge_assessment": "Limited relevant experience for executive protection role",
+    "decision": {
+      "apply": false,
+      "rationale": "Significant domain gap in personal security and executive protection",
+      "estimated_prep_time": "2-3 years"
+    },
+    "strengths": [
+      "Strong project management background",
+      "Excellent communication skills",
+      "Leadership experience"
+    ],
+    "weaknesses": [
+      "No security/protection experience", 
+      "No professional driving record",
+      "Different industry background"
+    ]
+  },
+  
+  "processing_log": [
+    {
+      "timestamp": "2025-06-11T06:36:12.080108",
+      "action": "job_fetched",
+      "processor": "job_fetcher_p5",
+      "status": "success",
+      "details": "Successfully fetched job from Deutsche Bank API"
+    },
+    {
+      "timestamp": "2025-06-11T06:37:45.123456", 
+      "action": "content_enriched",
+      "processor": "content_enricher",
+      "status": "partial_success",
+      "details": "Job description missing from source",
+      "warning": "Could not fetch full job description"
+    },
+    {
+      "timestamp": "2025-06-11T06:38:17.234567",
+      "action": "cv_evaluation", 
+      "processor": "llama3.2_evaluator",
+      "status": "success",
+      "details": "CV-to-role match evaluation completed"
+    }
+  ],
+  
+  "raw_source_data": {
+    "api_response": {
+      "MatchedObjectId": "64048",
+      "PositionTitle": "Vorstandsfahrer und Personenschützer (d/m/w)",
+      "retrieved_at": "2025-06-11T06:36:12.080108"
+    },
+    "specialist_analysis": {
+      "fitness_rating": "Fair",
+      "overall_score": 5.6,
+      "processing_time": 21.76
+    }
+  }
+}

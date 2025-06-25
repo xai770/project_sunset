@@ -1,0 +1,2500 @@
+[
+  {
+    "name": "Ontology/Taxonomy Development",
+    "category": "IT_Technical",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Ontology/Taxonomy Development",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Ontology/Taxonomy Development with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Ontology/Taxonomy Development",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "technical_fundamentals",
+      "system_architecture"
+    ],
+    "contexts": [
+      "development_environment",
+      "production_systems"
+    ],
+    "functions": [
+      "building_solutions",
+      "technical_problem_solving"
+    ],
+    "ambiguity_factor": 6.333333333333333,
+    "related_skills": [
+      {
+        "skill_name": "Programming Languages",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "Software Development",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Ontology/Taxonomy Development applied to financial services and banking environments",
+      "healthcare": "Ontology/Taxonomy Development applied to healthcare and medical environments",
+      "manufacturing": "Ontology/Taxonomy Development applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Visual Studio Code",
+      "Git",
+      "Docker"
+    ],
+    "measurable_outcomes": [
+      "Number of successful deployments",
+      "Reduction in bugs",
+      "Code quality metrics"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Application Development",
+    "category": "IT_Technical",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Application Development",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Application Development with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Application Development",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "technical_fundamentals",
+      "system_architecture"
+    ],
+    "contexts": [
+      "development_environment",
+      "production_systems"
+    ],
+    "functions": [
+      "building_solutions",
+      "technical_problem_solving"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Programming Languages",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "Software Development",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Application Development applied to financial services and banking environments",
+      "healthcare": "Application Development applied to healthcare and medical environments",
+      "manufacturing": "Application Development applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Visual Studio Code",
+      "Git",
+      "Docker"
+    ],
+    "measurable_outcomes": [
+      "Number of successful deployments",
+      "Reduction in bugs",
+      "Code quality metrics"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "IT Systems Rollout",
+    "category": "IT_Technical",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of IT Systems Rollout",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of IT Systems Rollout with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with IT Systems Rollout",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "technical_fundamentals",
+      "system_architecture"
+    ],
+    "contexts": [
+      "development_environment",
+      "production_systems"
+    ],
+    "functions": [
+      "building_solutions",
+      "technical_problem_solving"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Programming Languages",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "Software Development",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "IT Systems Rollout applied to financial services and banking environments",
+      "healthcare": "IT Systems Rollout applied to healthcare and medical environments",
+      "manufacturing": "IT Systems Rollout applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Visual Studio Code",
+      "Git",
+      "Docker"
+    ],
+    "measurable_outcomes": [
+      "Number of successful deployments",
+      "Reduction in bugs",
+      "Code quality metrics"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Database Development",
+    "category": "IT_Technical",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Database Development",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Database Development with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Database Development",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "technical_fundamentals",
+      "system_architecture"
+    ],
+    "contexts": [
+      "development_environment",
+      "production_systems"
+    ],
+    "functions": [
+      "building_solutions",
+      "technical_problem_solving"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Programming Languages",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "Software Development",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Database Development applied to financial services and banking environments",
+      "healthcare": "Database Development applied to healthcare and medical environments",
+      "manufacturing": "Database Development applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Visual Studio Code",
+      "Git",
+      "Docker"
+    ],
+    "measurable_outcomes": [
+      "Number of successful deployments",
+      "Reduction in bugs",
+      "Code quality metrics"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Data Warehouse Design",
+    "category": "IT_Technical",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Data Warehouse Design",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Data Warehouse Design with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Data Warehouse Design",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "technical_fundamentals",
+      "system_architecture"
+    ],
+    "contexts": [
+      "development_environment",
+      "production_systems"
+    ],
+    "functions": [
+      "building_solutions",
+      "technical_problem_solving"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Programming Languages",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "Software Development",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Data Warehouse Design applied to financial services and banking environments",
+      "healthcare": "Data Warehouse Design applied to healthcare and medical environments",
+      "manufacturing": "Data Warehouse Design applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Visual Studio Code",
+      "Git",
+      "Docker"
+    ],
+    "measurable_outcomes": [
+      "Number of successful deployments",
+      "Reduction in bugs",
+      "Code quality metrics"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Software Escrow Management",
+    "category": "IT_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Software Escrow Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Software Escrow Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Software Escrow Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "project_methodology",
+      "it_governance"
+    ],
+    "contexts": [
+      "enterprise_it",
+      "service_delivery"
+    ],
+    "functions": [
+      "governing_it_systems",
+      "managing_it_projects"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Project Management",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "IT Governance",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Software Escrow Management applied to financial services and banking environments",
+      "healthcare": "Software Escrow Management applied to healthcare and medical environments",
+      "manufacturing": "Software Escrow Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Jira",
+      "Confluence",
+      "Microsoft Project"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Software License Management",
+    "category": "IT_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Software License Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Software License Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Software License Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "project_methodology",
+      "it_governance"
+    ],
+    "contexts": [
+      "enterprise_it",
+      "service_delivery"
+    ],
+    "functions": [
+      "governing_it_systems",
+      "managing_it_projects"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Project Management",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "IT Governance",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Software License Management applied to financial services and banking environments",
+      "healthcare": "Software License Management applied to healthcare and medical environments",
+      "manufacturing": "Software License Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Jira",
+      "Confluence",
+      "Microsoft Project"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "IT Project Management",
+    "category": "IT_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of IT Project Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of IT Project Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with IT Project Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "project_methodology",
+      "it_governance"
+    ],
+    "contexts": [
+      "enterprise_it",
+      "service_delivery"
+    ],
+    "functions": [
+      "governing_it_systems",
+      "managing_it_projects"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Project Management",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "IT Governance",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "IT Project Management applied to financial services and banking environments",
+      "healthcare": "IT Project Management applied to healthcare and medical environments",
+      "manufacturing": "IT Project Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Jira",
+      "Confluence",
+      "Microsoft Project"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Enterprise IT Governance",
+    "category": "IT_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Enterprise IT Governance",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Enterprise IT Governance with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Enterprise IT Governance",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "project_methodology",
+      "it_governance"
+    ],
+    "contexts": [
+      "enterprise_it",
+      "service_delivery"
+    ],
+    "functions": [
+      "governing_it_systems",
+      "managing_it_projects"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Project Management",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "IT Governance",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Enterprise IT Governance applied to financial services and banking environments",
+      "healthcare": "Enterprise IT Governance applied to healthcare and medical environments",
+      "manufacturing": "Enterprise IT Governance applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Jira",
+      "Confluence",
+      "Microsoft Project"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Spend Management",
+    "category": "Sourcing_and_Procurement",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Spend Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Spend Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Spend Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "negotiation_techniques",
+      "market_analysis"
+    ],
+    "contexts": [
+      "vendor_management",
+      "contract_negotiation"
+    ],
+    "functions": [
+      "negotiating_contracts",
+      "managing_vendors"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Spend Management applied to financial services and banking environments",
+      "healthcare": "Spend Management applied to healthcare and medical environments",
+      "manufacturing": "Spend Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Vendor Relationship Management",
+    "category": "Sourcing_and_Procurement",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Vendor Relationship Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Vendor Relationship Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Vendor Relationship Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "negotiation_techniques",
+      "market_analysis"
+    ],
+    "contexts": [
+      "vendor_management",
+      "contract_negotiation"
+    ],
+    "functions": [
+      "negotiating_contracts",
+      "managing_vendors"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Vendor Relationship Management applied to financial services and banking environments",
+      "healthcare": "Vendor Relationship Management applied to healthcare and medical environments",
+      "manufacturing": "Vendor Relationship Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "IT Asset Management",
+    "category": "Sourcing_and_Procurement",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of IT Asset Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of IT Asset Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with IT Asset Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "negotiation_techniques",
+      "market_analysis"
+    ],
+    "contexts": [
+      "vendor_management",
+      "contract_negotiation"
+    ],
+    "functions": [
+      "negotiating_contracts",
+      "managing_vendors"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "IT Asset Management applied to financial services and banking environments",
+      "healthcare": "IT Asset Management applied to healthcare and medical environments",
+      "manufacturing": "IT Asset Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Contract Negotiation",
+    "category": "Sourcing_and_Procurement",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Contract Negotiation",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Contract Negotiation with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Contract Negotiation",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "negotiation_techniques",
+      "market_analysis"
+    ],
+    "contexts": [
+      "vendor_management",
+      "contract_negotiation"
+    ],
+    "functions": [
+      "negotiating_contracts",
+      "managing_vendors"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Contract Negotiation applied to financial services and banking environments",
+      "healthcare": "Contract Negotiation applied to healthcare and medical environments",
+      "manufacturing": "Contract Negotiation applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Strategic Sourcing",
+    "category": "Sourcing_and_Procurement",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Strategic Sourcing",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Strategic Sourcing with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Strategic Sourcing",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "negotiation_techniques",
+      "market_analysis"
+    ],
+    "contexts": [
+      "vendor_management",
+      "contract_negotiation"
+    ],
+    "functions": [
+      "negotiating_contracts",
+      "managing_vendors"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Strategic Sourcing applied to financial services and banking environments",
+      "healthcare": "Strategic Sourcing applied to healthcare and medical environments",
+      "manufacturing": "Strategic Sourcing applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Team Leadership",
+    "category": "Leadership_and_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Team Leadership",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Team Leadership with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Team Leadership",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "leadership_principles",
+      "team_dynamics"
+    ],
+    "contexts": [
+      "team_management",
+      "executive_decision_making"
+    ],
+    "functions": [
+      "leading_teams",
+      "managing_performance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Team Leadership applied to financial services and banking environments",
+      "healthcare": "Team Leadership applied to healthcare and medical environments",
+      "manufacturing": "Team Leadership applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Team performance improvements",
+      "Project delivery rate",
+      "Employee satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Risk Management",
+    "category": "Leadership_and_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Risk Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Risk Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Risk Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "leadership_principles",
+      "team_dynamics"
+    ],
+    "contexts": [
+      "team_management",
+      "executive_decision_making"
+    ],
+    "functions": [
+      "leading_teams",
+      "managing_performance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Risk Management applied to financial services and banking environments",
+      "healthcare": "Risk Management applied to healthcare and medical environments",
+      "manufacturing": "Risk Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Team performance improvements",
+      "Project delivery rate",
+      "Employee satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Process Design and Implementation",
+    "category": "Leadership_and_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Process Design and Implementation",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Process Design and Implementation with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Process Design and Implementation",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "leadership_principles",
+      "team_dynamics"
+    ],
+    "contexts": [
+      "team_management",
+      "executive_decision_making"
+    ],
+    "functions": [
+      "leading_teams",
+      "managing_performance"
+    ],
+    "ambiguity_factor": 5.333333333333333,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Process Design and Implementation applied to financial services and banking environments",
+      "healthcare": "Process Design and Implementation applied to healthcare and medical environments",
+      "manufacturing": "Process Design and Implementation applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Team performance improvements",
+      "Project delivery rate",
+      "Employee satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Stakeholder Management",
+    "category": "Leadership_and_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Stakeholder Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Stakeholder Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Stakeholder Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "leadership_principles",
+      "team_dynamics"
+    ],
+    "contexts": [
+      "team_management",
+      "executive_decision_making"
+    ],
+    "functions": [
+      "leading_teams",
+      "managing_performance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Stakeholder Management applied to financial services and banking environments",
+      "healthcare": "Stakeholder Management applied to healthcare and medical environments",
+      "manufacturing": "Stakeholder Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Team performance improvements",
+      "Project delivery rate",
+      "Employee satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Decision Framework Development",
+    "category": "Analysis_and_Reporting",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Decision Framework Development",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Decision Framework Development with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Decision Framework Development",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "data_analysis",
+      "reporting_methods"
+    ],
+    "contexts": [
+      "business_intelligence",
+      "management_reporting"
+    ],
+    "functions": [
+      "analyzing_data",
+      "creating_reports"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Decision Framework Development applied to financial services and banking environments",
+      "healthcare": "Decision Framework Development applied to healthcare and medical environments",
+      "manufacturing": "Decision Framework Development applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Tableau",
+      "Power BI",
+      "Excel"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Process Analysis",
+    "category": "Analysis_and_Reporting",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Process Analysis",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Process Analysis with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Process Analysis",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "data_analysis",
+      "reporting_methods"
+    ],
+    "contexts": [
+      "business_intelligence",
+      "management_reporting"
+    ],
+    "functions": [
+      "analyzing_data",
+      "creating_reports"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Process Analysis applied to financial services and banking environments",
+      "healthcare": "Process Analysis applied to healthcare and medical environments",
+      "manufacturing": "Process Analysis applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Tableau",
+      "Power BI",
+      "Excel"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "KPI Reporting",
+    "category": "Analysis_and_Reporting",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of KPI Reporting",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of KPI Reporting with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with KPI Reporting",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "data_analysis",
+      "reporting_methods"
+    ],
+    "contexts": [
+      "business_intelligence",
+      "management_reporting"
+    ],
+    "functions": [
+      "analyzing_data",
+      "creating_reports"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "KPI Reporting applied to financial services and banking environments",
+      "healthcare": "KPI Reporting applied to healthcare and medical environments",
+      "manufacturing": "KPI Reporting applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Tableau",
+      "Power BI",
+      "Excel"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Data Analysis",
+    "category": "Analysis_and_Reporting",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Data Analysis",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Data Analysis with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Data Analysis",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "data_analysis",
+      "reporting_methods"
+    ],
+    "contexts": [
+      "business_intelligence",
+      "management_reporting"
+    ],
+    "functions": [
+      "analyzing_data",
+      "creating_reports"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Data Analysis applied to financial services and banking environments",
+      "healthcare": "Data Analysis applied to healthcare and medical environments",
+      "manufacturing": "Data Analysis applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Tableau",
+      "Power BI",
+      "Excel"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Software Licensing",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Software Licensing",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Software Licensing with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Software Licensing",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Software Licensing applied to financial services and banking environments",
+      "healthcare": "Software Licensing applied to healthcare and medical environments",
+      "manufacturing": "Software Licensing applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Enterprise IT",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Enterprise IT",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Enterprise IT with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Enterprise IT",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Enterprise IT applied to financial services and banking environments",
+      "healthcare": "Enterprise IT applied to healthcare and medical environments",
+      "manufacturing": "Enterprise IT applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Financial Services Industry",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Financial Services Industry",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Financial Services Industry with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Financial Services Industry",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 5.666666666666667,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Financial Services Industry applied to financial services and banking environments",
+      "healthcare": "Financial Services Industry applied to healthcare and medical environments",
+      "manufacturing": "Financial Services Industry applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Regulatory Compliance",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Regulatory Compliance",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Regulatory Compliance with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Regulatory Compliance",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Regulatory Compliance applied to financial services and banking environments",
+      "healthcare": "Regulatory Compliance applied to healthcare and medical environments",
+      "manufacturing": "Regulatory Compliance applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Pharmaceutical Industry",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Pharmaceutical Industry",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Pharmaceutical Industry with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Pharmaceutical Industry",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Pharmaceutical Industry applied to financial services and banking environments",
+      "healthcare": "Pharmaceutical Industry applied to healthcare and medical environments",
+      "manufacturing": "Pharmaceutical Industry applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "computer science",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of computer science",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of computer science with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with computer science",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "computer science applied to financial services and banking environments",
+      "healthcare": "computer science applied to healthcare and medical environments",
+      "manufacturing": "computer science applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "gcp",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of gcp",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of gcp with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with gcp",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "gcp applied to financial services and banking environments",
+      "healthcare": "gcp applied to healthcare and medical environments",
+      "manufacturing": "gcp applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "bachelor",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of bachelor",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of bachelor with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with bachelor",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "bachelor applied to financial services and banking environments",
+      "healthcare": "bachelor applied to healthcare and medical environments",
+      "manufacturing": "bachelor applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "hadoop",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of hadoop",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of hadoop with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with hadoop",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "hadoop applied to financial services and banking environments",
+      "healthcare": "hadoop applied to healthcare and medical environments",
+      "manufacturing": "hadoop applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "etl context",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of etl context",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of etl context with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with etl context",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "etl context applied to financial services and banking environments",
+      "healthcare": "etl context applied to healthcare and medical environments",
+      "manufacturing": "etl context applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "apache spark",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of apache spark",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of apache spark with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with apache spark",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "apache spark applied to financial services and banking environments",
+      "healthcare": "apache spark applied to healthcare and medical environments",
+      "manufacturing": "apache spark applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "(german desirable)",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of (german desirable)",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of (german desirable) with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with (german desirable)",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "(german desirable) applied to financial services and banking environments",
+      "healthcare": "(german desirable) applied to healthcare and medical environments",
+      "manufacturing": "(german desirable) applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "english skills",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of english skills",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of english skills with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with english skills",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "english skills applied to financial services and banking environments",
+      "healthcare": "english skills applied to healthcare and medical environments",
+      "manufacturing": "english skills applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "german desirable",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of german desirable",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of german desirable with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with german desirable",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "german desirable applied to financial services and banking environments",
+      "healthcare": "german desirable applied to healthcare and medical environments",
+      "manufacturing": "german desirable applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "ideally",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of ideally",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of ideally with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with ideally",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "ideally applied to financial services and banking environments",
+      "healthcare": "ideally applied to healthcare and medical environments",
+      "manufacturing": "ideally applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "master",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of master",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of master with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with master",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "master applied to financial services and banking environments",
+      "healthcare": "master applied to healthcare and medical environments",
+      "manufacturing": "master applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "bait",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of bait",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of bait with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with bait",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "bait applied to financial services and banking environments",
+      "healthcare": "bait applied to healthcare and medical environments",
+      "manufacturing": "bait applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "mathematics",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of mathematics",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of mathematics with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with mathematics",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "mathematics applied to financial services and banking environments",
+      "healthcare": "mathematics applied to healthcare and medical environments",
+      "manufacturing": "mathematics applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "psd2",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of psd2",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of psd2 with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with psd2",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "psd2 applied to financial services and banking environments",
+      "healthcare": "psd2 applied to healthcare and medical environments",
+      "manufacturing": "psd2 applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "python",
+    "category": "IT_Technical",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of python",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of python with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with python",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "technical_fundamentals",
+      "system_architecture"
+    ],
+    "contexts": [
+      "development_environment",
+      "production_systems"
+    ],
+    "functions": [
+      "building_solutions",
+      "technical_problem_solving"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Programming Languages",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "Software Development",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "python applied to financial services and banking environments",
+      "healthcare": "python applied to healthcare and medical environments",
+      "manufacturing": "python applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Visual Studio Code",
+      "Git",
+      "Docker"
+    ],
+    "measurable_outcomes": [
+      "Number of successful deployments",
+      "Reduction in bugs",
+      "Code quality metrics"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "high",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of high",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of high with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with high",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "high applied to financial services and banking environments",
+      "healthcare": "high applied to healthcare and medical environments",
+      "manufacturing": "high applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "above",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of above",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of above with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with above",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "above applied to financial services and banking environments",
+      "healthcare": "above applied to healthcare and medical environments",
+      "manufacturing": "above applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "dora",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of dora",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of dora with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with dora",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 7.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "dora applied to financial services and banking environments",
+      "healthcare": "dora applied to healthcare and medical environments",
+      "manufacturing": "dora applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "multi-disciplinary settings",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of multi-disciplinary settings",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of multi-disciplinary settings with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with multi-disciplinary settings",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.333333333333333,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "multi-disciplinary settings applied to financial services and banking environments",
+      "healthcare": "multi-disciplinary settings applied to healthcare and medical environments",
+      "manufacturing": "multi-disciplinary settings applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "microsoft 365",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of microsoft 365",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of microsoft 365 with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with microsoft 365",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 6.0,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "microsoft 365 applied to financial services and banking environments",
+      "healthcare": "microsoft 365 applied to healthcare and medical environments",
+      "manufacturing": "microsoft 365 applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  }
+]

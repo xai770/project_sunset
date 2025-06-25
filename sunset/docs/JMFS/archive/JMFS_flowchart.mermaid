@@ -1,0 +1,72 @@
+flowchart TD
+    A[Start: Job Matching Process] --> B[export_job_matches generates Excel]
+    B --> B1[Log in column L: timestamp, version, status]
+    B1 --> C[generate_cover_letters reads Excel]
+    
+    C --> D{Match Level = 'Good'?}
+    D -->|Yes| E[Generate cover letter]
+    D -->|No| F[Skip - log 'skipped-low match' in column M]
+    E --> E1[Log in column M: generated Y, timestamp]
+    F --> F1[Log in column M: skipped, timestamp]
+    
+    E1 --> G[Email Excel + cover letters to reviewer]
+    F1 --> G
+    
+    G --> H{Reviewer responds?}
+    H -->|No response| Z[End - no feedback to process]
+    H -->|Yes| I[mailman detects return email]
+    
+    I --> I1[Log in column O: received, timestamp]
+    I1 --> J[Master Orchestrator LLM analyzes Excel]
+    
+    J --> K{Any feedback in column N?}
+    K -->|No| Z
+    K -->|Yes| L[For each job with feedback...]
+    
+    L --> M{Feedback type?}
+    
+    M -->|Gibberish| N[reviewer_support_llm: send clarification email]
+    M -->|Contradiction| O[conflict_resolver_llm: evidence-based clarification]
+    M -->|False Negative| P[cover_letter_generator_llm: create missing cover letter]
+    M -->|Valid feedback| Q[feedback_analyzer_llm: process for learning]
+    
+    N --> N1[Log in column Q: clarification sent]
+    O --> O1[Log in column Q: conflict email sent]
+    P --> P1[Email cover letter to reviewer]
+    Q --> Q1[Update prompt system if needed]
+    
+    N1 --> R[Log in column P: action completed]
+    O1 --> R
+    P1 --> R
+    Q1 --> R
+    
+    R --> S{More feedback to process?}
+    S -->|Yes| L
+    S -->|No| T[Update column R: workflow status = 'Complete']
+    
+    T --> U{Clarification responses received?}
+    U -->|Yes| V[Process new clarifications]
+    U -->|No| Z
+    
+    V --> W{Response type?}
+    W -->|Still gibberish| X[Send final 'we'll do what we want' email]
+    W -->|Clarification received| Y[Process as new feedback]
+    W -->|No response| Z
+    
+    X --> Z
+    Y --> Q
+    
+    Z[End: Feedback loop complete]
+    
+    %% Styling
+    classDef startEnd fill:#e74c3c,stroke:#c0392b,stroke-width:3px,color:#fff
+    classDef process fill:#3498db,stroke:#2980b9,stroke-width:2px,color:#fff
+    classDef decision fill:#f39c12,stroke:#e67e22,stroke-width:2px,color:#fff
+    classDef llm fill:#9b59b6,stroke:#8e44ad,stroke-width:2px,color:#fff
+    classDef log fill:#27ae60,stroke:#229954,stroke-width:2px,color:#fff
+    
+    class A,Z startEnd
+    class B,C,E,F,G,I,L,P1,V process
+    class D,H,K,M,S,U,W decision
+    class J,N,O,P,Q llm
+    class B1,E1,F1,I1,N1,O1,R,T log

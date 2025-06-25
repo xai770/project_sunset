@@ -1,0 +1,356 @@
+[
+  {
+    "job_id": "job1",
+    "candidate_id": "candidate1",
+    "domain_aware_match": {
+      "overall_score": 0.1,
+      "matched_skills": [
+        {
+          "job_skill": "Python Programming",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Data Analysis",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Project Management",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Communication Skills",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        }
+      ],
+      "unmatched_job_skills": []
+    },
+    "semantic_match": {
+      "overall_score": 0.25,
+      "matches": [
+        {
+          "job_skill": "Python Programming",
+          "candidate_skill": "Python Development",
+          "score": 0.5
+        },
+        {
+          "job_skill": "Data Analysis",
+          "candidate_skill": "Statistical Analysis",
+          "score": 0.5
+        }
+      ],
+      "false_positives": [],
+      "unmatched_job_skills": [
+        "Project Management",
+        "Communication Skills"
+      ]
+    },
+    "improvement": -0.15,
+    "false_positives_reduced": 0,
+    "job_skills": [
+      "Python Programming",
+      "Data Analysis",
+      "Project Management",
+      "Communication Skills"
+    ],
+    "candidate_skills": [
+      "Python Development",
+      "Statistical Analysis",
+      "Team Coordination",
+      "Technical Writing"
+    ]
+  },
+  {
+    "job_id": "job2",
+    "candidate_id": "candidate2",
+    "domain_aware_match": {
+      "overall_score": 0.1,
+      "matched_skills": [
+        {
+          "job_skill": "Java Development",
+          "candidate_skill": "Java Programming",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Software Architecture",
+          "candidate_skill": "Java Programming",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Team Leadership",
+          "candidate_skill": "Java Programming",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Agile Methodologies",
+          "candidate_skill": "Java Programming",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        }
+      ],
+      "unmatched_job_skills": []
+    },
+    "semantic_match": {
+      "overall_score": 0.375,
+      "matches": [
+        {
+          "job_skill": "Java Development",
+          "candidate_skill": "Java Programming",
+          "score": 0.5
+        },
+        {
+          "job_skill": "Software Architecture",
+          "candidate_skill": "Solution Architecture",
+          "score": 0.5
+        },
+        {
+          "job_skill": "Team Leadership",
+          "candidate_skill": "Team Management",
+          "score": 0.5
+        }
+      ],
+      "false_positives": [],
+      "unmatched_job_skills": [
+        "Agile Methodologies"
+      ]
+    },
+    "improvement": -0.275,
+    "false_positives_reduced": 0,
+    "job_skills": [
+      "Java Development",
+      "Software Architecture",
+      "Team Leadership",
+      "Agile Methodologies"
+    ],
+    "candidate_skills": [
+      "Java Programming",
+      "Solution Architecture",
+      "Team Management",
+      "Scrum Master"
+    ]
+  },
+  {
+    "job_id": "job3",
+    "candidate_id": "candidate3",
+    "domain_aware_match": {
+      "overall_score": 0.1,
+      "matched_skills": [
+        {
+          "job_skill": "Strategic Sourcing",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Vendor Management",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Contract Negotiation",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Risk Assessment",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        }
+      ],
+      "unmatched_job_skills": []
+    },
+    "semantic_match": {
+      "overall_score": 0.37499999999999994,
+      "matches": [
+        {
+          "job_skill": "Vendor Management",
+          "candidate_skill": "Supplier Relationship Management",
+          "score": 0.3333333333333333
+        },
+        {
+          "job_skill": "Vendor Management",
+          "candidate_skill": "Business Risk Management",
+          "score": 0.3333333333333333
+        },
+        {
+          "job_skill": "Contract Negotiation",
+          "candidate_skill": "Negotiation",
+          "score": 0.5
+        },
+        {
+          "job_skill": "Risk Assessment",
+          "candidate_skill": "Business Risk Management",
+          "score": 0.3333333333333333
+        }
+      ],
+      "false_positives": [],
+      "unmatched_job_skills": [
+        "Strategic Sourcing"
+      ]
+    },
+    "improvement": -0.2749999999999999,
+    "false_positives_reduced": 0,
+    "job_skills": [
+      "Strategic Sourcing",
+      "Vendor Management",
+      "Contract Negotiation",
+      "Risk Assessment"
+    ],
+    "candidate_skills": [
+      "Procurement Strategy",
+      "Supplier Relationship Management",
+      "Negotiation",
+      "Business Risk Management"
+    ]
+  },
+  {
+    "job_id": "job1",
+    "candidate_id": "candidate3",
+    "domain_aware_match": {
+      "overall_score": 0.1,
+      "matched_skills": [
+        {
+          "job_skill": "Python Programming",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Data Analysis",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Project Management",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Communication Skills",
+          "candidate_skill": "Procurement Strategy",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        }
+      ],
+      "unmatched_job_skills": []
+    },
+    "semantic_match": {
+      "overall_score": 0.16666666666666666,
+      "matches": [
+        {
+          "job_skill": "Project Management",
+          "candidate_skill": "Supplier Relationship Management",
+          "score": 0.3333333333333333
+        },
+        {
+          "job_skill": "Project Management",
+          "candidate_skill": "Business Risk Management",
+          "score": 0.3333333333333333
+        }
+      ],
+      "false_positives": [],
+      "unmatched_job_skills": [
+        "Python Programming",
+        "Data Analysis",
+        "Communication Skills"
+      ]
+    },
+    "improvement": -0.06666666666666665,
+    "false_positives_reduced": 0,
+    "job_skills": [
+      "Python Programming",
+      "Data Analysis",
+      "Project Management",
+      "Communication Skills"
+    ],
+    "candidate_skills": [
+      "Procurement Strategy",
+      "Supplier Relationship Management",
+      "Negotiation",
+      "Business Risk Management"
+    ]
+  },
+  {
+    "job_id": "job2",
+    "candidate_id": "candidate1",
+    "domain_aware_match": {
+      "overall_score": 0.1,
+      "matched_skills": [
+        {
+          "job_skill": "Java Development",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Software Architecture",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Team Leadership",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        },
+        {
+          "job_skill": "Agile Methodologies",
+          "candidate_skill": "Python Development",
+          "match_score": 0.1,
+          "relationship": "Unrelated"
+        }
+      ],
+      "unmatched_job_skills": []
+    },
+    "semantic_match": {
+      "overall_score": 0.25,
+      "matches": [
+        {
+          "job_skill": "Java Development",
+          "candidate_skill": "Python Development",
+          "score": 0.5
+        },
+        {
+          "job_skill": "Team Leadership",
+          "candidate_skill": "Team Coordination",
+          "score": 0.5
+        }
+      ],
+      "false_positives": [],
+      "unmatched_job_skills": [
+        "Software Architecture",
+        "Agile Methodologies"
+      ]
+    },
+    "improvement": -0.15,
+    "false_positives_reduced": 0,
+    "job_skills": [
+      "Java Development",
+      "Software Architecture",
+      "Team Leadership",
+      "Agile Methodologies"
+    ],
+    "candidate_skills": [
+      "Python Development",
+      "Statistical Analysis",
+      "Team Coordination",
+      "Technical Writing"
+    ]
+  }
+]

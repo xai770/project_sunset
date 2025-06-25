@@ -113,6 +113,107 @@ python core/beautiful_cli.py --dashboard          # Beautiful dashboard view
 # python -m run_pipeline.export_job_matches       # OLD - Use scripts/pipeline/main.py --export-only
 ```
 
+## 🤖 **INTEGRATED SPECIALISTS - TESTING YOUR WORK**
+
+> ⚠️ **Sandy's Note**: When you need to test our integrated Location Validation & Domain Classification specialists, here's exactly what to run:
+
+### **🔬 Testing Integrated Specialists** 
+```bash
+# Full pipeline with specialists (processes ~140 existing jobs)
+cd /home/xai/Documents/sunset
+python scripts/pipeline/main.py --export-excel --generate-cover-letters
+
+# Quick specialist integration test
+python -c "
+from core.direct_specialist_manager import get_direct_specialist_manager
+manager = get_direct_specialist_manager()
+print('🤖 Specialists available:', manager.list_available_specialists())
+print('✅ Integration status:', manager.get_status())
+"
+
+# Test specialists on specific job
+python test_specialist_integration.py  # Our custom integration test script
+```
+
+### **📊 What This Tests:**
+- ✅ **Location Validation**: Catches Frankfurt→India metadata conflicts (33% error rate)
+- ✅ **Domain Classification**: Filters investment banking/cybersecurity roles (60% mismatch rate)  
+- ✅ **Full Pipeline**: Processes existing ~140 job files through intelligent filtering
+- ✅ **Excel Output**: Generates filtered results showing before/after specialist filtering
+- ✅ **Cover Letters**: Creates personalized applications for jobs that pass specialist filtering
+
+### **🎯 Expected Results:**
+**Before (Manual Review):**
+- 11 jobs reviewed → 0 suitable (100% rejection)
+- 33% location conflicts caught manually
+- 60% domain mismatches identified manually
+
+**After (With Specialists):**
+- Same job pool processed with automatic intelligent filtering
+- Location conflicts caught by specialist automatically
+- Domain mismatches filtered by specialist automatically
+- **Key Question**: Do any jobs actually pass through as suitable?
+
+### **📁 Output Files:**
+- **Excel**: `/data/output/job_matching_results_YYYY-MM-DD.xlsx`
+- **Cover Letters**: `/data/output/cover_letters/`
+- **Logs**: Check terminal output for specialist processing times and decisions
+
+### **🔍 Memory Recovery Commands:**
+```bash
+# When you forget where things are:
+find /home/xai/Documents/sunset -name "*specialist*" -type f | head -10
+ls /home/xai/Documents/sunset/0_mailboxes/sandy@consciousness/inbox/
+cat /home/xai/Documents/sunset/reports/fresh_review/job_review_session_log.md | tail -50
+
+# Quick status check:
+cd /home/xai/Documents/sunset && python -c "
+from core.direct_specialist_manager import DirectSpecialistManager
+print('🎯 Specialists ready:', DirectSpecialistManager().is_available())"
+```
+
+### **🚨 Troubleshooting:**
+- **Sub-millisecond processing?** → Check Ollama integration (should be 2-5s for real LLM)
+- **No jobs pass filtering?** → Expected! Our specialists are precision-first
+- **Location conflicts missed?** → Verify Location Validation Specialist is active
+- **Domain mismatches not caught?** → Check Domain Classification Specialist logs
+
+---
+
+## ⚠️ **Common Issues & Troubleshooting
+
+### "Pipeline runs too fast / No LLM processing"
+
+**Symptom:** Pipeline completes in seconds instead of minutes
+**Cause:** All jobs already processed (cached results)
+**Solutions:**
+1. Check logs for "already processed" messages
+2. Use `--force-reprocess` flag (if available)
+3. Run health check: `python quick_specialist_health_check.py`
+4. Test specialists directly: `python test_real_llm_specialists.py`
+
+### "Specialists seem hardcoded"
+
+**Check specialist versions:**
+- v1_0 = Hardcoded logic (0.001-0.05s per job)  
+- v1_1 = Real LLM/Ollama (3-15s per job)
+
+**Verify imports in code:**
+```python
+# Wrong (hardcoded):
+from ...v1_0.src.domain_classification_specialist import classify_job_domain
+
+# Correct (LLM):
+from ...v1_1.src.domain_classification_specialist_llm import classify_job_domain_llm
+```
+
+### "How to force fresh processing"
+
+1. **Quick test:** `python test_real_llm_specialists.py`
+2. **Health check:** `python quick_specialist_health_check.py` 
+3. **Delete job cache:** Remove `*_llm_output.txt` files for specific jobs
+4. **Pipeline args:** Use maximum verbosity to see what's happening
+
 ---
 
 ## 🔄 **MIGRATION FROM LEGACY SYSTEM**

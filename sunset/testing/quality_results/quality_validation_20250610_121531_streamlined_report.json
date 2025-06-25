@@ -1,0 +1,92 @@
+{
+  "session_id": "quality_validation_20250610_121531",
+  "start_time": "2025-06-10T12:15:31.096342",
+  "end_time": "2025-06-10T12:16:04.448230",
+  "execution_time_seconds": 33.35028624534607,
+  "overall_score": 80.83333333333333,
+  "total_tests": 6,
+  "passed_tests": 4,
+  "failed_tests": 2,
+  "success_rate": 0.6666666666666666,
+  "test_results": [
+    {
+      "test_name": "architecture_integrity",
+      "passed": true,
+      "score": 100.0,
+      "message": "Architecture simplification ratio: 1.25",
+      "execution_time": 4.7206878662109375e-05,
+      "details": {
+        "direct_patterns": 5,
+        "legacy_patterns": 4,
+        "simplification_ratio": 1.25,
+        "complexity_score": 91.73
+      }
+    },
+    {
+      "test_name": "type_safety",
+      "passed": false,
+      "score": 70.0,
+      "message": "MyPy check timed out (complex codebase)",
+      "execution_time": 30.04941415786743,
+      "details": {
+        "timeout": true
+      }
+    },
+    {
+      "test_name": "imports_availability",
+      "passed": false,
+      "score": 25.0,
+      "message": "Import success: 1/4",
+      "execution_time": 3.140324831008911,
+      "details": {
+        "successful_imports": 1,
+        "total_imports": 4,
+        "failed_imports": [
+          "run_pipeline.utils.llm_client_enhanced.LLMClientEnhanced: module 'run_pipeline.utils.llm_client_enhanced' has no attribute 'LLMClientEnhanced'",
+          "job_matcher.llm_client.JobMatcherLLMClient: No module named 'job_matcher'",
+          "feedback_handler.FeedbackHandler: No module named 'feedback_handler'"
+        ]
+      }
+    },
+    {
+      "test_name": "file_structure",
+      "passed": true,
+      "score": 100.0,
+      "message": "File structure: 7/7 files",
+      "execution_time": 8.130073547363281e-05,
+      "details": {
+        "existing_files": 7,
+        "total_required": 7,
+        "missing_files": [],
+        "completeness": 1.0
+      }
+    },
+    {
+      "test_name": "code_quality",
+      "passed": true,
+      "score": 90.0,
+      "message": "Code quality: 90.0% documentation",
+      "execution_time": 0.1601576805114746,
+      "details": {
+        "python_files": 15156,
+        "sampled_files": 20,
+        "total_lines": 4545,
+        "files_with_docstrings": 18,
+        "documentation_ratio": 0.9
+      }
+    },
+    {
+      "test_name": "documentation",
+      "passed": true,
+      "score": 100.0,
+      "message": "Documentation: 3/3 files",
+      "execution_time": 0.00026106834411621094,
+      "details": {
+        "existing_docs": 3,
+        "total_docs": 3,
+        "completeness": 1.0
+      }
+    }
+  ],
+  "architecture_version": "Phase3_DirectSpecialist_v3"
+}

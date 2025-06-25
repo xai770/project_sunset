@@ -1,0 +1,234 @@
+{
+  "session_id": "quality_validation_20250610_120007",
+  "start_time": "2025-06-10T12:00:07.764985",
+  "end_time": "2025-06-10T12:00:18.708342",
+  "total_tests": 7,
+  "passed_tests": 1,
+  "failed_tests": 6,
+  "warning_tests": 0,
+  "overall_score": 65.38461538461539,
+  "test_results": [
+    {
+      "test_name": "architecture_integrity",
+      "passed": true,
+      "metrics": [
+        {
+          "name": "direct_specialist_availability",
+          "value": 1.0,
+          "threshold": 1.0,
+          "status": "pass",
+          "message": "Direct specialist manager initialization",
+          "timestamp": "2025-06-10T12:00:11.906489"
+        },
+        {
+          "name": "architecture_complexity",
+          "value": 91.73,
+          "threshold": 100.0,
+          "status": "pass",
+          "message": "Architecture complexity: 91.73",
+          "timestamp": "2025-06-10T12:00:11.906521"
+        },
+        {
+          "name": "simplification_ratio",
+          "value": 1.25,
+          "threshold": 1.25,
+          "status": "pass",
+          "message": "Simplification ratio: 1.25 (direct:5 vs legacy:4)",
+          "timestamp": "2025-06-10T12:00:11.906533"
+        }
+      ],
+      "execution_time": 4.141435861587524,
+      "error_message": "",
+      "details": {
+        "direct_patterns": 5,
+        "legacy_patterns": 4,
+        "complexity_score": 91.73,
+        "total_files": 77,
+        "lines_of_code": 42524,
+        "simplification_achieved": true
+      }
+    },
+    {
+      "test_name": "performance_benchmarks",
+      "passed": false,
+      "metrics": [
+        {
+          "name": "response_time",
+          "value": 8.106231689453125e-06,
+          "threshold": 60.0,
+          "status": "pass",
+          "message": "Specialist evaluation time: 0.00s",
+          "timestamp": "2025-06-10T12:00:11.913651"
+        },
+        {
+          "name": "memory_usage",
+          "value": 677.34765625,
+          "threshold": 300.0,
+          "status": "warning",
+          "message": "Memory usage: 677.35MB",
+          "timestamp": "2025-06-10T12:00:11.913870"
+        },
+        {
+          "name": "error_rate",
+          "value": 1.0,
+          "threshold": 0.05,
+          "status": "fail",
+          "message": "Error rate: 100.00%",
+          "timestamp": "2025-06-10T12:00:11.913880"
+        }
+      ],
+      "execution_time": 0.007224082946777344,
+      "error_message": "",
+      "details": {
+        "evaluation_result": {
+          "success": false,
+          "error": "'DirectSpecialistManager' object has no attribute 'evaluate_with_specialist'",
+          "evaluation_time": 0.0
+        },
+        "memory_peak_mb": 677.34765625,
+        "response_time_s": 8.106231689453125e-06
+      }
+    },
+    {
+      "test_name": "type_safety",
+      "passed": false,
+      "metrics": [
+        {
+          "name": "mypy_compliance",
+          "value": 0.0,
+          "threshold": 1.0,
+          "status": "fail",
+          "message": "MyPy check: failed",
+          "timestamp": "2025-06-10T12:00:18.041349"
+        },
+        {
+          "name": "type_coverage",
+          "value": 0.98,
+          "threshold": 0.95,
+          "status": "pass",
+          "message": "Type coverage: 98.00%",
+          "timestamp": "2025-06-10T12:00:18.041374"
+        }
+      ],
+      "execution_time": 6.1273579597473145,
+      "error_message": "",
+      "details": {
+        "success": false,
+        "output": "Interrupted\n",
+        "errors": "",
+        "type_coverage": 0.98
+      }
+    },
+    {
+      "test_name": "error_handling",
+      "passed": false,
+      "metrics": [
+        {
+          "name": "error_handling_coverage",
+          "value": 0.0,
+          "threshold": 0.8,
+          "status": "warning",
+          "message": "Error handling coverage: 0.00%",
+          "timestamp": "2025-06-10T12:00:18.048103"
+        }
+      ],
+      "execution_time": 0.006570577621459961,
+      "error_message": "",
+      "details": {
+        "error_scenarios": [
+          {
+            "scenario": "invalid_specialist",
+            "handled": false,
+            "error": "'DirectSpecialistManager' object has no attribute 'evaluate_with_specialist'"
+          },
+          {
+            "scenario": "malformed_data",
+            "handled": false,
+            "error": "'DirectSpecialistManager' object has no attribute 'evaluate_with_specialist'"
+          }
+        ]
+      }
+    },
+    {
+      "test_name": "memory_management",
+      "passed": false,
+      "metrics": [
+        {
+          "name": "memory_growth",
+          "value": 0.0,
+          "threshold": 50.0,
+          "status": "pass",
+          "message": "Memory growth: 0.00MB",
+          "timestamp": "2025-06-10T12:00:18.702956"
+        },
+        {
+          "name": "peak_memory",
+          "value": 677.34765625,
+          "threshold": 300.0,
+          "status": "warning",
+          "message": "Peak memory: 677.35MB",
+          "timestamp": "2025-06-10T12:00:18.702977"
+        }
+      ],
+      "execution_time": 0.6547136306762695,
+      "error_message": "",
+      "details": {
+        "initial_memory_mb": 677.34765625,
+        "final_memory_mb": 677.34765625,
+        "memory_growth_mb": 0.0,
+        "peak_memory_mb": 677.34765625,
+        "memory_measurements": [
+          677.34765625,
+          677.34765625,
+          677.34765625,
+          677.34765625,
+          677.34765625,
+          677.34765625
+        ]
+      }
+    },
+    {
+      "test_name": "llm_integration",
+      "passed": false,
+      "metrics": [
+        {
+          "name": "llm_availability",
+          "value": 1.0,
+          "threshold": 1.0,
+          "status": "pass",
+          "message": "LLM Factory availability: available",
+          "timestamp": "2025-06-10T12:00:18.707221"
+        },
+        {
+          "name": "specialist_evaluation_success",
+          "value": 0.0,
+          "threshold": 1.0,
+          "status": "fail",
+          "message": "Specialist evaluation: failed",
+          "timestamp": "2025-06-10T12:00:18.707238"
+        }
+      ],
+      "execution_time": 0.004082441329956055,
+      "error_message": "",
+      "details": {
+        "evaluation_result": {
+          "success": false,
+          "error": "'DirectSpecialistManager' object has no attribute 'evaluate_with_specialist'",
+          "evaluation_time": 0.0
+        }
+      }
+    },
+    {
+      "test_name": "regression_protection",
+      "passed": false,
+      "metrics": [],
+      "execution_time": 0.0005588531494140625,
+      "error_message": "No module named 'testing.regression_detector'",
+      "details": {
+        "error": "No module named 'testing.regression_detector'",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/xai/Documents/sunset/testing/quality_validation_framework.py\", line 622, in _validate_regression_protection\n    from testing.regression_detector import RegressionDetector\nModuleNotFoundError: No module named 'testing.regression_detector'\n"
+      }
+    }
+  ],
+  "architecture_version": "Phase3_DirectSpecialist_v3"
+}

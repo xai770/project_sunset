@@ -1,0 +1,7 @@
+{
+  "concise_extraction": {
+    "model": "phi3:latest",
+    "score": "unknown",
+    "date": "2025-05-13"
+  }
+}

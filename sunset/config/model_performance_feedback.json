@@ -1,0 +1,56 @@
+{
+  "self_assessment": {
+    "llama3.2:latest": {
+      "executions": 6,
+      "successes": 6,
+      "failures": 0,
+      "total_time": 19.5,
+      "quality_ratings": [],
+      "average_time": 3.25
+    },
+    "gemma3:1b": {
+      "executions": 5,
+      "successes": 5,
+      "failures": 0,
+      "total_time": 7.5,
+      "quality_ratings": [],
+      "average_time": 1.5
+    },
+    "phi3:3.8b": {
+      "executions": 4,
+      "successes": 4,
+      "failures": 0,
+      "total_time": 25.2,
+      "quality_ratings": [],
+      "average_time": 6.3
+    }
+  },
+  "skill_decomposition": {
+    "llama3.2:latest": {
+      "executions": 5,
+      "successes": 5,
+      "failures": 0,
+      "total_time": 13.5,
+      "quality_ratings": [],
+      "average_time": 2.7
+    },
+    "gemma3:1b": {
+      "executions": 4,
+      "successes": 4,
+      "failures": 0,
+      "total_time": 4.8,
+      "quality_ratings": [],
+      "average_time": 1.2
+    }
+  },
+  "test_task": {
+    "test_model": {
+      "executions": 2,
+      "successes": 2,
+      "failures": 0,
+      "total_time": 5.5,
+      "quality_ratings": [],
+      "average_time": 2.75
+    }
+  }
+}

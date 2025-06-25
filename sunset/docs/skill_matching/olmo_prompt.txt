@@ -1,0 +1,25 @@
+# Prompt for OLMo2 regarding the Skill Domain Relationship (SDR) framework
+
+I'm working on the Skill Domain Relationship (SDR) framework which aims to reduce false positives in skill matching by standardizing skill definitions and considering domain relationships between skills. 
+
+So far, we have implemented:
+1. A Skill Analyzer that extracts and enriches skills with domain information
+2. A Domain Relationship Classifier that builds a relationship matrix using Jaccard similarity
+3. A Domain-Aware Matcher that uses these relationships to improve matching quality
+
+Each skill is enriched with this structure:
+```json
+{
+  "name": "Basic Process Automation",
+  "category": "IT_Technical",
+  "knowledge_components": ["workflow_analysis", "scripting", "process_improvement"],
+  "contexts": ["office", "business_process"],
+  "functions": ["efficiency_improvement", "task_simplification"]
+}
+```
+
+We want to improve our skill enrichment process. How can we:
+1. Create more meaningful knowledge components, contexts, and functions?
+2. Ensure consistency across different domains?
+3. What additional components might be valuable to add to skill definitions?
+4. What best practices should we follow when using LLMs to generate these enrichments?

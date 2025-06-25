@@ -1,0 +1,20 @@
+2025-06-05 19:25:39,787 - ada_llm_factory_integration - INFO - Added LLM Factory to path: /home/xai/Documents/llm_factory
+2025-06-05 19:25:39,935 - ada_llm_factory_integration - INFO - ✅ Successfully imported LLM Factory components
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovering specialists in /home/xai/Documents/llm_factory/llm_factory/modules/quality_validation/specialists_versioned
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'job_fitness_evaluator' with versions: ['v1_0', 'v2_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'adversarial_prompt_generator' with versions: ['v1_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'consensus_engine' with versions: ['v1_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'document_analysis' with versions: ['v1_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'feedback_processor' with versions: ['v1_0', 'v2_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'base' with versions: ['v1_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'factual_consistency' with versions: ['v1_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'llm_skill_extractor' with versions: ['v1_0', 'v2_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'language_coherence' with versions: ['v1_0']
+2025-06-05 19:25:39,936 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'cover_letter_generator' with versions: ['v1_0', 'v2_0']
+2025-06-05 19:25:39,937 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'ai_language_detection' with versions: ['v1_0']
+2025-06-05 19:25:39,937 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Discovered specialist 'cover_letter_quality' with versions: ['v1_0']
+2025-06-05 19:25:39,942 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Loaded specialist cover_letter_generator vv2_0
+2025-06-05 19:25:39,942 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Loaded specialist ai_language_detection vv1_0
+2025-06-05 19:25:39,942 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Loaded specialist language_coherence vv1_0
+2025-06-05 19:25:39,943 - llm_factory.modules.quality_validation.specialists_versioned.registry.specialist_registry - INFO - Loaded specialist factual_consistency vv1_0
+2025-06-05 19:25:39,943 - ada_llm_factory_integration - INFO - ✅ Successfully loaded all specialists

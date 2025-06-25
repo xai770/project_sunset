@@ -1,0 +1,78 @@
+{
+  "id": "concise_job_description_extractor",
+  "name": "Concise Job Description Extractor",
+  "description": "Extract only essential job details in a concise format from job postings",
+  "version": "1.0.0",
+  "input": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "job_posting": {"type": "string"},
+        "job_id": {"type": "string"},
+        "company": {"type": "string"}
+      },
+      "required": ["job_posting"]
+    },
+    "examples": [
+      {
+        "job_posting": "<html><body><div class='job-header'>Senior Software Engineer - Remote</div><div class='job-content'>Company XYZ is looking for an experienced software engineer to join our team. In this role, you will design and implement scalable applications using modern technologies. <h3>Responsibilities</h3><ul><li>Design and develop high-quality software solutions</li><li>Collaborate with cross-functional teams</li><li>Participate in code reviews and mentor junior developers</li><li>Troubleshoot and debug applications</li></ul><h3>Requirements</h3><ul><li>5+ years of experience in software development</li><li>Strong knowledge of Java, Python, or similar languages</li><li>Experience with cloud platforms (AWS, Azure, GCP)</li><li>Bachelor's degree in Computer Science or equivalent</li></ul><div class='contact'>Contact: careers@xyz.com</div></div></body></html>",
+        "job_id": "12345",
+        "company": "Company XYZ"
+      },
+      {
+        "job_posting": "Deutsche Bank\n\nAssociate Engineer (f/m/x)\nJob ID:R0376511 \tFull/Part-Time: Full-time\nRegular/Temporary: Regular \tListed: 2025-04-24\nLocation: Frankfurt\nPosition Overview\n\n*English version below*\n\nTechnology\n\nUnsere Technology-Teams sind verantwortlich für die komplette Informationstechnologie-Infrastruktur der Bank. Sie entwickeln und unterhalten Programme, die für das Geschäft der Bank erforderlich sind. Die Teams arbeiten eng mit den Geschäftsbereichen und den anderen Infrastruktureinheiten daran, die IT-Systeme zu modernisieren, um Komplexität zu reduzieren, Risiken zu minimieren und Wachstum zu ermöglichen.\n\nDie Deutsche Bank versteht sich als Technologieunternehmen, das mit neuen Ideen Marktanteile gewinnen und führend im digitalen Bankgeschäft sein kann. Wir investieren in allen Unternehmensbereichen erheblich in digitale Technologien, damit unsere Kunden uns schneller und flexibler über alle Kanäle erreichen können, damit wir Daten bestmöglich nutzen und die Bank durch die Automatisierung von Prozessen effizienter und besser steuerbar machen können. Wir arbeiten zudem weltweit mit externen Partnern zusammen, darunter mit jungen Unternehmen wie FinTechs und Technologiespezialisten, um innovative Lösungen für unsere Kunden zu entdecken und einzuführen.\n\nIm Bereich Technology der Bank zu arbeiten heißt, den Blick nach vorne zu richten und die Zukunft zu gestalten. Wir setzen auf Mitarbeiterinnen und Mitarbeiter, die aus technologischen Trends und Entwicklungen wirtschaftlich tragfähige Ideen ableiten, die unser Geschäft neu gestalten und unseren Kunden einen Mehrwert bieten. Dabei geht es immer darum, die Anforderungen von Kunden, Aufsichtsbehörden und Märkten gleichermaßen zu erfüllen.\n\nDie Position ist im Bereich Corporate Bank - Transaction Surveillance Technology angesiedelt. Unser Ziel ist es unsere Kunden und die Deutsche Bank gegen Verstöße von Sanctions & Embargo Richtlinien, sowie vor Betrugsfällen und unternehmensschädigenden Geschäftspraktiken im Zahlungsverkehr zu schützen. Daher entwickeln wir innovative Softwarelösungen zur Überprüfung von regulatorischen und fachlichen Anforderungen in Echtzeit.\n\nZur Stärkung unseres Entwicklungsteams suchen wir Software Engineers, die zur Erreichung unseres Zieles innovative Lösungen entwerfen, entwickeln und implementieren können.\n\nRollenverantwortlichkeiten\n\n    Entwerfen/Erstellen/Verbessern von Softwarekomponenten (altes und neues Design)\n\n    Build-Tests (Junit- oder Automatisierungstests)\n\n    Deployment von Anwendungen in allen Umgebungen bis hin zur Produktion\n\n    Bereitschaft zur Produktionsunterstützung auf Abruf\n\n    Fehlerbehebung\n\nErfahrung/Anspruch\n\n    Erfahrung mit Java\n\n    Fähigkeit, Komponenten zu entwerfen, zu bauen und zu testen\n\n    Kenntnisse in einigen der folgenden Technologien, Plattformen und Werkzeugen: Apache Camel, SpringBoot, Docker, Git/GitHub/Bitbucket, Eclipse/IntelliJ, Google Cloud, JSE/JMS/MQ, XML/JSON/YAML, DevOps, Kafka, REST, OpenAPI, Jenkins\n\n    DevOps/SRE-Ansatz beim Entwerfen/Erstellen der Anwendungen\n\n    Fähigkeit Informationen zu teilen und Fachwissen sowie Erfahrungen weiterzugeben\n\nWas wir Ihnen bieten\n\nWir bieten eine breite Palette von Leistungen, die all Ihre beruflichen und persönlichen Bedürfnisse abdecken.\n\n    Emotional ausgeglichen\n    Eine positive Haltung hilft uns, die Herausforderungen des Alltags zu meistern – beruflich wie privat. Profitieren Sie von Angeboten wie Beratung in schwierigen Lebenssituationen und Angeboten zur Förderung mentaler Gesundheit.\n\n    Körperlich fit\n    Mit Angeboten zur Aufrechterhaltung Ihrer persönlichen Gesundheit und einem förderlichen beruflichen Umfeld hilft Ihnen die Bank, körperlich fit zu bleiben. Profitieren Sie von Angeboten wie umfangreichen Check-up Untersuchungen, Impfangeboten und Beratung zur gesunden Lebensführung.\n\n    Sozial vernetzt​\n    Der Austausch mit anderen eröffnet uns neue Perspektiven, bringt uns beruflich wie persönlich voran und stärkt unser Selbstvertrauen und Wohlbefinden. Profitieren Sie von Angeboten wie Unterstützung durch den pme Familienservice, das FitnessCenter Job, flexible Arbeitszeitmodelle (bspw. Teilzeit, Jobtandem, hybrides Arbeiten) sowie einer umfangreichen Kultur der Vielfalt, Chancengleichheit und Teilhabe.\n\n    Finanziell abgesichert\n    Die Bank sichert Sie nicht nur während Ihrer aktiven Karriere, sondern auch für die Zukunft finanziell ab und unterstützt Ihre Flexibilität sowie Mobilität – egal ob privat oder beruflich. Profitieren Sie von Angeboten wie Beitragsplänen für Altersvorsorge, Bankdienstleistungen für Mitarbeiter*innen, Firmenfahrrad oder dem Deutschlandticket.\n\nDa die Benefits je nach Standort geringfügig variieren, gehen Sie bitte bei konkreten Fragen auf Ihre Recruiterin zu.\n\nDie Stelle wird in Voll- und in Teilzeit angeboten.\n\nBei Fragen zum Rekrutierungsprozess steht Ihnen Amela Mumanovic gerne zur Verfügung.\n\nKontakt Amela Mumanovic: +49 (69) 910 42985",
+        "job_id": "60348",
+        "company": "Deutsche Bank"
+      }
+    ],
+    "validations": ["non_empty_text"]
+  },
+  "output": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "concise_job_description": {"type": "string"}
+      },
+      "required": ["concise_job_description"]
+    },
+    "examples": [
+      {
+        "concise_job_description": "Senior Software Engineer - Remote at Company XYZ\nJob ID: 12345\n\nCore Responsibilities:\n- Design and develop high-quality software solutions\n- Collaborate with cross-functional teams\n- Participate in code reviews and mentor junior developers\n- Troubleshoot and debug applications\n\nRequirements:\n- 5+ years of experience in software development\n- Strong knowledge of Java, Python, or similar languages\n- Experience with cloud platforms (AWS, Azure, GCP)\n- Bachelor's degree in Computer Science or equivalent\n\nContact: careers@xyz.com"
+      },
+      {
+        "concise_job_description": "Associate Engineer (f/m/x) at Deutsche Bank\nLocation: Frankfurt\nJob ID: R0376511\nPosted: 2025-04-24\n\nCore Responsibilities:\n- Design/build/improve software components (old and new design)\n- Build testing (Junit or automation testing)\n- Deployment of applications in all environments to production\n- Provide on-demand production support\n- Bug fixing\n\nRequirements:\n- Experience with Java\n- Ability to design, build and test components\n- Knowledge of technologies like: Apache Camel, SpringBoot, Docker, Git/GitHub/Bitbucket, Eclipse/IntelliJ, Google Cloud, JSE/JMS/MQ, XML/JSON/YAML, DevOps, Kafka, REST, OpenAPI, Jenkins\n- DevOps/SRE approach to designing/building applications\n- Ability to share information and impart expertise\n\nContact: Amela Mumanovic: +49 (69) 910 42985"
+      }
+    ],
+    "validations": ["has_required_fields"]
+  },
+  "prompts": [
+    {
+      "id": "concise_job_description",
+      "text": "Extract only the essential job details from this posting: job title, location, key responsibilities, technical requirements, and contact information. Exclude company benefits, cultural statements, and marketing content.\n\nFormat the output as follows:\n[Job Title] at [Company]\nLocation: [Location]\nJob ID: [Job ID if available]\nPosted: [Post date if available]\n\nCore Responsibilities:\n- [responsibility 1]\n- [responsibility 2]\n- [etc]\n\nRequirements:\n- [requirement 1]\n- [requirement 2]\n- [etc]\n\nContact: [contact information if available]\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"default": true}
+    },
+    {
+      "id": "db_finance_concise_job_description",
+      "text": "Extract only the essential job details from this Deutsche Bank posting: job title, location, key responsibilities, technical requirements, and contact information. Exclude company benefits, cultural statements, and marketing content.\n\nFormat the output as follows:\n[Job Title] at Deutsche Bank\nLocation: [Location]\nJob ID: [Job ID if available]\nPosted: [Post date if available]\n\nCore Responsibilities:\n- [responsibility 1]\n- [responsibility 2]\n- [etc]\n\nRequirements:\n- [requirement 1]\n- [requirement 2]\n- [etc]\n\nContact: [contact information if available]\n\nPay special attention to financial and technical terminology. Only include critical information a job seeker needs to decide if they should apply.\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "finance_job"}
+    },
+    {
+      "id": "db_tech_concise_job_description",
+      "text": "Extract only the essential job details from this Deutsche Bank technology job posting: job title, location, key responsibilities, technical requirements, and contact information. Exclude company benefits, cultural statements, and marketing content.\n\nFor technical positions at Deutsche Bank, focus on extracting precise technical skills and tools required. List specific programming languages, frameworks, and platforms that are mentioned.\n\nFormat the output as follows:\n[Job Title] at Deutsche Bank\nLocation: [Location]\nJob ID: [Job ID if available]\nPosted: [Post date if available]\n\nCore Responsibilities:\n- [responsibility 1]\n- [responsibility 2]\n- [etc]\n\nRequirements:\n- [requirement 1]\n- [requirement 2]\n- [etc]\n\nContact: [contact information if available]\n\n{{job_posting}}",
+      "template_variables": ["job_posting"],
+      "usage_conditions": {"when": "db_tech_job"}
+    }
+  ],
+  "verification": {
+    "method": "single_model",
+    "parameters": {},
+    "fallback_strategy": "use_default_model"
+  },
+  "model_ranking_criteria": {
+    "quality_priority": 0.8,
+    "speed_priority": 0.2,
+    "context_size": "medium"
+  }
+}

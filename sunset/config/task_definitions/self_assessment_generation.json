@@ -1,0 +1,130 @@
+{
+  "$schema": "https://sunset-project.org/schemas/task-definition-v1.json",
+  "id": "self_assessment_generation",
+  "name": "Self-Assessment Generation",
+  "description": "Generate a self-assessment questionnaire based on job requirements and skills",
+  "version": "1.0.0",
+  "input": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "job_title": {"type": "string"},
+        "job_requirements": {"type": "array", "items": {"type": "string"}},
+        "skills": {"type": "array", "items": {"type": "string"}},
+        "experience_level": {"type": "string"},
+        "assessment_style": {"type": "string"}
+      },
+      "required": ["job_title", "skills"]
+    },
+    "examples": [
+      {
+        "job_title": "Senior Software Engineer",
+        "job_requirements": [
+          "5+ years of experience in software development",
+          "Strong knowledge of Python and JavaScript",
+          "Experience with cloud platforms (AWS, Azure, GCP)",
+          "Experience with CI/CD pipelines and DevOps practices"
+        ],
+        "skills": [
+          "Python", "JavaScript", "AWS", "DevOps", "CI/CD"
+        ],
+        "experience_level": "senior",
+        "assessment_style": "detailed"
+      }
+    ],
+    "validations": ["non_empty_text", "has_required_fields"]
+  },
+  "output": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skill": {"type": "string"},
+              "question": {"type": "string"},
+              "hint": {"type": "string"},
+              "difficulty": {"type": "string"},
+              "assessment_criteria": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          }
+        },
+        "meta_information": {
+          "type": "object",
+          "properties": {
+            "job_title": {"type": "string"},
+            "experience_level": {"type": "string"},
+            "question_count": {"type": "integer"}
+          }
+        }
+      },
+      "required": ["questions", "meta_information"]
+    },
+    "examples": [
+      {
+        "questions": [
+          {
+            "skill": "Python",
+            "question": "How would you implement a decorator in Python to measure the execution time of functions?",
+            "hint": "Consider using the time module and function attributes",
+            "difficulty": "intermediate",
+            "assessment_criteria": [
+              "Understanding of Python decorators",
+              "Proper implementation of time measurement",
+              "Error handling and edge cases"
+            ]
+          },
+          {
+            "skill": "AWS",
+            "question": "Describe your experience with AWS Lambda and API Gateway for serverless architectures. What are the key considerations when designing such systems?",
+            "hint": "Think about scalability, cold starts, and integration points",
+            "difficulty": "advanced",
+            "assessment_criteria": [
+              "Understanding of serverless architecture concepts",
+              "Knowledge of AWS Lambda limitations and best practices",
+              "Experience with API Gateway configuration and security"
+            ]
+          }
+        ],
+        "meta_information": {
+          "job_title": "Senior Software Engineer",
+          "experience_level": "senior",
+          "question_count": 2
+        }
+      }
+    ],
+    "validations": ["valid_assessment_output"]
+  },
+  "prompts": [
+    {
+      "id": "standard",
+      "text": "Generate a self-assessment questionnaire for the position of {{job_title}}. The assessment should cover the following skills: {{skills}}.\n\nFor each skill, create thought-provoking questions that allow candidates to demonstrate their knowledge and experience level. Include hints and assessment criteria for each question.\n\nFormat the output as a JSON object with the following structure:\n- questions: An array of question objects, where each object has these properties:\n  - skill: The specific skill being assessed\n  - question: The actual question text\n  - hint: A hint to guide the response\n  - difficulty: The difficulty level (basic, intermediate, advanced)\n  - assessment_criteria: An array of criteria for evaluating responses\n- meta_information: An object containing:\n  - job_title: The job title\n  - experience_level: The target experience level\n  - question_count: The number of questions\n\nCreate questions appropriate for a {{experience_level}} level position.",
+      "template_variables": ["job_title", "skills", "experience_level"],
+      "usage_conditions": {"default": true}
+    },
+    {
+      "id": "detailed",
+      "text": "Generate a detailed self-assessment questionnaire for the position of {{job_title}}. The assessment should cover the following skills: {{skills}}.\n\nThe job requires: {{job_requirements}}\n\nFor each skill, create thought-provoking questions that allow candidates to demonstrate their knowledge and experience level. Include hints and assessment criteria for each question.\n\nFormat the output as a JSON object with the following structure:\n- questions: An array of question objects, where each object has these properties:\n  - skill: The specific skill being assessed\n  - question: The actual question text\n  - hint: A hint to guide the response\n  - difficulty: The difficulty level (basic, intermediate, advanced)\n  - assessment_criteria: An array of criteria for evaluating responses\n- meta_information: An object containing:\n  - job_title: The job title\n  - experience_level: The target experience level\n  - question_count: The number of questions\n\nCreate questions appropriate for a {{experience_level}} level position.",
+      "template_variables": ["job_title", "skills", "job_requirements", "experience_level"],
+      "usage_conditions": {"when": "job_requirements_provided"}
+    }
+  ],
+  "verification": {
+    "method": "hierarchical",
+    "parameters": {
+      "verification_prompt": "Review this self-assessment questionnaire for a {{job_title}} position. Evaluate if the questions effectively assess the required skills {{skills}} and are appropriate for a {{experience_level}} experience level. Verify that questions are clear, relevant, and have appropriate hints and assessment criteria. Provide a confidence score between 0 and 1, where 1 means the questionnaire is excellent.\n\nQuestionnaire to review: {{output}}",
+      "min_confidence": 0.7
+    },
+    "fallback_strategy": "human_review"
+  },
+  "model_ranking_criteria": {
+    "quality_priority": 0.9,
+    "speed_priority": 0.1,
+    "context_size": "medium"
+  }
+}

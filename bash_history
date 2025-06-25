@@ -1,0 +1,1 @@
+/home/xai/.bash_history

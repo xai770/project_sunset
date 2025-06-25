@@ -1,0 +1,76 @@
+{
+  "job_id": "job1",
+  "candidate_id": "candidate3",
+  "domain_aware_match": {
+    "overall_score": 0.1,
+    "matched_skills": [
+      {
+        "job_skill": "Python Programming",
+        "candidate_skill": "Procurement Strategy",
+        "match_score": 0.1,
+        "relationship": "Unrelated"
+      },
+      {
+        "job_skill": "Data Analysis",
+        "candidate_skill": "Procurement Strategy",
+        "match_score": 0.1,
+        "relationship": "Unrelated"
+      },
+      {
+        "job_skill": "Project Management",
+        "candidate_skill": "Procurement Strategy",
+        "match_score": 0.1,
+        "relationship": "Unrelated"
+      },
+      {
+        "job_skill": "Communication Skills",
+        "candidate_skill": "Procurement Strategy",
+        "match_score": 0.1,
+        "relationship": "Unrelated"
+      }
+    ],
+    "unmatched_job_skills": []
+  },
+  "semantic_match": {
+    "overall_score": 0.16666666666666666,
+    "matches": [
+      {
+        "job_skill": "Project Management",
+        "candidate_skill": "Supplier Relationship Management",
+        "score": 0.3333333333333333
+      },
+      {
+        "job_skill": "Project Management",
+        "candidate_skill": "Business Risk Management",
+        "score": 0.3333333333333333
+      }
+    ],
+    "false_positives": [
+      {
+        "job_skill": "Project Management",
+        "candidate_skill": "Business Risk Management",
+        "job_domain": "IT_Management",
+        "candidate_domain": "Leadership_and_Management"
+      }
+    ],
+    "unmatched_job_skills": [
+      "Python Programming",
+      "Data Analysis",
+      "Communication Skills"
+    ]
+  },
+  "improvement": -0.06666666666666665,
+  "false_positives_reduced": 1,
+  "job_skills": [
+    "Python Programming",
+    "Data Analysis",
+    "Project Management",
+    "Communication Skills"
+  ],
+  "candidate_skills": [
+    "Procurement Strategy",
+    "Supplier Relationship Management",
+    "Negotiation",
+    "Business Risk Management"
+  ]
+}

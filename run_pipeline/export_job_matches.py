@@ -29,7 +29,14 @@ except ImportError:
     OPENPYXL_AVAILABLE = False
     warnings.warn("openpyxl not available. Excel formatting will be limited.")
 
-from run_pipeline.config.paths import JOB_DATA_DIR
+try:
+    from run_pipeline.config.paths import JOB_DATA_DIR
+except ImportError:
+    # Fallback for direct or external import
+    import sys, os
+    from pathlib import Path
+    PROJECT_ROOT = Path(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    JOB_DATA_DIR = PROJECT_ROOT / "data" / "postings"
 
 def get_standard_columns():
     """Define the standard column structure A-R for feedback system"""
@@ -121,7 +128,21 @@ def extract_job_data_for_feedback_system(job_data):
     eval_date = evaluation_data.get('evaluation_date', '')
     match_level = evaluation_data.get('cv_to_role_match', '')
     domain_assessment = evaluation_data.get('domain_knowledge_assessment', '')
-    no_go_rationale = evaluation_data.get('decision', {}).get('rationale', '') or evaluation_data.get('no_go_rationale', '')
+    
+    # Extract no-go rationale with improved logic to handle consciousness evaluation
+    no_go_rationale = ''
+    application_narrative = ''
+    
+    # First, try to get from consciousness evaluation fields
+    if evaluation_data.get('no_go_rationale'):
+        no_go_rationale = evaluation_data.get('no_go_rationale', '')
+    if evaluation_data.get('application_narrative'):
+        application_narrative = evaluation_data.get('application_narrative', '')
+    
+    # Fallback to traditional evaluation structure
+    if not no_go_rationale and not application_narrative:
+        no_go_rationale = evaluation_data.get('decision', {}).get('rationale', '')
+        application_narrative = evaluation_data.get('Application narrative', '')
     
     # Use job description from beautiful structure
     job_description = job_content.get('description', '')
@@ -135,13 +156,37 @@ def extract_job_data_for_feedback_system(job_data):
     # Extract job domain from organization division
     job_domain = job_content.get('organization', {}).get('division', '') or 'Unclassified'
     
-    # Set application narrative based on match level
-    application_narrative = evaluation_data.get('application_narrative', '')
+    # Set application narrative based on match level with improved logic
     if not application_narrative:
         if match_level == "Good":
             application_narrative = "Application narrative was not provided for this Good match"
         else:
             application_narrative = "N/A - Not a Good match"
+    
+    # Clean up no-go rationale to remove malformed formatting
+    if no_go_rationale:
+        # Remove the problematic wrapping text from malformed rationales
+        if "Extracted from incorrectly formatted narrative:" in no_go_rationale:
+            # Extract the actual content and reformat properly
+            import re
+            match = re.search(r'\[Extracted from incorrectly formatted narrative: (.*?)\]', no_go_rationale, re.DOTALL)
+            if match:
+                extracted_content = match.group(1).strip()
+                # If the extracted content is positive (contains "I believe", "confident", "experience"), 
+                # create a proper no-go rationale
+                if any(positive_word in extracted_content.lower() for positive_word in ['believe', 'confident', 'experience', 'bring', 'contribute']):
+                    no_go_rationale = "After careful consideration of my background and the role requirements, I have decided not to apply for this position at this time."
+                else:
+                    no_go_rationale = f"I have compared my CV and the role description and decided not to apply due to: {extracted_content}"
+        
+        # If still empty or too generic, provide a proper fallback
+        if not no_go_rationale.strip() or "but no specific reasons were provided" in no_go_rationale:
+            if match_level == "Low":
+                no_go_rationale = "After careful consideration, I have decided this role may not be the best fit for my current experience and career goals."
+            elif match_level == "Moderate":
+                no_go_rationale = "While I appreciate the opportunity, I feel there may be a better alignment between my experience and other positions."
+            else:
+                no_go_rationale = ""  # Good matches shouldn't have no-go rationales
     
     return {
         'Job ID': job_id,

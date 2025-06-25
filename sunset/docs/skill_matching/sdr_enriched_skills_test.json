@@ -1,0 +1,325 @@
+[
+  {
+    "name": "Python Programming",
+    "category": "IT_Technical",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Python Programming",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Python Programming with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Python Programming",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "technical_fundamentals",
+      "system_architecture"
+    ],
+    "contexts": [
+      "development_environment",
+      "production_systems"
+    ],
+    "functions": [
+      "building_solutions",
+      "technical_problem_solving"
+    ],
+    "ambiguity_factor": 0.5,
+    "related_skills": [
+      {
+        "skill_name": "Programming Languages",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "Software Development",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Python Programming applied to financial services and banking environments",
+      "healthcare": "Python Programming applied to healthcare and medical environments",
+      "manufacturing": "Python Programming applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Visual Studio Code",
+      "Git",
+      "Docker"
+    ],
+    "measurable_outcomes": [
+      "Number of successful deployments",
+      "Reduction in bugs",
+      "Code quality metrics"
+    ],
+    "trend_indicator": "stable"
+  },
+  {
+    "name": "Project Management",
+    "category": "IT_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Project Management",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Project Management with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Project Management",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "project_methodology",
+      "it_governance"
+    ],
+    "contexts": [
+      "enterprise_it",
+      "service_delivery"
+    ],
+    "functions": [
+      "governing_it_systems",
+      "managing_it_projects"
+    ],
+    "ambiguity_factor": 0.5,
+    "related_skills": [
+      {
+        "skill_name": "Project Management",
+        "relationship_type": "complementary"
+      },
+      {
+        "skill_name": "IT Governance",
+        "relationship_type": "parent"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Project Management applied to financial services and banking environments",
+      "healthcare": "Project Management applied to healthcare and medical environments",
+      "manufacturing": "Project Management applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Jira",
+      "Confluence",
+      "Microsoft Project"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  },
+  {
+    "name": "Contract Negotiation",
+    "category": "Sourcing_and_Procurement",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Contract Negotiation",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Contract Negotiation with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Contract Negotiation",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "negotiation_techniques",
+      "market_analysis"
+    ],
+    "contexts": [
+      "vendor_management",
+      "contract_negotiation"
+    ],
+    "functions": [
+      "negotiating_contracts",
+      "managing_vendors"
+    ],
+    "ambiguity_factor": 0.5,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Contract Negotiation applied to financial services and banking environments",
+      "healthcare": "Contract Negotiation applied to healthcare and medical environments",
+      "manufacturing": "Contract Negotiation applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Team Leadership",
+    "category": "Leadership_and_Management",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Team Leadership",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Team Leadership with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Team Leadership",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "leadership_principles",
+      "team_dynamics"
+    ],
+    "contexts": [
+      "team_management",
+      "executive_decision_making"
+    ],
+    "functions": [
+      "leading_teams",
+      "managing_performance"
+    ],
+    "ambiguity_factor": 0.5,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Team Leadership applied to financial services and banking environments",
+      "healthcare": "Team Leadership applied to healthcare and medical environments",
+      "manufacturing": "Team Leadership applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Team performance improvements",
+      "Project delivery rate",
+      "Employee satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Data Analysis",
+    "category": "Analysis_and_Reporting",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Data Analysis",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Data Analysis with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Data Analysis",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "data_analysis",
+      "reporting_methods"
+    ],
+    "contexts": [
+      "business_intelligence",
+      "management_reporting"
+    ],
+    "functions": [
+      "analyzing_data",
+      "creating_reports"
+    ],
+    "ambiguity_factor": 0.5,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Data Analysis applied to financial services and banking environments",
+      "healthcare": "Data Analysis applied to healthcare and medical environments",
+      "manufacturing": "Data Analysis applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Tableau",
+      "Power BI",
+      "Excel"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "growing"
+  },
+  {
+    "name": "Banking Regulations",
+    "category": "Domain_Knowledge",
+    "proficiency_levels": {
+      "beginner": {
+        "description": "Basic understanding of Banking Regulations",
+        "estimated_acquisition_time": "1-3 months"
+      },
+      "intermediate": {
+        "description": "Working knowledge of Banking Regulations with some practical experience",
+        "estimated_acquisition_time": "6-12 months"
+      },
+      "advanced": {
+        "description": "Expert-level knowledge and extensive experience with Banking Regulations",
+        "estimated_acquisition_time": "2-3 years"
+      }
+    },
+    "knowledge_components": [
+      "industry_standards",
+      "regulatory_requirements"
+    ],
+    "contexts": [
+      "industry_specific",
+      "regulatory_environment"
+    ],
+    "functions": [
+      "applying_domain_knowledge",
+      "ensuring_compliance"
+    ],
+    "ambiguity_factor": 0.5,
+    "related_skills": [
+      {
+        "skill_name": "Communication",
+        "relationship_type": "complementary"
+      }
+    ],
+    "industry_variants": {
+      "finance": "Banking Regulations applied to financial services and banking environments",
+      "healthcare": "Banking Regulations applied to healthcare and medical environments",
+      "manufacturing": "Banking Regulations applied to production and manufacturing environments"
+    },
+    "tools": [
+      "Microsoft Office Suite",
+      "Collaboration tools"
+    ],
+    "measurable_outcomes": [
+      "Productivity improvements",
+      "Quality metrics",
+      "Customer/stakeholder satisfaction"
+    ],
+    "trend_indicator": "declining"
+  }
+]

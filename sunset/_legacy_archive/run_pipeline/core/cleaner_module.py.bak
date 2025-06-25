@@ -1,0 +1,594 @@
+#!/usr/bin/env python3
+"""
+Job description cleaning module for the job expansion pipeline
+
+This module extracts concise job descriptions from HTML content in job posting JSONs
+and updates the original JSONs with the concise descriptions using Ollama.
+It primarily uses the 'full_description' field in web_details for HTML content,
+falling back to separate HTML files only if necessary.
+"""
+
+import os
+import json
+import logging
+import subprocess
+from pathlib import Path
+from datetime import datetime
+from typing import Dict, Optional, Union
+
+# Import utility modules
+from run_pipeline.utils.process_utils import run_process
+from run_pipeline.config.paths import (
+    PROJECT_ROOT,
+    JOB_DATA_DIR,
+    DEFAULT_MODEL
+)
+
+# Import internal modules
+from run_pipeline.core.cleaning_utils import clean_llm_artifacts
+from run_pipeline.core.job_processor import process_job_files
+from run_pipeline.core.job_analysis import (
+    count_placeholder_jobs,
+    get_jobs_without_concise_description
+)
+
+logger = logging.getLogger('cleaner_module')
+
+class JobCleaner:
+    """
+    A class for cleaning and processing job descriptions by extracting concise versions
+    from HTML content using LLM models via Ollama.
+    """
+    
+    # Constants for log formatting
+    LOG_SEPARATOR = "=" * 80
+    
+    # Testing mode reference description
+    TEST_REFERENCE_DESC = """Associate Engineer (f/m/x) at Deutsche Bank
+Location: Frankfurt
+Job ID: R0376511
+Posted: 2025-04-24
+
+Core Responsibilities:
+- Design/build/improve software components (old and new design)
+- Build testing (Junit or automation testing)
+- Deployment of applications in all environments to production
+- Provide on-demand production support
+- Bug fixing
+
+Requirements:
+- Experience with Java
+- Ability to design, build and test components
+- Knowledge of technologies like: Apache Camel, SpringBoot, Docker, Git/GitHub/Bitbucket, Eclipse/IntelliJ, Google Cloud, JSE/JMS/MQ, XML/JSON/YAML, DevOps, Kafka, REST, OpenAPI, Jenkins
+- DevOps/SRE approach to designing/building applications
+- Ability to share information and impart expertise
+
+Contact: Amela Mumanovic: +49 (69) 910 42985"""
+
+    # Prompt template for extraction
+    EXTRACTION_PROMPT = """Extract ONLY the English version of this job description from Deutsche Bank. 
+
+Please:
+1. Remove all German text completely
+2. Remove all website navigation elements and menus
+3. Remove company marketing content and benefits sections
+4. Remove all HTML formatting and unnecessary whitespace
+5. Preserve the exact original wording of the job title, location, responsibilities, and requirements
+6. Maintain the contact information
+7. Keep the original structure (headings, bullet points) of the core job description
+8. Double check that you remove all sections and wordings discussing the company culture, benefits, values, and mission statement
+
+The result should be a clean, professional job description in English only, with all the essential information about the position preserved exactly as written.
+
+Job posting content:
+{job_content}"""
+
+    def __init__(self, default_model: str = "llama3.2:latest", output_dir: Optional[Path] = None):
+        """
+        Initialize the JobCleaner with a default model and output directory
+        
+        Args:
+            default_model (str): Default LLM model to use
+            output_dir (Path): Directory to save extracted descriptions
+        """
+        self.default_model = default_model
+        self.output_dir = output_dir or PROJECT_ROOT / "data" / "test_results" / "concise_extraction"
+        
+        # Ensure output directory exists
+        os.makedirs(self.output_dir, exist_ok=True)
+
+    def extract_concise_description(self, job_content: str, job_title: str, job_id: str, 
+                                   model: Optional[str] = None) -> Optional[str]:
+        """
+        Extract super concise job description from HTML content using Ollama
+        
+        Args:
+            job_content (str): HTML job content
+            job_title (str): Job title
+            job_id (str): Job ID
+            model (str): Ollama model to use, defaults to self.default_model
+            
+        Returns:
+            str: Concise job description or None if extraction failed
+        """
+        model = model or self.default_model
+        logger.info(self.LOG_SEPARATOR)
+        logger.info(f"Extracting super concise version for job {job_id} using {model}...")
+        
+        # For testing we can use a hardcoded response
+        if os.environ.get("TEST_MODE") == "1":
+            logger.info("Using hardcoded concise description (bypassing Ollama for testing)")
+            self._log_concise_description(self.TEST_REFERENCE_DESC)
+            return self.TEST_REFERENCE_DESC
+        
+        # No longer truncate content as per user request
+        logger.info(f"Using full job content length: {len(job_content)} characters")
+
+        # Create a specialized prompt for extraction
+        prompt = self.EXTRACTION_PROMPT.format(job_content=job_content)
+
+        try:
+            # Run Ollama with the prompt for consistent results
+            concise_desc = self._run_extraction_model(model, prompt)
+            
+            if not concise_desc:
+                return None
+                
+            # Calculate compression metrics and log them
+            self._calculate_compression_metrics(job_content, concise_desc)
+            
+            # Clean up any artifacts in the description
+            concise_desc = clean_llm_artifacts(concise_desc)
+            
+            # Save the output to a file for reference
+            self._save_extraction_output(job_id, concise_desc)
+            
+            return concise_desc
+            
+        except Exception as e:
+            logger.error(f"Error extracting concise description: {str(e)}")
+            return None
+    
+    def _run_extraction_model(self, model: str, prompt: str) -> Optional[str]:
+        """Run the extraction model and return the result"""
+        try:
+            # Run Ollama with the prompt
+            result = subprocess.run(
+                ["ollama", "run", model, prompt], 
+                capture_output=True, 
+                text=True, 
+                timeout=120  # 2 minutes timeout
+            )
+            
+            # Check if extraction was successful
+            if result.returncode == 0 and result.stdout:
+                concise_desc = result.stdout.strip()
+                self._log_concise_description(concise_desc)
+                return concise_desc
+            else:
+                logger.error(f"Ollama error: {result.stderr}")
+                return None
+                
+        except subprocess.TimeoutExpired:
+            logger.error("Ollama extraction timed out")
+            return None
+        except Exception as e:
+            logger.error(f"Model execution error: {str(e)}")
+            return None
+    
+    def _log_concise_description(self, description: str) -> None:
+        """Log the concise description with formatting"""
+        logger.info(self.LOG_SEPARATOR)
+        logger.info("SUPER CONCISE JOB DESCRIPTION:")
+        logger.info(self.LOG_SEPARATOR)
+        logger.info(description)
+        logger.info(self.LOG_SEPARATOR)
+    
+    def _calculate_compression_metrics(self, original_content: str, concise_content: str) -> Dict[str, float]:
+        """Calculate and log compression metrics"""
+        try:
+            html_length = len(original_content)
+            clean_length = len(original_content.strip())
+            concise_length = len(concise_content)
+            
+            logger.info(f"Concise description length: {concise_length} characters")
+            logger.info(f"Original HTML length: {html_length} characters")
+            logger.info(f"Clean description length: {clean_length} characters")
+            
+            metrics = {}
+            metrics["ratio_clean_original"] = round(clean_length / html_length, 2) if html_length > 0 else 0
+            metrics["ratio_concise_clean"] = round(concise_length / clean_length, 2) if clean_length > 0 else 0
+            metrics["ratio_concise_original"] = round(concise_length / html_length, 2) if html_length > 0 else 0
+            
+            logger.info(f"Compression ratio (clean/original): {metrics['ratio_clean_original']}")
+            logger.info(f"Compression ratio (concise/clean): {metrics['ratio_concise_clean']}")
+            logger.info(f"Overall compression ratio (concise/original): {metrics['ratio_concise_original']}")
+            
+            return metrics
+            
+        except Exception as e:
+            logger.error(f"Error calculating metrics: {str(e)}")
+            return {}
+    
+    def _save_extraction_output(self, job_id: str, concise_description: Optional[str]) -> None:
+        """Save extraction output to a file"""
+        if concise_description is None:
+            logger.warning(f"Not saving output for job {job_id} as description is None")
+            return
+            
+        try:
+            output_file = self.output_dir / f"job{job_id}_concise.json"
+            
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump({
+                    "job_id": job_id, 
+                    "concise_description": concise_description,
+                    "timestamp": datetime.now().isoformat()
+                }, f, indent=2, ensure_ascii=False)
+                
+            logger.info(f"Output saved to {output_file}")
+        except Exception as e:
+            logger.error(f"Error saving extraction output: {str(e)}")
+
+
+def extract_concise_description(job_content: str, job_title: str, job_id: str, 
+                               model: str = "llama3.2:latest") -> Optional[str]:
+    """
+    Extract super concise job description from HTML content using Ollama
+    
+    This is a wrapper function for backward compatibility that creates a JobCleaner
+    instance and calls its extract_concise_description method.
+    
+    Args:
+        job_content (str): HTML job content
+        job_title (str): Job title
+        job_id (str): Job ID
+        model (str): Ollama model to use
+    
+    Returns:
+        str: Concise job description or None if extraction failed
+    """
+    cleaner = JobCleaner(default_model=model)
+    return cleaner.extract_concise_description(job_content, job_title, job_id)
+
+def clean_llm_artifacts(text: Optional[str]) -> Optional[str]:
+    """
+    Clean up common LLM artifacts from extracted job descriptions (legacy function)
+    
+    Args:
+        text (str): Raw text from LLM
+        
+    Returns:
+        str: Cleaned text without artifacts
+    """
+    # Import the actual implementation from the utility module
+    from run_pipeline.core.cleaning_utils import clean_llm_artifacts as _clean_llm_artifacts
+    return _clean_llm_artifacts(text)
+
+def process_job_files(job_dir: Union[str, Path], max_jobs: Optional[int] = None, 
+                 model: str = "phi3", specific_job_ids: Optional[List[str]] = None) -> Tuple[int, int, int]:
+    """
+    Process job files and update with concise descriptions
+    
+    Args:
+        job_dir (Path): Directory containing job files
+        max_jobs (int): Maximum number of jobs to process
+        model (str): Ollama model to use
+        specific_job_ids (list): List of specific job IDs to process
+        
+    Returns:
+        tuple: (processed_count, success_count, failure_count)
+    """
+    # Convert job_dir to Path object if it's not already
+    job_dir = Path(job_dir)
+    
+    # Get job files
+    if specific_job_ids:
+        job_files = []
+        for job_id in specific_job_ids:
+            job_file = f"job{job_id}.json"
+            if (job_dir / job_file).exists():
+                job_files.append(job_file)
+            else:
+                logger.warning(f"Job file not found: {job_file}")
+    else:
+        job_files = sorted([f for f in os.listdir(job_dir) 
+                   if f.startswith('job') and f.endswith('.json')])
+    
+    logger.info(f"Found {len(job_files)} job files")
+    
+    # Process counters
+    processed = 0
+    success = 0
+    failure = 0
+    
+    # Create cleaner instance
+    cleaner = JobCleaner(default_model=model)
+    
+    # Process each job file
+    for job_file in job_files:
+        job_id = job_file.replace('job', '').replace('.json', '')
+        job_path = job_dir / job_file
+        
+        logger.info(f"Processing job ID {job_id} ({processed+1} of {len(job_files)})")
+        
+        try:
+            # Read job data
+            with open(job_path, 'r', encoding='utf-8') as f:
+                job_data = json.load(f)
+            
+            # Get job title
+            job_title = job_data.get("title", f"Job {job_id}")
+            
+            # Prioritize getting HTML content from web_details.full_description
+            job_content = ""
+            if "web_details" in job_data and "full_description" in job_data["web_details"]:
+                logger.info(f"Found HTML content in web_details.full_description for job {job_id}")
+                job_content = job_data["web_details"]["full_description"]
+            
+            # If no full_description, check for direct html_content field
+            if not job_content:
+                job_content = job_data.get("html_content", "")
+                if job_content:
+                    logger.info(f"Found HTML content in html_content field for job {job_id}")
+            
+            # As a last resort, check for external HTML file
+            if not job_content:
+                logger.warning(f"Job {job_id} has no HTML content in job data, checking for external content file")
+                
+                # Look for HTML content in the html_content directory
+                html_content_dir = job_dir.parent / "postings" / "html_content"
+                html_content_file = html_content_dir / f"db_job_{job_id}_content.txt"
+                
+                if os.path.exists(html_content_file):
+                    logger.info(f"Found external HTML content file for job {job_id}, loading content")
+                    with open(html_content_file, 'r', encoding='utf-8') as f:
+                        job_content = f.read()
+                else:
+                    logger.warning(f"Job {job_id} has no HTML content available")
+                    placeholder = f"Job Title: {job_title}\n\nThis is a placeholder for a concise description that could not be generated."
+                    
+                    # Add placeholder to web_details
+                    if "web_details" in job_data:
+                        job_data["web_details"]["concise_description"] = placeholder
+                    else:
+                        job_data["web_details"] = {"concise_description": placeholder}
+                    
+                    # Save updated job data with placeholder
+                    with open(job_path, 'w', encoding='utf-8') as f:
+                        json.dump(job_data, f, indent=2, ensure_ascii=False)
+                    
+                    # Skip to next job
+                    processed += 1
+                    failure += 1
+                    continue
+            
+            # Process job content
+            logger.info(f"Job title: {job_title}")
+            logger.info(f"Raw content length: {len(job_content)} characters")
+            
+            # Extract concise job description using Ollama
+            logger.info(f"Sending request to Ollama using {model} model...")
+            
+            try:
+                # Attempt to extract concise description
+                concise_description = cleaner.extract_concise_description(job_content, job_title, job_id)
+                
+                # Clean up any LLM artifacts in the response
+                if concise_description:
+                    concise_description = clean_llm_artifacts(concise_description)
+            except Exception as e:
+                logger.error(f"Ollama extraction error: {str(e)}")
+                concise_description = None
+            
+            # If extraction failed, use a placeholder
+            if not concise_description:
+                logger.warning(f"Using placeholder description for job {job_id}")
+                concise_description = f"Job Title: {job_title}\n\nThis is a placeholder for a concise description that could not be generated."
+            
+            logger.info(f"Concise description length: {len(concise_description)} characters")
+            
+            # Add concise description to web_details
+            if "web_details" in job_data:
+                job_data["web_details"]["concise_description"] = concise_description
+            else:
+                # Create web_details if it doesn't exist
+                job_data["web_details"] = {"concise_description": concise_description}
+                
+            logger.info("Added concise_description to web_details")
+            
+            # Remove full_description from web_details after processing to reduce file size
+            # since we've now created the concise version
+            if "web_details" in job_data and "full_description" in job_data["web_details"]:
+                full_desc_size = len(job_data["web_details"]["full_description"])
+                del job_data["web_details"]["full_description"]
+                logger.info(f"Successfully processed HTML content and removed full_description to save space (saved {full_desc_size} characters)")
+            
+            # Add log entry
+            if 'log' not in job_data:
+                job_data['log'] = []
+            
+            job_data['log'].append({
+                "timestamp": datetime.now().isoformat(),
+                "script": "run_pipeline.core.cleaner_module",
+                "action": "add_concise_description",
+                "message": f"Added concise job description for job ID {job_id}"
+            })
+            
+            # Save updated job data
+            with open(job_path, 'w', encoding='utf-8') as f:
+                json.dump(job_data, f, indent=2, ensure_ascii=False)
+            
+            success += 1
+            
+        except Exception as e:
+            logger.error(f"Error processing job {job_id}: {str(e)}")
+            failure += 1
+        
+        processed += 1
+        
+        # Check if we've reached the maximum
+        if max_jobs and processed >= max_jobs:
+            logger.info(f"Reached maximum number of jobs to process ({max_jobs})")
+            break
+    
+    logger.info(f"Processing complete. Total: {processed}, Success: {success}, Failure: {failure}")
+    return (processed, success, failure)
+
+def count_placeholder_jobs(job_dir: Union[str, Path]) -> int:
+    """
+    Count how many jobs have placeholder descriptions or are missing concise descriptions
+    
+    Args:
+        job_dir (Path): Directory containing job files
+        
+    Returns:
+        int: Number of jobs with placeholder descriptions or missing concise descriptions
+    """
+    job_dir = Path(job_dir)
+    placeholder_count = 0
+    missing_count = 0
+    job_files = [f for f in os.listdir(job_dir) if f.startswith('job') and f.endswith('.json')]
+    
+    for job_file in job_files:
+        job_path = job_dir / job_file
+        try:
+            with open(job_path, 'r', encoding='utf-8') as f:
+                job_data = json.load(f)
+            
+            # Check if concise description exists in web_details
+            has_concise = False
+            if 'web_details' in job_data and 'concise_description' in job_data['web_details']:
+                concise_desc = job_data['web_details']['concise_description']
+                if concise_desc and len(concise_desc) > 50:
+                    # Check if it's a placeholder
+                    if "placeholder for a concise description" in concise_desc:
+                        placeholder_count += 1
+                    else:
+                        has_concise = True
+            
+            if not has_concise:
+                missing_count += 1
+                
+        except Exception as e:
+            logger.error(f"Error checking job file {job_file}: {str(e)}")
+            missing_count += 1
+    
+    logger.info(f"Jobs with placeholder descriptions: {placeholder_count}")
+    logger.info(f"Jobs missing concise descriptions: {missing_count}")
+    
+    return missing_count + placeholder_count
+
+def get_jobs_without_concise_description(job_dir: Union[str, Path]) -> List[str]:
+    """
+    Get a list of job IDs that don't have concise descriptions
+    
+    Args:
+        job_dir (Path): Directory containing job files
+        
+    Returns:
+        list: List of job IDs without concise descriptions
+    """
+    job_dir = Path(job_dir)
+    jobs_without_concise = []
+    job_files = [f for f in os.listdir(job_dir) if f.startswith('job') and f.endswith('.json')]
+    
+    logger.info(f"Scanning {len(job_files)} jobs for missing concise descriptions")
+    
+    for job_file in job_files:
+        job_id = job_file.replace('job', '').replace('.json', '')
+        job_path = job_dir / job_file
+        
+        try:
+            with open(job_path, 'r', encoding='utf-8') as f:
+                job_data = json.load(f)
+            
+            # Check if concise description exists and is valid
+            has_concise = False
+            if 'web_details' in job_data and 'concise_description' in job_data['web_details']:
+                concise_desc = job_data['web_details']['concise_description']
+                if concise_desc and len(concise_desc) > 50:
+                    # Check if it's a placeholder
+                    if "placeholder for a concise description" not in concise_desc.lower():
+                        has_concise = True
+            
+            if not has_concise:
+                jobs_without_concise.append(job_id)
+                
+        except Exception as e:
+            logger.error(f"Error checking job file {job_file}: {str(e)}")
+            jobs_without_concise.append(job_id)
+    
+    logger.info(f"Found {len(jobs_without_concise)} jobs without valid concise descriptions")
+    return jobs_without_concise
+
+def clean_job_descriptions(max_jobs: Optional[int] = None, job_ids: Optional[List[str]] = None, 
+                      model: str = DEFAULT_MODEL, log_dir: Optional[Path] = None, only_missing: bool = False) -> bool:
+    """
+    Clean job descriptions by extracting concise descriptions using Ollama.
+    
+    This function uses the following sources in priority order:
+    1. web_details.full_description from the job data file (primary source)
+    2. html_content field in the job data file (fallback)
+    3. External HTML file in postings/html_content/ (last resort)
+    
+    After generating the concise description, it removes the full_description field
+    to save space in the job data file.
+    
+    Args:
+        max_jobs (int): Maximum number of jobs to process
+        job_ids (list): Specific job IDs to process
+        model (str): Model to use for cleaning
+        log_dir (Path): Directory for log files
+        only_missing (bool): Only process jobs without concise descriptions
+        
+    Returns:
+        bool: Success status
+    """
+    logger.info(f"Processing job descriptions using {model} model...")
+    
+    # Set up additional log handler if log_dir is provided
+    if log_dir:
+        cleaner_log_path = os.path.join(log_dir, "cleaner_module.log")
+        cleaner_handler = logging.FileHandler(cleaner_log_path)
+        cleaner_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+        logger.addHandler(cleaner_handler)
+        logger.info(f"Added log handler. Writing to {cleaner_log_path}")
+    
+    try:
+        # If only_missing is True, get job IDs of jobs without concise descriptions
+        if only_missing and not job_ids:
+            logger.info("Finding jobs without concise descriptions...")
+            job_ids = get_jobs_without_concise_description(JOB_DATA_DIR)
+            if not job_ids:
+                logger.info("No jobs found without concise descriptions. Nothing to do.")
+                return True
+            logger.info(f"Found {len(job_ids)} jobs without concise descriptions. Job IDs: {job_ids}")
+        
+        # Process job files directly
+        processed, success, failure = process_job_files(
+            job_dir=JOB_DATA_DIR,
+            max_jobs=max_jobs,
+            model=model,
+            specific_job_ids=job_ids
+        )
+        
+        # Generate summary report
+        logger.info("=" * 50)
+        logger.info("Job Description Cleaning Summary")
+        logger.info("=" * 50)
+        logger.info(f"Total jobs processed: {processed}")
+        logger.info(f"Successfully processed: {success}")
+        logger.info(f"Failed to process: {failure}")
+        logger.info("=" * 50)
+        
+        # Check for placeholder jobs
+        placeholder_count = count_placeholder_jobs(JOB_DATA_DIR)
+        logger.info(f"Jobs still needing valid concise descriptions: {placeholder_count}")
+        
+        # Consider the operation successful if we processed at least one job successfully
+        return success > 0
+        
+    except Exception as e:
+        logger.error(f"Critical error in job description cleaning: {str(e)}")
+        return False

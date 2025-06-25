@@ -1,0 +1,24 @@
+strategy_name,parameter_name,parameter_value,description,filter_location,filter_field,filter_value
+S01_Frankfurt_Wildcard,LocationFilter.City,["Frankfurt*"],Frankfurt wildcard search,Deutschland,*,*
+S02_Deutschland_Filter,LocationFilter.CountryName,["Deutschland"],All Deutschland jobs with Frankfurt filter,*,CityName,frankfurt
+S03_Frankfurt_Keyword,Keyword,Frankfurt,Frankfurt keyword search,Deutschland,*,*
+S04_DWS_Jobs,Keyword,DWS,DWS jobs in Germany,Deutschland,*,*
+S05_Security_Jobs,Keyword,Security,Security jobs in Germany,Deutschland,title,Security|Cyber|Information Security
+S06_Specialist_Jobs,Keyword,Specialist,Specialist jobs in Germany,Deutschland,title,Specialist
+S07_AVP_Jobs,CareerLevel.Name,["Assistant Vice President"],Assistant Vice President jobs in Germany,Deutschland,*,*
+S08_VP_Jobs,CareerLevel.Name,["Vice President"],Vice President jobs in Germany,Deutschland,*,*
+S09_Director_Jobs,CareerLevel.Name,["Director"],Director jobs in Germany,Deutschland,*,*
+S10_MD_Jobs,CareerLevel.Name,["Managing Director"],Managing Director jobs in Germany,Deutschland,*,*
+S11_Associate_Jobs,CareerLevel.Name,["Associate"],Associate jobs in Germany,Deutschland,*,*
+S12_Analyst_Jobs,Keyword,Analyst,Analyst jobs in Germany,Deutschland,title,Analyst
+S13_Engineer_Jobs,Keyword,Engineer,Engineer jobs in Germany,Deutschland,title,Engineer
+S14_Architect_Jobs,Keyword,Architect,Architect jobs in Germany,Deutschland,title,Architect
+S15_Consultant_Jobs,Keyword,Consultant,Consultant jobs in Germany,Deutschland,title,Consultant
+S16_Manager_Jobs,Keyword,Manager,Manager jobs in Germany,Deutschland,title,Manager
+S17_Lead_Jobs,Keyword,Lead,Lead jobs in Germany,Deutschland,title,Lead
+S18_SAP_Jobs,Keyword,SAP,SAP jobs in Germany,Deutschland,title,SAP
+S19_Initiative_Jobs,Keyword,Initiative,Initiative jobs in Germany,Deutschland,title,Initiative
+S20_Information_Jobs,Keyword,Information,Information jobs in Germany,Deutschland,title,Information
+S21_Consul_Jobs,Keyword,Consul,Consultant related jobs in Germany,Deutschland,title,Consul
+S22_Structurer_Jobs,Keyword,Structurer,Structurer jobs in Germany,Deutschland,title,Structurer
+S23_Aufsichtsrecht_Jobs,Keyword,Aufsichtsrecht,Aufsichtsrecht jobs in Germany,Deutschland,title,Aufsichtsrecht
