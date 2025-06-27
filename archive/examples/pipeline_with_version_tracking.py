@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 
 # Add project root to path
-sys.path.append('/home/xai/Documents/sunset')
+sys.path.append('/home/xai/Documents/sandy')
 
 from core.processing_state_manager import ProcessingManifest
 from core.direct_specialist_manager import DirectSpecialistManager
@@ -25,7 +25,7 @@ def pipeline_with_version_tracking():
     specialist_mgr = DirectSpecialistManager()
     
     # Find jobs that need processing
-    job_files = list(Path("/home/xai/Documents/sunset/data/postings").glob("job*.json"))
+    job_files = list(Path("/home/xai/Documents/sandy/data/postings").glob("job*.json"))
     outdated_jobs = manifest.get_outdated_jobs()
     
     print(f"Found {len(job_files)} total jobs")

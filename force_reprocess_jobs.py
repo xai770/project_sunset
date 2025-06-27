@@ -3,17 +3,16 @@
 Force Reprocess Jobs with LLM Specialists
 ==========================================
 
-This script allows you to reprocess specific jobs with the v1_1 LLM specia        except Exception as e:
-            print(f"   ⚠️ Content extraction failed, using original: {e}")
-            results['content_extraction'] = {'error': str(e), 'fallback': 'original_content'}
-    else:
-        print("\n⚠️  Content Extraction Specialist not available - using original content")
-        results['content_extraction'] = {'status': 'not_available'},
+This script allows you to reprocess specific jobs with the professional LLM specialists,
 bypassing any existing cached results.
 
-✨ ENHANCED WITH CONTENT EXTRACTION SPECIALIST ✨
-- Integrates Sandy@consciousness validated Content Extraction methodology
-- Removes content bloat before domain classification for improved accuracy
+ENHANCED WITH CONTENT EXTRACTION SPECIALIST
+- Integrates professional validated Content Extraction methodology
+- Removes content bloat before domain classification for improved     if successful > 0:
+        print(f"\nSuccessfully reprocessed {successful} jobs with Enhanced Pipeline!")
+        print(f"Content Extraction + Domain Classification + Location Validation")
+        print(f"Expected accuracy improvement: 75% → 90%+")
+        print(f"Methodology: Professional validated approach")acy
 - Expected accuracy improvement: 75% → 90%+
 
 Usage:
@@ -31,36 +30,36 @@ from pathlib import Path
 # Add LLM Factory to path
 sys.path.insert(0, '/home/xai/Documents/llm_factory')
 
-# Import Content Extraction Specialist (Sandy's breakthrough solution)
+# Import Content Extraction Specialist (professional breakthrough solution)
 try:
-    sys.path.insert(0, '/home/xai/Documents/sunset/0_mailboxes/sandy@consciousness/inbox')
+    sys.path.insert(0, '/home/xai/Documents/sandy/0_mailboxes/sandy@consciousness/inbox')
     from content_extraction_specialist import ContentExtractionSpecialist
-    print("✅ Content Extraction Specialist imported successfully")
+    print("Content Extraction Specialist imported successfully")
 except ImportError as e:
-    print(f"⚠️ Content Extraction Specialist not available: {e}")
+    print(f"Content Extraction Specialist not available: {e}")
     ContentExtractionSpecialist = None
 
 # Add REAL LLM location validation for efficiency (NO MORE FAKE REGEX!)
-sys.path.insert(0, '/home/xai/Documents/sunset')
+sys.path.insert(0, '/home/xai/Documents/sandy')
 try:
     from location_validation_specialist_llm import LocationValidationSpecialistLLM
     location_specialist_llm = LocationValidationSpecialistLLM()
-    print("✅ REAL LLM Location validation specialist imported successfully")
+    print("REAL LLM Location validation specialist imported successfully")
 except ImportError as e:
-    print(f"⚠️ Real LLM Location validation specialist not available: {e}")
+    print(f"Real LLM Location validation specialist not available: {e}")
     location_specialist_llm = None
 
 try:
     from llm_factory.modules.quality_validation.specialists_versioned.domain_classification.v1_1.src.domain_classification_specialist_llm import classify_job_domain_llm
     from llm_factory.modules.quality_validation.specialists_versioned.location_validation.v1_0.src.location_validation_specialist import validate_locations
-    print("✅ LLM specialists imported successfully")
+    print("LLM specialists imported successfully")
 except ImportError as e:
-    print(f"❌ Failed to import specialists: {e}")
+    print(f"Failed to import specialists: {e}")
     sys.exit(1)
 
 def load_job_data(job_id):
     """Load job data from file"""
-    job_file = Path(f"/home/xai/Documents/sunset/data/postings/job{job_id}.json")
+    job_file = Path(f"/home/xai/Documents/sandy/data/postings/job{job_id}.json")
     if not job_file.exists():
         return None
     
@@ -69,7 +68,7 @@ def load_job_data(job_id):
 
 def get_available_jobs():
     """Get list of available job IDs"""
-    postings_dir = Path("/home/xai/Documents/sunset/data/postings")
+    postings_dir = Path("/home/xai/Documents/sandy/data/postings")
     job_files = list(postings_dir.glob("job*.json"))
     job_ids = []
     
@@ -83,17 +82,17 @@ def get_available_jobs():
 
 def process_job_with_llm_specialists(job_id):
     """Process a single job with v1_1 LLM specialists and Content Extraction"""
-    print(f"\n🚀 REPROCESSING Job {job_id} with Enhanced LLM Pipeline")
+    print(f"\nREPROCESSING Job {job_id} with Enhanced LLM Pipeline")
     print("-" * 60)
     
     # Load job data
     job_data = load_job_data(job_id)
     if not job_data:
-        print(f"❌ Could not load job {job_id}")
+        print(f"Could not load job {job_id}")
         return None
     
     job_content = job_data.get('job_content', {})
-    print(f"📋 Job: {job_content.get('title', 'Unknown')}")
+    print(f"Job: {job_content.get('title', 'Unknown')}")
     
     # Prepare inputs for specialists
     job_location = job_content.get('location', '')
@@ -125,13 +124,13 @@ def process_job_with_llm_specialists(job_id):
             'content_extraction_enabled': ContentExtractionSpecialist is not None,
             'location_early_filtering_enabled': location_specialist_llm is not None,
             'expected_accuracy_improvement': '75% → 90%+',
-            'methodology': 'Sandy@consciousness validated extraction with efficiency filtering'
+            'methodology': 'Professional validated extraction with efficiency filtering'
         }
     }
     
-    # ✨ PHASE 0: Early Location Validation (REAL LLM Efficiency Filter)
+    # PHASE 0: Early Location Validation (REAL LLM Efficiency Filter)
     if location_specialist_llm:
-        print("\n🎯 Early Location Validation (REAL LLM Efficiency Check)...")
+        print("\nEarly Location Validation (REAL LLM Efficiency Check)...")
         start_time = time.time()
         try:
             # Extract metadata location
@@ -146,19 +145,18 @@ def process_job_with_llm_specialists(job_id):
             
             early_location_time = time.time() - start_time
             
-            print(f"   📍 Metadata: {metadata_location}")
-            print(f"   🎯 Authoritative: {early_location_result.authoritative_location}")
-            print(f"   ⚠️  Conflict: {early_location_result.conflict_detected}")
-            print(f"   🎲 Confidence: {early_location_result.confidence_score:.2f}")
-            print(f"   ⏱️  Processing Time: {early_location_result.processing_time:.4f}s")
+            print(f"   Metadata: {metadata_location}")
+            print(f"   Authoritative: {early_location_result.authoritative_location}")
+            print(f"   Conflict: {early_location_result.conflict_detected}")
+            print(f"   Confidence: {early_location_result.confidence_score:.2f}")
+            print(f"   Processing Time: {early_location_result.processing_time:.4f}s")
             
-            # 🚨 SUB-SECOND SCREAM CHECK! 🚨
+            # Performance validation check
             if early_location_result.processing_time < 1.0:
-                print("\n🚨🚨🚨 SCREAM AND SHOUT ALERT! 🚨🚨🚨")
-                print(f"LOCATION SPECIALIST FINISHED IN {early_location_result.processing_time:.4f}s - NOT USING OLLAMA!")
-                print("THIS IS REGEX MASQUERADING AS AI INTELLIGENCE!")
-                print("IMMEDIATE TERMINATOR@LLM-FACTORY ESCALATION REQUIRED!")
-                print("🚨🚨🚨 END ALERT 🚨🚨🚨\n")
+                print("\nPerformance Alert: Location processing completed unexpectedly fast")
+                print(f"Location specialist finished in {early_location_result.processing_time:.4f}s")
+                print("This may indicate non-LLM processing - validation required")
+                print("Contact technical team for verification")
             
             results['early_location_validation'] = {
                 'processing_time': early_location_result.processing_time,
@@ -172,34 +170,34 @@ def process_job_with_llm_specialists(job_id):
             
             # Early termination for critical location conflicts
             if early_location_result.conflict_detected and early_location_result.confidence_score > 80:
-                print(f"   ⚡ Decision: SKIP_EXPENSIVE_ANALYSIS")
-                print(f"\n🚀 EFFICIENCY OPTIMIZATION: Skipping expensive analysis due to critical location conflict")
-                print(f"   💰 Computational Savings: ~80% (no LLM processing)")
-                print(f"   📝 Reason: CRITICAL: Metadata claims {metadata_location} but job is actually in {early_location_result.authoritative_location}")
+                print(f"   Decision: SKIP_EXPENSIVE_ANALYSIS")
+                print(f"\nEFFICIENCY OPTIMIZATION: Skipping expensive analysis due to critical location conflict")
+                print(f"   Computational Savings: ~80% (no LLM processing)")
+                print(f"   Reason: CRITICAL: Metadata claims {metadata_location} but job is actually in {early_location_result.authoritative_location}")
                 
                 results['pipeline_terminated_early'] = True
                 results['termination_reason'] = 'critical_location_conflict'
                 results['computational_savings'] = '~80%'
                 
                 # Save results and return early
-                output_file = Path(f"/home/xai/Documents/sunset/data/postings/job{job_id}_reprocessed_enhanced.json")
+                output_file = Path(f"/home/xai/Documents/sandy/data/postings/job{job_id}_reprocessed_enhanced.json")
                 with open(output_file, 'w', encoding='utf-8') as f:
                     json.dump(results, f, indent=2, ensure_ascii=False)
-                print(f"💾 Early termination results saved to: {output_file}")
+                print(f"Early termination results saved to: {output_file}")
                 return results
                 
         except Exception as e:
-            print(f"   ⚠️ Early location validation failed, continuing: {e}")
+            print(f"   Early location validation failed, continuing: {e}")
             results['early_location_validation'] = {'error': str(e), 'continuing_pipeline': True}
     else:
-        print("\n⚠️  REAL LLM location validation not available - continuing with full pipeline")
+        print("\nREAL LLM location validation not available - continuing with full pipeline")
         results['early_location_validation'] = {'status': 'not_available'}
     
-    # ✨ PHASE 0: Content Extraction (Sandy's breakthrough solution)
+    # PHASE 0: Content Extraction (Professional breakthrough solution)
     job_description = original_job_description  # Default to original
     
     if ContentExtractionSpecialist:
-        print("\n🎯 Content Extraction (Sandy's Methodology)...")
+        print("\nContent Extraction (Professional Methodology)...")
         start_time = time.time()
         try:
             specialist = ContentExtractionSpecialist()
@@ -209,15 +207,15 @@ def process_job_with_llm_specialists(job_id):
             # Use extracted content for downstream processing
             job_description = extraction_result.extracted_content
             
-            print(f"   📊 Original: {extraction_result.original_length:,} chars")
-            print(f"   ✂️  Extracted: {extraction_result.extracted_length:,} chars") 
-            print(f"   📉 Reduction: {extraction_result.reduction_percentage:.1f}%")
-            print(f"   🎯 Domain Signals: {len(extraction_result.domain_signals)} preserved")
-            print(f"   ⏱️  Processing Time: {extraction_time:.2f}s")
-            print(f"   🤖 Model: {extraction_result.model_used}")
+            print(f"   Original: {extraction_result.original_length:,} chars")
+            print(f"   Extracted: {extraction_result.extracted_length:,} chars") 
+            print(f"   Reduction: {extraction_result.reduction_percentage:.1f}%")
+            print(f"   Domain Signals: {len(extraction_result.domain_signals)} preserved")
+            print(f"   Processing Time: {extraction_time:.2f}s")
+            print(f"   Model: {extraction_result.model_used}")
             
             if extraction_result.domain_signals:
-                print(f"   🔍 Key Signals: {', '.join(extraction_result.domain_signals[:3])}...")
+                print(f"   Key Signals: {', '.join(extraction_result.domain_signals[:3])}...")
             
             results['content_extraction'] = {
                 'processing_time': extraction_time,
@@ -233,10 +231,10 @@ def process_job_with_llm_specialists(job_id):
             }
             
         except Exception as e:
-            print(f"   ⚠️ Content extraction failed, using original: {e}")
+            print(f"   Content extraction failed, using original: {e}")
             results['content_extraction'] = {'error': str(e), 'fallback': 'original_content'}
     else:
-        print("\n⚠️  Content Extraction Specialist not available - using original content")
+        print("\nContent Extraction Specialist not available - using original content")
         results['content_extraction'] = {'status': 'not_available'}
     
     # 1. Content Extraction (if specialist available)
@@ -260,10 +258,10 @@ def process_job_with_llm_specialists(job_id):
             job_description = cleaned_description
             
             extraction_time = time.time() - start_time
-            print(f"   ⏱️  Processing Time: {extraction_time:.2f}s")
-            print(f"   🎯 Domain Signals: {len(extraction_result.domain_signals)} preserved")
-            print(f"   📉 Content Reduction: {extraction_result.reduction_percentage:.1f}%")
-            print(f"   🤖 LLM Time: {extraction_result.llm_processing_time:.2f}s")
+            print(f"   Processing Time: {extraction_time:.2f}s")
+            print(f"   Domain Signals: {len(extraction_result.domain_signals)} preserved")
+            print(f"   Content Reduction: {extraction_result.reduction_percentage:.1f}%")
+            print(f"   LLM Time: {extraction_result.llm_processing_time:.2f}s")
             
             results['content_extraction'] = {
                 'processing_time': extraction_time,
@@ -271,25 +269,25 @@ def process_job_with_llm_specialists(job_id):
             }
         
         except Exception as e:
-            print(f"   ❌ Content extraction failed: {e}")
+            print(f"   Content extraction failed: {e}")
             results['content_extraction'] = {'error': str(e)}
     else:
-        print("   ⚠️ Skipping content extraction - specialist not available")
+        print("   Skipping content extraction - specialist not available")
     
-    # ✨ PHASE 1: Domain Classification (v1_1 LLM) - Now with extracted content!
-    print("\n🧠 Domain Classification (v1_1 LLM)...")
+    # PHASE 1: Domain Classification (v1_1 LLM) - Now with extracted content!
+    print("\nDomain Classification (v1_1 LLM)...")
     start_time = time.time()
     try:
         domain_result = classify_job_domain_llm(job_metadata, job_description)
         domain_time = time.time() - start_time
         
-        print(f"   ⏱️  Processing Time: {domain_time:.2f}s")
-        print(f"   📊 Decision: {'PROCEED' if domain_result.get('should_proceed_with_evaluation') else 'REJECT'}")
-        print(f"   🎯 Domain: {domain_result.get('primary_domain_classification', 'Unknown')}")
+        print(f"   Processing Time: {domain_time:.2f}s")
+        print(f"   Decision: {'PROCEED' if domain_result.get('should_proceed_with_evaluation') else 'REJECT'}")
+        print(f"   Domain: {domain_result.get('primary_domain_classification', 'Unknown')}")
         
         # Enhanced logging for content extraction impact
         content_type = "extracted" if ContentExtractionSpecialist and 'content_extraction' in results and 'error' not in results['content_extraction'] else "original"
-        print(f"   📝 Content Type: {content_type} ({len(job_description):,} chars)")
+        print(f"   Content Type: {content_type} ({len(job_description):,} chars)")
         
         if not domain_result.get('should_proceed_with_evaluation'):
             reasoning = domain_result.get('analysis_details', {}).get('decision_reasoning', '')
@@ -304,19 +302,19 @@ def process_job_with_llm_specialists(job_id):
         }
         
     except Exception as e:
-        print(f"   ❌ Domain classification failed: {e}")
+        print(f"   Domain classification failed: {e}")
         results['domain_classification'] = {'error': str(e)}
     
-    # ✨ PHASE 2: Location Validation (v1_0)
-    print("\n📍 Location Validation...")
+    # PHASE 2: Location Validation (v1_0)
+    print("\nLocation Validation...")
     start_time = time.time()
     try:
         location_result = validate_locations(job_metadata, job_description)
         location_time = time.time() - start_time
         
-        print(f"   ⏱️  Processing Time: {location_time:.4f}s")
-        print(f"   ✅ Metadata Accurate: {location_result.get('metadata_location_accurate', 'Unknown')}")
-        print(f"   📍 Authoritative Location: {location_result.get('authoritative_location', 'Unknown')}")
+        print(f"   Processing Time: {location_time:.4f}s")
+        print(f"   Metadata Accurate: {location_result.get('metadata_location_accurate', 'Unknown')}")
+        print(f"   Authoritative Location: {location_result.get('authoritative_location', 'Unknown')}")
         
         results['location_validation'] = {
             'processing_time': location_time,
@@ -326,11 +324,11 @@ def process_job_with_llm_specialists(job_id):
         }
         
     except Exception as e:
-        print(f"   ❌ Location validation failed: {e}")
+        print(f"   Location validation failed: {e}")
         results['location_validation'] = {'error': str(e)}
     
     # Save enhanced results with content extraction
-    output_file = Path(f"/home/xai/Documents/sunset/data/postings/job{job_id}_reprocessed_enhanced.json")
+    output_file = Path(f"/home/xai/Documents/sandy/data/postings/job{job_id}_reprocessed_enhanced.json")
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
     
@@ -342,7 +340,7 @@ def process_job_with_llm_specialists(job_id):
         results.get('domain_classification', {}).get('processing_time', 0),
         results.get('location_validation', {}).get('processing_time', 0)
     ])
-    print(f"⏱️  Total Processing Time: {total_time:.2f}s")
+    print(f"Total Processing Time: {total_time:.2f}s")
     
     return results
 
@@ -380,16 +378,16 @@ def main():
         return
     
     if not job_ids:
-        print("❌ No jobs to process")
+        print("No jobs to process")
         return
     
-    print(f"\n⚠️  This will use real LLM processing (~5-15 seconds per job)")
-    print(f"⏱️  Estimated time: {len(job_ids) * 8:.0f} seconds ({len(job_ids) * 8 / 60:.1f} minutes)")
+    print(f"\nThis will use real LLM processing (~5-15 seconds per job)")
+    print(f"Estimated time: {len(job_ids) * 8:.0f} seconds ({len(job_ids) * 8 / 60:.1f} minutes)")
     
     if len(job_ids) > 5:
         response = input("\nContinue? (y/N): ")
         if response.lower() != 'y':
-            print("❌ Cancelled")
+            print("Cancelled")
             return
     
     # Process jobs
@@ -399,7 +397,7 @@ def main():
     for i, job_id in enumerate(job_ids, 1):
         try:
             print(f"\n{'=' * 60}")
-            print(f"🔄 Processing {i}/{len(job_ids)}: Job {job_id}")
+            print(f"Processing {i}/{len(job_ids)}: Job {job_id}")
             print(f"{'=' * 60}")
             
             result = process_job_with_llm_specialists(job_id)
@@ -409,24 +407,24 @@ def main():
                 failed += 1
                 
         except KeyboardInterrupt:
-            print(f"\n⚠️  Interrupted by user after {i-1} jobs")
+            print(f"\nInterrupted by user after {i-1} jobs")
             break
         except Exception as e:
-            print(f"❌ Failed to process job {job_id}: {e}")
+            print(f"Failed to process job {job_id}: {e}")
             failed += 1
     
     # Summary
-    print(f"\n📊 REPROCESSING SUMMARY")
+    print(f"\nREPROCESSING SUMMARY")
     print(f"=" * 40)
-    print(f"✅ Successful: {successful}")
-    print(f"❌ Failed: {failed}")
-    print(f"📁 Results saved in: data/postings/job*_reprocessed_enhanced.json")
+    print(f"Successful: {successful}")
+    print(f"Failed: {failed}")
+    print(f"Results saved in: data/postings/job*_reprocessed_enhanced.json")
     
     if successful > 0:
-        print(f"\n� Successfully reprocessed {successful} jobs with Enhanced Pipeline!")
-        print(f"✨ Content Extraction + Domain Classification + Location Validation")
-        print(f"🎯 Expected accuracy improvement: 75% → 90%+")
-        print(f"🔬 Methodology: Sandy@consciousness validated approach")
+        print(f"\nSuccessfully reprocessed {successful} jobs with Enhanced Pipeline!")
+        print(f"Content Extraction + Domain Classification + Location Validation")
+        print(f"Expected accuracy improvement: 75% → 90%+")
+        print(f"Methodology: Professional validated approach")
 
 if __name__ == "__main__":
     main()

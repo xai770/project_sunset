@@ -26,7 +26,7 @@ class ProcessingRecord:
 class ProcessingManifest:
     """Manages processing state separate from job data"""
     
-    def __init__(self, manifest_path: str = "/home/xai/Documents/sunset/data/processing_manifest.json"):
+    def __init__(self, manifest_path: str = "/home/xai/Documents/sandy/data/processing_manifest.json"):
         self.manifest_path = Path(manifest_path)
         self.manifest = self._load_manifest()
     

@@ -25,7 +25,7 @@ from dataclasses import dataclass, asdict
 import statistics
 import logging
 
-# Add sunset to path
+# Add sandy to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Configure logging
