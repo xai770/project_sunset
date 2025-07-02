@@ -1,0 +1,82 @@
+[
+  {
+    "test_name": "Perfect Match - Frankfurt",
+    "conflict_detected": true,
+    "expected_conflict": false,
+    "correct_prediction": false,
+    "processing_time": 4.574563980102539,
+    "genuine_llm": true,
+    "confidence_score": 0.8,
+    "authoritative_location": "Frankfurt, Germany (but with a note of \"in the heart of\" which might imply a specific office location)",
+    "analysis_details": {
+      "conflict_detected": true,
+      "authoritative_location": "Frankfurt, Germany (but with a note of \"in the heart of\" which might imply a specific office location)",
+      "confidence": 0.8,
+      "reasoning": "ANALYSIS:\n\nCONFLICT_DETECTED: YES\nAUTHORITATIVE_LOCATION: Frankfurt, Germany (but with a note of \"in the heart of\" which might imply a specific office location)\nCONFIDENCE: 0.8\nREASONING: The job description mentions that the role involves developing machine learning applications and is located in Frankfurt, Germany. However, it also describes the modern office space as being \"in the heart of Frankfurt\", which could suggest that there may be multiple locations within Frankfurt where the work will be performed. This ambiguity raises a conflict between the metadata location (Frankfurt, Germany) and the actual job location mentioned in the description. The confidence level is high due to the explicit mention of Frankfurt as the location, but the phrase \"in the heart of\" introduces some uncertainty."
+    }
+  },
+  {
+    "test_name": "Clear Conflict - Remote vs Office",
+    "conflict_detected": true,
+    "expected_conflict": true,
+    "correct_prediction": true,
+    "processing_time": 2.4835360050201416,
+    "genuine_llm": true,
+    "confidence_score": 0.8,
+    "authoritative_location": "Frankfurt, Germany",
+    "analysis_details": {
+      "conflict_detected": true,
+      "authoritative_location": "Frankfurt, Germany",
+      "confidence": 0.8,
+      "reasoning": "ANALYSIS:\n\nCONFLICT_DETECTED: YES\nAUTHORITATIVE_LOCATION: Frankfurt, Germany\nCONFIDENCE: 0.8\nREASONING: The job description states that the position is \"Fully Remote (Germany)\" and allows work from anywhere in Germany, but it specifically mentions Frankfurt as the metadata location. This discrepancy suggests a potential conflict between the intended remote work arrangement and the actual location specified in the metadata. While the job description implies flexibility in terms of work location within Germany, it does not explicitly state that the work will be performed remotely from Frankfurt or any other specific location. Therefore, the confidence level is set at 0.8, indicating a moderate to strong indication of conflict."
+    }
+  },
+  {
+    "test_name": "Hybrid Model - Should Detect Nuance",
+    "conflict_detected": true,
+    "expected_conflict": false,
+    "correct_prediction": false,
+    "processing_time": 2.3994626998901367,
+    "genuine_llm": true,
+    "confidence_score": 0.8,
+    "authoritative_location": "Munich, Germany",
+    "analysis_details": {
+      "conflict_detected": true,
+      "authoritative_location": "Munich, Germany",
+      "confidence": 0.8,
+      "reasoning": "ANALYSIS:\n\nCONFLICT_DETECTED: YES\nAUTHORITATIVE_LOCATION: Munich, Germany\nCONFIDENCE: 0.8\nREASONING: The job description states that the position is \"Based in our Munich office\" and requires 2-3 days per week in the Munich office, which suggests a strong connection to the city. However, it also mentions flexible remote work options, allowing for remaining days to be worked from home. This flexibility raises questions about whether the job can truly be considered based solely in Munich, given the allowance for remote work. The confidence level is high due to the explicit mention of the office location and the requirement for on-site presence."
+    }
+  },
+  {
+    "test_name": "Location Conflict - Different Cities",
+    "conflict_detected": true,
+    "expected_conflict": true,
+    "correct_prediction": true,
+    "processing_time": 2.3462071418762207,
+    "genuine_llm": true,
+    "confidence_score": 0.8,
+    "authoritative_location": "Berlin, Germany",
+    "analysis_details": {
+      "conflict_detected": true,
+      "authoritative_location": "Berlin, Germany",
+      "confidence": 0.8,
+      "reasoning": "ANALYSIS:\n\nCONFLICT_DETECTED: YES\nAUTHORITATIVE_LOCATION: Berlin, Germany\nCONFIDENCE: 0.8\nREASONING: The job description mentions that the DevOps Engineer will be based in Hamburg, Germany, which conflicts with the metadata location of Berlin, Germany. Although it is stated that daily collaboration with the Hamburg development team and presence at the Hamburg headquarters are required, this does not necessarily mean that the employee must physically relocate to Hamburg. However, given the emphasis on \"presence\" at the Hamburg headquarters, it suggests a high likelihood that the job will be based in Hamburg, which contradicts the metadata location of Berlin."
+    }
+  },
+  {
+    "test_name": "Ambiguous Case - Multiple Locations",
+    "conflict_detected": true,
+    "expected_conflict": false,
+    "correct_prediction": false,
+    "processing_time": 2.7485034465789795,
+    "genuine_llm": true,
+    "confidence_score": 0.8,
+    "authoritative_location": "Germany (specifically, the job description does not specify a particular city or region within Germany)",
+    "analysis_details": {
+      "conflict_detected": true,
+      "authoritative_location": "Germany (specifically, the job description does not specify a particular city or region within Germany)",
+      "confidence": 0.8,
+      "reasoning": "CONFLICT_DETECTED: YES\nAUTHORITATIVE_LOCATION: Germany (specifically, the job description does not specify a particular city or region within Germany)\nCONFIDENCE: 0.8\nREASONING: The metadata location is Cologne, Germany, which is a specific city. However, the job description mentions that the home office can be anywhere in Germany, and travel is required to various client sites across multiple locations (Germany, Austria, Switzerland). This suggests that the job may not be based in Cologne or any other specific location within Germany, but rather could be based in any part of the country. The ambiguity surrounding the work location and the lack of specificity in the job description lead me to detect a conflict between the metadata location and the actual job location mentioned in the description."
+    }
+  }
+]

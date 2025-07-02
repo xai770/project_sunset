@@ -21,7 +21,7 @@ python location_validation_specialist_llm.py
 
 **📁 Project Organization:**
 - **Root Directory**: Daily essentials only
-- **👑 `royal_archives/`**: Development tools, analysis scripts, tests, and documentation
+- **� `archive/`**: Development tools, analysis scripts, tests, and documentation
 - **`reports/`**: Generated Excel and Markdown reports  
 - **`0_mailboxes/`**: Specialist modules and golden rules
 - **`config/`**: System configuration
@@ -287,12 +287,12 @@ python scripts/pipeline/main.py --export-only
 
 **Professional project organization implemented June 26, 2025:**
 - **Daily operations** remain in root directory for easy access
-- **Development tools, tests, and documentation** moved to `royal_archives/`
+- **Development tools, tests, and documentation** moved to `archive/`
 - **Clean separation** between production and development environments
 - **Organized by Sandy, Queen of the Codebase**
 
 For development work, analysis scripts, and project documentation, see:
-📁 `royal_archives/README.md`
+📁 `archive/README.md`
 
 ---
 
