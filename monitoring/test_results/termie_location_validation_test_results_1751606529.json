@@ -1,0 +1,89 @@
+[
+  {
+    "test_name": "Golden Test Case: Job 57488 - Frankfurt\u2192Pune Critical Conflict",
+    "job_id": "57488",
+    "metadata_location": "Frankfurt",
+    "expected_conflict": true,
+    "detected_conflict": true,
+    "prediction_correct": true,
+    "expected_authoritative": "Pune, India",
+    "detected_authoritative": "Frankfurt",
+    "confidence_score": 90.0,
+    "processing_time": 3.4841291904449463,
+    "genuine_llm": true,
+    "risk_level": "critical",
+    "reasoning": "The job description clearly states that the role is based in Deutsche Bank's Technology Center in Pune, India, which contradicts the metadata location of Frankfurt. This indicates a significant discrepancy between the expected and actual locations.",
+    "extracted_locations": [
+      "Frankfurt",
+      "Pune",
+      "India",
+      "Germany"
+    ],
+    "conflict_severity": "CRITICAL"
+  },
+  {
+    "test_name": "Golden Test Case: Job 58735 - Frankfurt\u2192Bangalore Critical Conflict",
+    "job_id": "58735",
+    "metadata_location": "Frankfurt",
+    "expected_conflict": true,
+    "detected_conflict": true,
+    "prediction_correct": true,
+    "expected_authoritative": "Bangalore, India",
+    "detected_authoritative": "Frankfurt",
+    "confidence_score": 80.0,
+    "processing_time": 2.111236333847046,
+    "genuine_llm": true,
+    "risk_level": "critical",
+    "reasoning": "The job description clearly indicates that the role is based in Bangalore, India, which conflicts with the metadata location of Frankfurt. Although Frankfurt is mentioned as the location, it appears to be the company's headquarters or a different office, whereas the actual job location is specified as Bangalore.",
+    "extracted_locations": [
+      "Frankfurt",
+      "Bangalore",
+      "India",
+      "Germany",
+      "Pune",
+      "Hyderabad"
+    ],
+    "conflict_severity": "CRITICAL"
+  },
+  {
+    "test_name": "Control Test: True Frankfurt Position",
+    "job_id": "control_1",
+    "metadata_location": "Frankfurt",
+    "expected_conflict": false,
+    "detected_conflict": true,
+    "prediction_correct": false,
+    "expected_authoritative": "Frankfurt, Germany",
+    "detected_authoritative": "Frankfurt",
+    "confidence_score": 90.0,
+    "processing_time": 2.166989803314209,
+    "genuine_llm": true,
+    "risk_level": "medium",
+    "reasoning": "The job description mentions \"Frankfurt\" as the work location and office address, but also implies collaboration with the \"London teams\", which could suggest a different primary location. However, the overall emphasis on Frankfurt's financial district and the specific mention of the Deutsche Bank Twin Towers in Frankfurt suggests that Frankfurt is still the authoritative location.",
+    "extracted_locations": [
+      "Frankfurt",
+      "Germany",
+      "London"
+    ],
+    "conflict_severity": "NONE"
+  },
+  {
+    "test_name": "Edge Case: Remote but Germany-based",
+    "job_id": "edge_1",
+    "metadata_location": "Frankfurt",
+    "expected_conflict": false,
+    "detected_conflict": true,
+    "prediction_correct": false,
+    "expected_authoritative": "Germany (Remote)",
+    "detected_authoritative": "Frankfurt",
+    "confidence_score": 90.0,
+    "processing_time": 1.875640630722046,
+    "genuine_llm": true,
+    "risk_level": "high",
+    "reasoning": "The job description mentions \"Germany\" as the required location for the role, but also specifies that the candidate must be based in Frankfurt for legal and compliance reasons. This implies a specific location within Germany, which conflicts with the metadata location of Frankfurt.",
+    "extracted_locations": [
+      "Frankfurt",
+      "Germany"
+    ],
+    "conflict_severity": "NONE"
+  }
+]

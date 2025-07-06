@@ -34,6 +34,9 @@ sys.path.insert(0, str(project_root))
 from core import DirectSpecialistManager
 from core.config_manager import get_config
 
+# Configure logging
+logger = logging.getLogger(__name__)
+
 class EnhancedJobFetcher:
     """
     Enhanced job fetcher with beautiful JSON structure and full description support
@@ -232,20 +235,21 @@ class EnhancedJobFetcher:
         
         return list(set(requirements))  # Remove duplicates
     
-    def _should_skip_existing_job(self, job_file: Path, job_id: str) -> bool:
+    def _should_skip_existing_job(self, job_file: Path, job_id: str, allow_processed: bool = False) -> bool:
         """
         Check if an existing job file should be skipped because it contains valuable AI analysis data.
-        
-        This prevents the pipeline from removing and recreating jobs that have already been processed
-        with AI analysis, preserving valuable data.
         
         Args:
             job_file (Path): Path to the existing job file
             job_id (str): Job ID for logging
+            allow_processed (bool): If True, will not skip processed jobs
             
         Returns:
             bool: True if the job should be skipped (has valuable data), False if it should be updated
         """
+        if allow_processed:
+            return False
+            
         try:
             with open(job_file, 'r', encoding='utf-8') as f:
                 existing_job = json.load(f)
@@ -258,55 +262,20 @@ class EnhancedJobFetcher:
                 'domain_enhanced_match',
                 'ai_processed',
                 'evaluation_results',
-                'bucketed_skills',
-                'skills'
+                'job_insights'  # Added to catch any processed jobs
             ]
             
-            has_valuable_data = any(field in existing_job for field in valuable_ai_fields)
-            
-            # Also check for non-placeholder job descriptions in web_details
-            web_details = existing_job.get('web_details', {})
-            concise_desc = web_details.get('concise_description', '')
-            has_real_description = (
-                concise_desc.strip() and 
-                'placeholder for a concise description' not in concise_desc.lower() and
-                len(concise_desc) > 50  # Must be substantial content
-            )
-            
-            # Check for processed skills data in new job structure format
-            job_content = existing_job.get('job_content', {})
-            has_processed_skills = (
-                'skills' in job_content and 
-                len(job_content.get('skills', [])) > 0
-            )
-            
-            # Also check job_metadata status for processed jobs
-            job_metadata = existing_job.get('job_metadata', {})
-            is_processed = job_metadata.get('status') in ['processed', 'analyzed', 'matched']
-            
-            # Skip if any valuable data exists
-            should_skip = has_valuable_data or has_real_description or has_processed_skills or is_processed
-            
-            if should_skip:
-                data_types = []
-                if has_valuable_data:
-                    present_fields = [field for field in valuable_ai_fields if field in existing_job]
-                    data_types.append(f"AI analysis ({', '.join(present_fields)})")
-                if has_real_description:
-                    data_types.append(f"processed description ({len(concise_desc)} chars)")
-                if has_processed_skills:
-                    skills_count = len(job_content.get('skills', []))
-                    data_types.append(f"skills data ({skills_count} skills)")
-                if is_processed:
-                    data_types.append(f"processed status ({job_metadata.get('status')})")
-                
-                self.logger.info(f"🔒 Job {job_id} has valuable data: {'; '.join(data_types)}")
-            
-            return should_skip
+            # If any valuable AI fields exist, skip this job
+            for field in valuable_ai_fields:
+                if existing_job.get(field):
+                    logger.debug(f"Skipping job {job_id} - contains valuable {field} data")
+                    return True
+                    
+            return False
             
         except Exception as e:
-            self.logger.warning(f"⚠️ Error checking existing job {job_id}: {e}. Will update file.")
-            return False  # If we can't read the file, it's safe to update it
+            logger.error(f"Error checking job {job_id}: {str(e)}")
+            return False  # Don't skip on error
     
     def fetch_job_description(self, job_id: str, position_uri: str = "") -> str:
         """
@@ -362,163 +331,190 @@ class EnhancedJobFetcher:
             self.logger.error(f"❌ Error fetching description for job {job_id}: {e}")
             return ""
     
-    def fetch_jobs(self, max_jobs: int = 60, quick_mode: bool = False, search_criteria: Optional[Dict] = None, force_reprocess: bool = False) -> List[Dict[str, Any]]:
+    def _get_existing_job_ids(self) -> set:
+        """Get a set of job IDs that already exist in the data directory"""
+        job_files = self.data_dir.glob("job*.json")
+        return {f.stem.replace('job', '') for f in job_files}
+
+    def fetch_jobs(self, max_jobs: int = 60, quick_mode: bool = False, search_criteria: Optional[Dict] = None, force_reprocess: bool = False, allow_processed: bool = False) -> List[Dict[str, Any]]:
         """
         Fetch jobs with beautiful structure and full descriptions
         Uses search criteria for Frankfurt-focused job retrieval
         """
         if quick_mode:
             max_jobs = min(max_jobs, self.config.job_search.quick_mode_limit)
-        
-        # Load search criteria if not provided
-        if search_criteria is None:
-            try:
-                search_criteria_path = project_root / "config" / "search_criteria.json"
-                with open(search_criteria_path, 'r') as f:
-                    config_data = json.load(f)
-                search_criteria = config_data.get("search_profiles", {}).get("xai_frankfurt_focus", {})
-            except Exception as e:
-                self.logger.warning(f"⚠️ Could not load search criteria: {e}")
-                search_criteria = {}
-        
-        # Extract location criteria for Frankfurt focus
-        location_criteria = search_criteria.get("criteria", {}).get("locations", {}) if search_criteria else {}
-        country_codes = location_criteria.get("country_codes", [46])  # Germany
-        city_codes = location_criteria.get("city_codes", [1698])      # Frankfurt
-        
-        self.logger.info(f"🚀 Fetching up to {max_jobs} jobs (quick_mode: {quick_mode})")
-        self.logger.info(f"🎯 Using search criteria: Country codes {country_codes}, City codes {city_codes}")
-        
-        # Prepare API request with search criteria
-        search_criteria_list = []
-        
-        # Add country filter
-        if country_codes:
-            search_criteria_list.append({
-                "CriterionName": "PositionLocation.Country",
-                "CriterionValue": country_codes[0]  # Use first country code
-            })
-        
-        # Add city filter
-        if city_codes:
-            search_criteria_list.append({
-                "CriterionName": "PositionLocation.City", 
-                "CriterionValue": city_codes[0]  # Use first city code
-            })
-        
-        api_params = {
-            "LanguageCode": "en",
-            "SearchParameters": {
-                "FirstItem": 1,
-                "CountItem": max_jobs,
-                "MatchedObjectDescriptor": [
-                    "PositionID",
-                    "PositionTitle",
-                    "PositionURI",
-                    "PositionFormattedDescription.Content",  # Still try to get it from API
-                    "PositionLocation.CountryName",
-                    "PositionLocation.CountrySubDivisionName", 
-                    "PositionLocation.CityName",
-                    "OrganizationName",
-                    "PositionOfferingType.Name",
-                    "PositionSchedule.Name",
-                    "CareerLevel.Name",
-                    "PublicationStartDate",
-                    "PositionHiringYear",
-                    "UserArea.ProDivision"
-                ],
-                "Sort": [{"Criterion": "PublicationStartDate", "Direction": "DESC"}]
-            },
-            "SearchCriteria": search_criteria_list
-        }
-        
-        try:
-            response = requests.post(
-                self.api_base_url,
-                json=api_params,
-                headers=self.api_headers,
-                timeout=30
-            )
             
-            if response.status_code != 200:
-                self.logger.error(f"❌ API request failed: {response.status_code}")
-                return []
-            
-            data = response.json()
-            
-            if "SearchResult" not in data or "SearchResultItems" not in data["SearchResult"]:
-                self.logger.error("❌ Invalid API response structure")
-                return []
-            
-            jobs = data["SearchResult"]["SearchResultItems"]
-            self.logger.info(f"📥 Received {len(jobs)} jobs from API")
-            
-            enhanced_jobs = []
-            
-            for i, job in enumerate(jobs[:max_jobs], 1):
+        # Track which jobs we've seen to ensure we find enough new ones
+        existing_job_ids = self._get_existing_job_ids()
+        current_job_count = 0
+        page = 1
+        page_size = max(max_jobs * 2, 100)  # Request more jobs to find new ones
+        enhanced_jobs = []
+        
+        while current_job_count < max_jobs:
+            # Load search criteria if not provided
+            if search_criteria is None:
                 try:
-                    job_id = job.get("MatchedObjectId", f"unknown_{i}")
-                    self.logger.info(f"🔄 Processing job {i}/{len(jobs[:max_jobs])}: {job_id}")
+                    search_criteria_path = project_root / "config" / "search_criteria.json"
+                    with open(search_criteria_path, 'r') as f:
+                        config_data = json.load(f)
+                    search_criteria = config_data.get("search_profiles", {}).get("xai_frankfurt_focus", {})
+                except Exception as e:
+                    self.logger.warning(f"⚠️ Could not load search criteria: {e}")
+                    search_criteria = {}
+            
+            # Extract location criteria for Frankfurt focus
+            location_criteria = search_criteria.get("criteria", {}).get("locations", {}) if search_criteria else {}
+            country_codes = location_criteria.get("country_codes", [46])  # Germany
+            city_codes = location_criteria.get("city_codes", [1698])      # Frankfurt
+            
+            self.logger.info(f"🚀 Fetching up to {page_size} jobs (quick_mode: {quick_mode})")
+            self.logger.info(f"🎯 Using search criteria: Country codes {country_codes}, City codes {city_codes}")
+            
+            # Prepare API request with search criteria
+            search_criteria_list = []
+            
+            # Add country filter
+            if country_codes:
+                search_criteria_list.append({
+                    "CriterionName": "PositionLocation.Country",
+                    "CriterionValue": country_codes[0]  # Use first country code
+                })
+            
+            # Add city filter
+            if city_codes:
+                search_criteria_list.append({
+                    "CriterionName": "PositionLocation.City", 
+                    "CriterionValue": city_codes[0]  # Use first city code
+                })
+            
+            api_params = {
+                "LanguageCode": "en",
+                "SearchParameters": {
+                    "FirstItem": (page - 1) * page_size + 1,
+                    "CountItem": page_size,
+                    "MatchedObjectDescriptor": [
+                        "PositionID",
+                        "PositionTitle",
+                        "PositionURI",
+                        "PositionFormattedDescription.Content",  
+                        "PositionLocation.CountryName",
+                        "PositionLocation.CountrySubDivisionName", 
+                        "PositionLocation.CityName",
+                        "OrganizationName",
+                        "PositionOfferingType.Name",
+                        "PositionSchedule.Name",
+                        "CareerLevel.Name",
+                        "PublicationStartDate",
+                        "PositionHiringYear",
+                        "UserArea.ProDivision"
+                    ],
+                    "Sort": [{"Criterion": "PublicationStartDate", "Direction": "DESC"}]
+                },
+                "SearchCriteria": search_criteria_list
+            }
+            
+            try:
+                response = requests.post(
+                    self.api_base_url,
+                    json=api_params,
+                    headers=self.api_headers,
+                    timeout=30
+                )
+                
+                if response.status_code != 200:
+                    self.logger.error(f"❌ API request failed: {response.status_code}")
+                    break
+                
+                data = response.json()
+                
+                if "SearchResult" not in data or "SearchResultItems" not in data["SearchResult"]:
+                    self.logger.error("❌ Invalid API response structure")
+                    break
+                
+                jobs = data["SearchResult"]["SearchResultItems"]
+                self.logger.info(f"📥 Received {len(jobs)} jobs from API")
+                
+                if not jobs:  # No more jobs found
+                    break
+                
+                for job in jobs:
+                    job_id = job.get("MatchedObjectId", "")
+                    if not job_id:
+                        continue
+                        
+                    # Skip if we already have enough jobs
+                    if current_job_count >= max_jobs:
+                        break
+                        
+                    # Skip if we've already seen this job and we're not reprocessing
+                    if job_id in existing_job_ids and not allow_processed and not force_reprocess:
+                        continue
                     
-                    # Check if job already exists and has valuable data
-                    job_file = self.data_dir / f"job{job_id}.json"
-                    if job_file.exists() and not force_reprocess:
-                        should_skip = self._should_skip_existing_job(job_file, job_id)
-                        if should_skip:
-                            self.logger.info(f"⏭️ Skipping job {job_id} - already has processed data")
-                            # Load existing job for the return list
-                            try:
+                    try:
+                        job_file = self.data_dir / f"job{job_id}.json"
+                        if job_file.exists() and not force_reprocess:
+                            if allow_processed:
+                                self.logger.info(f"🔄 Job {job_id} exists and allow_processed=True - using it")
                                 with open(job_file, 'r', encoding='utf-8') as f:
                                     existing_job = json.load(f)
                                     enhanced_jobs.append(existing_job)
-                            except Exception as e:
-                                self.logger.warning(f"⚠️ Could not load existing job {job_id}: {e}")
-                            continue
-                        else:
-                            self.logger.info(f"🔄 Job {job_id} exists but has no AI analysis - updating with fresh data")
-                    elif job_file.exists() and force_reprocess:
-                        self.logger.info(f"🔄 Force reprocess enabled - will overwrite job {job_id}")
-                    else:
-                        self.logger.info(f"➕ Creating new job {job_id}")
-                    
-                    # Try to get description from API first
-                    descriptor = job.get("MatchedObjectDescriptor", {})
-                    api_description = descriptor.get("PositionFormattedDescription", {}).get("Content", "")
-                    
-                    # If no description from API, try web scraping
-                    if not api_description:
-                        position_uri = descriptor.get("PositionURI", "")
-                        if position_uri:
-                            api_description = self.fetch_job_description(job_id, position_uri)
-                    
-                    # Create beautiful job structure
-                    beautiful_job = self.create_beautiful_job_structure(
-                        job_api_data=job,
-                        job_description=api_description
-                    )
-                    
-                    # Save to file
-                    with open(job_file, 'w', encoding='utf-8') as f:
-                        json.dump(beautiful_job, f, indent=2, ensure_ascii=False)
-                    
-                    enhanced_jobs.append(beautiful_job)
-                    self.logger.info(f"💾 Saved beautiful job {job_id}: {beautiful_job['job_content']['title']}")
-                    
-                    # Be nice to the servers
-                    if not quick_mode:
-                        time.sleep(self.config.job_search.search_delay_seconds)
-                    
-                except Exception as e:
-                    self.logger.error(f"❌ Error processing job {i}: {e}")
+                                    current_job_count += 1
+                                continue
+                            else:
+                                should_skip = self._should_skip_existing_job(job_file, job_id, allow_processed)
+                                if should_skip:
+                                    continue
+                                
+                        # Get job description
+                        descriptor = job.get("MatchedObjectDescriptor", {})
+                        api_description = descriptor.get("PositionFormattedDescription", {}).get("Content", "")
+                        
+                        if not api_description:
+                            position_uri = descriptor.get("PositionURI", "")
+                            if position_uri:
+                                api_description = self.fetch_job_description(job_id, position_uri)
+                        
+                        # Create and save job
+                        beautiful_job = self.create_beautiful_job_structure(
+                            job_api_data=job,
+                            job_description=api_description
+                        )
+                        
+                        with open(job_file, 'w', encoding='utf-8') as f:
+                            json.dump(beautiful_job, f, indent=2, ensure_ascii=False)
+                        
+                        enhanced_jobs.append(beautiful_job)
+                        current_job_count += 1
+                        
+                        self.logger.info(f"💾 Saved beautiful job {job_id}: {beautiful_job['job_content']['title']}")
+                        
+                        # Be nice to the servers
+                        if not quick_mode:
+                            time.sleep(self.config.job_search.search_delay_seconds)
+                            
+                    except Exception as e:
+                        self.logger.error(f"❌ Error processing job {job_id}: {e}")
+                        continue
+                
+                # If no new jobs were found in this batch, move to next page
+                if current_job_count == 0:
+                    page += 1
                     continue
-            
-            self.logger.info(f"✅ Successfully processed {len(enhanced_jobs)} jobs with beautiful structure!")
-            return enhanced_jobs
-            
-        except Exception as e:
-            self.logger.error(f"❌ Job fetching failed: {e}")
-            return []
-
+                    
+                # If we found some jobs but need more, move to next page
+                if current_job_count < max_jobs:
+                    page += 1
+                    continue
+                    
+                break  # We have enough jobs
+                
+            except Exception as e:
+                self.logger.error(f"❌ Job fetching failed: {e}")
+                break
+        
+        self.logger.info(f"✅ Successfully processed {len(enhanced_jobs)} jobs with beautiful structure!")
+        return enhanced_jobs
 # Convenience function for backward compatibility
 def fetch_jobs_beautiful(max_jobs: int = 10, quick_mode: bool = False) -> List[Dict[str, Any]]:
     """Convenience function to fetch jobs with beautiful structure"""

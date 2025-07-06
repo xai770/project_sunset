@@ -159,31 +159,21 @@ ANALYSIS TEMPLATE:
 Please provide your analysis in this exact format:
 
 CONFLICT_DETECTED: [YES/NO]
-AUTHORITATIVE_LOCATION: [The ACTUAL job work location from the description]
+AUTHORITATIVE_LOCATION: [Most specific location mentioned in description, or metadata location if no conflict]
 EXTRACTED_LOCATIONS: [Comma-separated list of all locations found in description]
 CONFIDENCE_SCORE: [0-100]
 CONFLICT_TYPE: [critical/high/medium/low/none]
 REASONING: [Brief explanation of your decision]
 RISK_LEVEL: [critical/high/medium/low]
 
-EXAMPLES:
-Example 1: If metadata="Frankfurt" but description says "based in Pune office", then:
-AUTHORITATIVE_LOCATION: Pune, India
-
-Example 2: If metadata="Frankfurt" but description says "located in Bangalore facility", then:
-AUTHORITATIVE_LOCATION: Bangalore, India
-
-Example 3: If metadata="Frankfurt" and description says "Frankfurt office", then:
-AUTHORITATIVE_LOCATION: Frankfurt, Germany
-
-CRITICAL INSTRUCTIONS:
-- AUTHORITATIVE_LOCATION = the location where work will actually be performed (from job description)
-- Extract the REAL work location from the job description text
-- If description mentions "Pune", return "Pune, India" 
-- If description mentions "Bangalore", return "Bangalore, India"
-- If description mentions "Frankfurt", return "Frankfurt, Germany"
-- If no clear location in description, use metadata location
-- A conflict exists when description location differs from metadata location"""
+INSTRUCTIONS:
+- Look for specific cities, countries, or regions mentioned in the job description
+- A conflict exists if the description clearly indicates a different location than metadata
+- Critical conflicts: Different countries (e.g., Frankfurt vs India cities)
+- High confidence (90-100): Clear, specific location mentions
+- Medium confidence (70-89): Implied or less specific locations
+- Low confidence (50-69): Ambiguous or unclear references
+- Risk level critical: Different continents/countries, risk level high: different regions within country"""
 
         logger.info(f"🤖 Calling Ollama LLM for job {job_id}")
         
