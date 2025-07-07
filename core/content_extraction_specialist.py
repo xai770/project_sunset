@@ -219,6 +219,29 @@ BUSINESS SKILLS (one per line, clean names only):"""
             accuracy_confidence="Production Grade v3.3 (Ultra-Focused)"
         )
 
+    def extract_concise_description(self, job_description: str) -> str:
+        """
+        Extract a concise, technical description of the job.
+        Focuses on key responsibilities and technical requirements.
+        """
+        prompt = f"""CREATE A CONCISE JOB DESCRIPTION.
+
+STRICT RULES:
+- Focus on key technical responsibilities and requirements
+- Keep it factual and precise
+- Include seniority level and role type
+- Include key technical skills and tools
+- Maximum 3-4 sentences
+- Remove boilerplate HR content
+- Remove company marketing content
+- Remove benefits/perks content
+
+ORIGINAL JOB DESCRIPTION: {job_description}
+
+CONCISE DESCRIPTION:"""
+        
+        return self._call_ollama(prompt).strip()
+
 def extract_skills_pipeline(job_description: str):
     """Production pipeline interface"""
     specialist = ContentExtractionSpecialistV33()

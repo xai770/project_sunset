@@ -329,6 +329,114 @@ class DirectJobMatchingSpecialists:
                 error=str(e)
             )
 
+    def process_job_file(self, job_file_path: str) -> SpecialistResult:
+        """
+        Process a single job file using the appropriate specialists
+        
+        Args:
+            job_file_path: Path to the job file (JSON format)
+            
+        Returns:
+            SpecialistResult with the processing outcome
+        """
+        try:
+            import json
+            with open(job_file_path, 'r') as f:
+                job_data = json.load(f)
+            
+            # Extract job ID from file name (assuming format like job_123.json)
+            job_id = os.path.splitext(os.path.basename(job_file_path))[0]
+            job_data['job_id'] = job_id
+            
+            logger.info(f"📂 Processing job file: {job_file_path}")
+            
+            # Step 1: Extract skills and content from job description
+            extraction_result = self.extract_content_skills(job_data.get('description', ''))
+            if not extraction_result.success:
+                return extraction_result
+            
+            # Enrich job data with extracted skills
+            job_data['extracted_skills'] = extraction_result.result.get('all_skills', [])
+            
+            # Step 2: Evaluate job fitness for a sample CV (using a dummy CV for now)
+            dummy_cv = {
+                "text": "Experienced professional with a strong background in risk management and compliance.",
+                "skills": ["risk management", "compliance"],
+                "experience": "5 years in financial services"
+            }
+            fitness_result = self.evaluate_job_fitness(dummy_cv, job_data)
+            job_data['fitness_evaluation'] = fitness_result.result
+            
+            # Step 3: Generate a cover letter (using legacy generator for now)
+            cover_letter_result = self.generate_cover_letter(dummy_cv, job_data)
+            job_data['cover_letter'] = cover_letter_result.result
+            
+            return SpecialistResult(
+                success=True,
+                result=job_data,
+                specialist_used="job_file_processor",
+                execution_time=0.0,
+                quality_score=None
+            )
+        except Exception as e:
+            logger.error(f"❌ Error processing job file {job_file_path}: {e}")
+            return SpecialistResult(
+                success=False,
+                result=None,
+                specialist_used="job_file_processor",
+                execution_time=0.0,
+                error=str(e)
+            )
+
+    def process_job(self, job_data: Dict[str, Any]) -> SpecialistResult:
+        """
+        Process a single job entry (dictionary) using the appropriate specialists
+        
+        Args:
+            job_data: Job data as a dictionary
+            
+        Returns:
+            SpecialistResult with the processing outcome
+        """
+        try:
+            # Step 1: Extract skills and content from job description
+            extraction_result = self.extract_content_skills(job_data.get('description', ''))
+            if not extraction_result.success:
+                return extraction_result
+            
+            # Enrich job data with extracted skills
+            job_data['extracted_skills'] = extraction_result.result.get('all_skills', [])
+            
+            # Step 2: Evaluate job fitness for a sample CV (using a dummy CV for now)
+            dummy_cv = {
+                "text": "Experienced professional with a strong background in risk management and compliance.",
+                "skills": ["risk management", "compliance"],
+                "experience": "5 years in financial services"
+            }
+            fitness_result = self.evaluate_job_fitness(dummy_cv, job_data)
+            job_data['fitness_evaluation'] = fitness_result.result
+            
+            # Step 3: Generate a cover letter (using legacy generator for now)
+            cover_letter_result = self.generate_cover_letter(dummy_cv, job_data)
+            job_data['cover_letter'] = cover_letter_result.result
+            
+            return SpecialistResult(
+                success=True,
+                result=job_data,
+                specialist_used="job_processor",
+                execution_time=0.0,
+                quality_score=None
+            )
+        except Exception as e:
+            logger.error(f"❌ Error processing job data {job_data.get('job_id')}: {e}")
+            return SpecialistResult(
+                success=False,
+                result=None,
+                specialist_used="job_processor",
+                execution_time=0.0,
+                error=str(e)
+            )
+
 
 def get_job_matching_specialists(model: str = "llama3.2:latest") -> DirectJobMatchingSpecialists:
     """
@@ -341,3 +449,29 @@ def get_feedback_specialists(model: str = "llama3.2:latest") -> DirectJobMatchin
     Get direct access to feedback analysis specialists - Phase 3 Architecture
     """
     return DirectJobMatchingSpecialists(model)
+
+def process_jobs_with_specialists(jobs=None, model="llama3.2:latest"):
+    """Process jobs with LLM specialists"""
+    specialist = DirectJobMatchingSpecialists(model=model)
+    results = []
+    
+    if jobs is None:
+        # Process jobs from data/postings directory
+        postings_dir = os.path.join("data", "postings")
+        if not os.path.exists(postings_dir):
+            logger.warning("⚠️ No jobs found in data/postings")
+            return results
+            
+        for job_file in os.listdir(postings_dir):
+            if job_file.endswith(".json"):
+                job_path = os.path.join(postings_dir, job_file)
+                result = specialist.process_job_file(job_path)
+                results.append(result)
+    else:
+        # Process provided jobs
+        for job in jobs:
+            result = specialist.process_job(job)
+            results.append(result)
+    
+    logger.info(f"✅ Processed {len(results)} jobs with specialists")
+    return results
