@@ -64,10 +64,10 @@ class DomainClassificationSpecialist:
         logger.info(f"🎯 Processing domain classification for job {job_id}")
         
         try:
-            # Use LLM Factory's v1.1 specialist
+            # Use LLM Factory's v1.1 specialist  
             result = classify_job_domain_llm(
-                job_metadata={'title': job_title, 'id': job_id},
-                job_description=job_description
+                job_description=job_description,
+                job_id=job_id
             )
             
             # Update statistics
