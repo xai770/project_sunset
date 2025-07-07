@@ -114,9 +114,49 @@ class ExcelExporter:
                         matches: List[Dict[str, Any]], 
                         columns: Dict[str, str]) -> None:
         """Write and format data rows"""
+        
+        # Create mapping from display names to actual data keys
+        column_mapping = {
+            "Job ID": "job_id",
+            "Full Content": "full_content",
+            "Concise Job Description": "concise_description",
+            "Position title": "position_title",
+            "Location": "location",
+            "Location Validation Details": "location_validation_details",
+            "Job domain": "job_domain",
+            "Match level": "match_level",
+            "Evaluation date": "evaluation_date",
+            "Has domain gap": "has_domain_gap",
+            "Domain assessment": "domain_assessment",
+            "No-go rationale": "no_go_rationale",
+            "Application narrative": "application_narrative",
+            "export_job_matches_log": "export_job_matches_log",
+            "generate_cover_letters_log": "generate_cover_letters_log",
+            "reviewer_feedback": "reviewer_feedback",
+            "mailman_log": "mailman_log",
+            "process_feedback_log": "process_feedback_log",
+            "reviewer_support_log": "reviewer_support_log",
+            "workflow_status": "workflow_status",
+            "Technical Evaluation": "technical_evaluation",
+            "Human Story Interpretation": "human_story_interpretation",
+            "Opportunity Bridge Assessment": "opportunity_bridge_assessment",
+            "Growth Path Illumination": "growth_path_illumination",
+            "Encouragement Synthesis": "encouragement_synthesis",
+            "Confidence Score": "confidence_score",
+            "Joy Level": "joy_level"
+        }
+        
         for row_idx, match in enumerate(matches, start=2):
-            # Prepare row data using column configuration
-            row_data = [match.get(col_name, '') for col_name in columns.values()]
+            # Prepare row data using proper column mapping
+            row_data = []
+            for display_name in columns.values():
+                data_key = column_mapping.get(display_name, display_name.lower().replace(' ', '_'))
+                value = match.get(data_key, '')
+                # Handle dictionary values (like location_validation)
+                if isinstance(value, dict):
+                    value = str(value)
+                row_data.append(value)
+            
             worksheet.append(row_data)
             
             # Apply row formatting
