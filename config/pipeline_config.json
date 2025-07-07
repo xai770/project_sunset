@@ -1,0 +1,63 @@
+{
+    "pipeline": {
+        "max_concurrent_jobs": 4,
+        "job_timeout_seconds": 300,
+        "retry_attempts": 3
+    },
+    "monitoring": {
+        "metrics": [
+            {
+                "name": "cpu_usage",
+                "warning_threshold": 70.0,
+                "error_threshold": 85.0,
+                "critical_threshold": 95.0,
+                "aggregation_window": 300,
+                "alert_cooldown": 3600
+            },
+            {
+                "name": "memory_usage",
+                "warning_threshold": 70.0,
+                "error_threshold": 85.0,
+                "critical_threshold": 95.0,
+                "aggregation_window": 300,
+                "alert_cooldown": 3600
+            },
+            {
+                "name": "pipeline_error_rate",
+                "warning_threshold": 5.0,
+                "error_threshold": 10.0,
+                "critical_threshold": 20.0,
+                "aggregation_window": 900,
+                "alert_cooldown": 3600
+            },
+            {
+                "name": "llm_error_rate",
+                "warning_threshold": 5.0,
+                "error_threshold": 10.0,
+                "critical_threshold": 20.0,
+                "aggregation_window": 300,
+                "alert_cooldown": 1800
+            },
+            {
+                "name": "llm_latency",
+                "warning_threshold": 2.0,
+                "error_threshold": 5.0,
+                "critical_threshold": 10.0,
+                "aggregation_window": 300,
+                "alert_cooldown": 1800
+            }
+        ]
+    },
+    "cv_matching": {
+        "skill_similarity_threshold": 0.85,
+        "experience_weight": 0.35,
+        "skills_weight": 0.25,
+        "education_weight": 0.20,
+        "language_weight": 0.20
+    },
+    "reporting": {
+        "generate_pdf": true,
+        "include_charts": true,
+        "retention_days": 30
+    }
+}
