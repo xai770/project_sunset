@@ -42,13 +42,33 @@ class ExcelConfig:
     """Excel export configuration"""
     output_directory: str = "output/excel"
     template_columns: Dict[str, str] = field(default_factory=lambda: {
-        'A': 'Job ID', 'B': 'Job description', 'C': 'Position title',
-        'D': 'Location', 'E': 'Job domain', 'F': 'Match level',
-        'G': 'Evaluation date', 'H': 'Has domain gap', 'I': 'Domain assessment',
-        'J': 'No-go rationale', 'K': 'Application narrative',
-        'L': 'export_job_matches_log', 'M': 'generate_cover_letters_log',
-        'N': 'reviewer_feedback', 'O': 'mailman_log', 'P': 'process_feedback_log',
-        'Q': 'reviewer_support_log', 'R': 'workflow_status'
+        'A': 'Job ID',
+        'B': 'Full Content',
+        'C': 'Concise Job Description',
+        'D': 'Position title',
+        'E': 'Location',
+        'F': 'Location Validation Details',
+        'G': 'Job domain',
+        'H': 'Match level',
+        'I': 'Evaluation date',
+        'J': 'Has domain gap',
+        'K': 'Domain assessment',
+        'L': 'No-go rationale',
+        'M': 'Application narrative',
+        'N': 'export_job_matches_log',
+        'O': 'generate_cover_letters_log',
+        'P': 'reviewer_feedback',
+        'Q': 'mailman_log',
+        'R': 'process_feedback_log',
+        'S': 'reviewer_support_log',
+        'T': 'workflow_status',
+        'U': 'Technical Evaluation',
+        'V': 'Human Story Interpretation',
+        'W': 'Opportunity Bridge Assessment',
+        'X': 'Growth Path Illumination',
+        'Y': 'Encouragement Synthesis',
+        'Z': 'Confidence Score',
+        'AA': 'Joy Level'
     })
     row_height_max: int = 200
     row_height_min: int = 30
@@ -103,9 +123,43 @@ class SunsetConfig:
             with open(config_path, 'r') as f:
                 config_data = json.load(f)
             
-            # TODO: Implement proper deserialization
-            # For now, return default config
-            return cls()
+            # Create the configuration instance with loaded data
+            instance = cls()
+            
+            # Update environment settings
+            instance.environment = config_data.get("environment", instance.environment)
+            instance.debug = config_data.get("debug", instance.debug)
+            instance.log_level = config_data.get("log_level", instance.log_level)
+            instance.version = config_data.get("version", instance.version)
+            
+            # Update LLM configuration
+            if "llm" in config_data:
+                llm_data = config_data["llm"]
+                instance.llm.default_model = llm_data.get("default_model", instance.llm.default_model)
+                instance.llm.timeout = llm_data.get("timeout", instance.llm.timeout)
+                instance.llm.max_retries = llm_data.get("max_retries", instance.llm.max_retries)
+            
+            # Update job search configuration
+            if "job_search" in config_data:
+                job_search_data = config_data["job_search"]
+                instance.job_search.max_jobs_per_search = job_search_data.get(
+                    "max_jobs_per_search", instance.job_search.max_jobs_per_search)
+                instance.job_search.quick_mode_limit = job_search_data.get(
+                    "quick_mode_limit", instance.job_search.quick_mode_limit)
+            
+            # Update Excel configuration
+            if "excel" in config_data:
+                excel_data = config_data["excel"]
+                instance.excel.output_directory = excel_data.get(
+                    "output_directory", instance.excel.output_directory)
+                instance.excel.template_columns = excel_data.get(
+                    "template_columns", instance.excel.template_columns)
+                instance.excel.row_height_max = excel_data.get(
+                    "row_height_max", instance.excel.row_height_max)
+                instance.excel.row_height_min = excel_data.get(
+                    "row_height_min", instance.excel.row_height_min)
+            
+            return instance
             
         except Exception as e:
             print(f"Error loading configuration: {e}, using defaults")
@@ -132,6 +186,12 @@ class SunsetConfig:
             "job_search": {
                 "max_jobs_per_search": self.job_search.max_jobs_per_search,
                 "quick_mode_limit": self.job_search.quick_mode_limit
+            },
+            "excel": {
+                "output_directory": self.excel.output_directory,
+                "template_columns": self.excel.template_columns,
+                "row_height_max": self.excel.row_height_max,
+                "row_height_min": self.excel.row_height_min
             }
         }
         

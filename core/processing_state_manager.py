@@ -9,9 +9,11 @@ enabling smart reprocessing without coupling job data to processing infrastructu
 
 import json
 import time
-from pathlib import Path
 from typing import Dict, List, Optional
 from dataclasses import dataclass, asdict
+import logging
+from datetime import datetime
+from pathlib import Path
 
 @dataclass
 class ProcessingRecord:
@@ -122,6 +124,77 @@ class ProcessingManifest:
             "average_processing_times": avg_times,
             "current_versions": self.manifest["current_specialist_versions"]
         }
+    
+    def detect_and_recover_missing_jobs(self, max_recovery: int = 10, enable_recovery: bool = True) -> int:
+        """
+        Detect and recover missing jobs from the processing manifest
+        
+        Args:
+            max_recovery: Maximum number of jobs to recover
+            enable_recovery: Whether to actually perform recovery
+            
+        Returns:
+            int: Number of jobs recovered
+        """
+        logger = logging.getLogger(__name__)
+        
+        job_dir = Path("/home/xai/Documents/sandy/data/postings")
+        
+        # Find missing jobs
+        missing_jobs = []
+        for job_file in job_dir.glob("*.json"):
+            job_id = job_file.stem.replace("job", "")
+            if job_id not in self.manifest["processing_records"]:
+                missing_jobs.append(job_id)
+        
+        if not missing_jobs:
+            return 0
+            
+        if not enable_recovery:
+            return len(missing_jobs)
+            
+        # Limit recovery
+        missing_jobs = missing_jobs[:max_recovery]
+        
+        # Recover jobs
+        recovered = 0
+        for job_id in missing_jobs:
+            try:
+                job_file = job_dir / f"job{job_id}.json"
+                if job_file.exists():
+                    # Add job to manifest
+                    record = ProcessingRecord(
+                        job_id=job_id,
+                        timestamp=time.strftime('%Y-%m-%d %H:%M:%S'),
+                        specialists_used={},
+                        processing_times={},
+                        results_summary={}
+                    )
+                    self.manifest["processing_records"][job_id] = asdict(record)
+                    recovered += 1
+            except Exception as e:
+                logger.error(f"Error recovering job {job_id}: {e}")
+                
+        self.save_manifest()
+        return recovered
+
+# Export helper functions
+def detect_and_recover_missing_jobs(max_recovery: int = 10, enable_recovery: bool = True) -> int:
+    """
+    Module-level helper to detect and recover missing jobs
+    
+    Args:
+        max_recovery: Maximum number of jobs to recover
+        enable_recovery: Whether to actually perform recovery
+        
+    Returns:
+        int: Number of jobs recovered
+    """
+    manifest = ProcessingManifest()
+    return manifest.detect_and_recover_missing_jobs(
+        max_recovery=max_recovery,
+        enable_recovery=enable_recovery
+    )
 
 # CLI interface
 def main():
@@ -175,3 +248,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# Export names for external use
+__all__ = ['ProcessingRecord', 'ProcessingManifest', 'detect_and_recover_missing_jobs']

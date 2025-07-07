@@ -1,0 +1,49 @@
+{
+  "environment": "development",
+  "debug": true,
+  "log_level": "INFO",
+  "version": "1.0.0-phase7",
+  "llm": {
+    "default_model": "llama3.2",
+    "timeout": 300,
+    "max_retries": 3
+  },
+  "job_search": {
+    "max_jobs_per_search": 50,
+    "quick_mode_limit": 5
+  },
+  "excel": {
+    "output_directory": "output/excel",
+    "template_columns": {
+      "A": "Job ID",
+      "B": "Full Content",
+      "C": "Concise Job Description",
+      "D": "Position title",
+      "E": "Location",
+      "F": "Location Validation Details",
+      "G": "Job domain",
+      "H": "Match level",
+      "I": "Evaluation date",
+      "J": "Has domain gap",
+      "K": "Domain assessment",
+      "L": "No-go rationale",
+      "M": "Application narrative",
+      "N": "export_job_matches_log",
+      "O": "generate_cover_letters_log",
+      "P": "reviewer_feedback",
+      "Q": "mailman_log",
+      "R": "process_feedback_log",
+      "S": "reviewer_support_log",
+      "T": "workflow_status",
+      "U": "Technical Evaluation",
+      "V": "Human Story Interpretation",
+      "W": "Opportunity Bridge Assessment",
+      "X": "Growth Path Illumination",
+      "Y": "Encouragement Synthesis",
+      "Z": "Confidence Score",
+      "AA": "Joy Level"
+    },
+    "row_height_max": 200,
+    "row_height_min": 30
+  }
+}

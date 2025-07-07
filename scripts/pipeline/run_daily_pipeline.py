@@ -30,8 +30,19 @@ sys.path.insert(0, str(project_root))
 
 # Import pipeline components
 from core.enhanced_job_fetcher import EnhancedJobFetcher
-from main import load_search_criteria
-from run_pipeline.export_job_matches import export_job_matches
+from core.config_manager import get_config
+from core.job_matching_api import JobMatchingAPI
+from core.job_matching_specialists import process_jobs_with_specialists
+from core.processing_state_manager import detect_and_recover_missing_jobs
+
+def export_job_matches(output_format='excel', feedback_system=True, reviewer_name=None):
+    """Export job matches to Excel format"""
+    job_matcher = JobMatchingAPI()
+    return job_matcher.export_matches(
+        output_format=output_format,
+        feedback_system=feedback_system,
+        reviewer_name=reviewer_name
+    )
 
 def setup_logging():
     """Setup logging for the daily pipeline"""
@@ -83,7 +94,6 @@ def recovery_step(max_recovery=10):
     logger.info("🔧 Step 0: Auto-recovery of missing jobs")
     
     try:
-        from main import detect_and_recover_missing_jobs
         recovered = detect_and_recover_missing_jobs(
             max_recovery=max_recovery, 
             enable_recovery=True
@@ -134,7 +144,6 @@ def analyze_jobs_step():
     
     try:
         # Import and run job matching
-        from main import process_jobs_with_specialists
         result = process_jobs_with_specialists()
         
         logger.info("✅ Job analysis completed")
@@ -207,64 +216,56 @@ def run_daily_pipeline(max_jobs=10, test_mode=False, no_email=False):
     """Run the complete daily pipeline"""
     logger = setup_logging()
     
-    logger.info("🌅 Starting Daily Pipeline for Project Sunset")
-    logger.info("=" * 60)
-    
-    start_time = datetime.now()
-    recovered_jobs = 0
-    
     try:
+        logger.info("🌅 Starting Daily Pipeline")
+        logger.info("=" * 60)
+        
+        start_time = datetime.now()
+        
         # Step 0: Auto-recovery of missing jobs
         recovered_jobs = recovery_step(max_recovery=10)
         
-        # Backup existing postings
-        backup_dir = backup_postings()
-        if backup_dir:
-            logger.info(f"💾 Backed up existing postings to: {backup_dir}")
-        
-        # Clear postings directory
-        clear_postings()
-        logger.info("🧹 Cleared postings directory")
-        
         # Step 1: Fetch jobs
+        logger.info("Step 1: Fetching jobs...")
         jobs = fetch_jobs_step(max_jobs, test_mode)
         
         if not jobs:
             logger.warning("⚠️ No jobs fetched, stopping pipeline")
             return
         
+        logger.info(f"✅ Fetched {len(jobs)} jobs")
+        
         # Step 2: Analyze jobs
+        logger.info("Step 2: Analyzing jobs...")
         analyze_jobs_step()
         
         # Step 3: Export to Excel
+        logger.info("Step 3: Exporting to Excel...")
         excel_path = export_jobs_step()
         
         if not excel_path:
-            logger.warning("⚠️ No Excel file generated, stopping pipeline")
+            logger.warning("⚠️ No Excel file generated")
             return
-        
-        # Step 4: Generate cover letters
-        cover_letters = generate_cover_letters_step(excel_path)
-        
-        # Step 5: Send email package
-        send_email_step(excel_path, cover_letters, no_email)
-        
-        # Pipeline completed successfully
-        end_time = datetime.now()
-        duration = end_time - start_time
-        
-        logger.info("=" * 60)
-        logger.info(f"🎉 Daily Pipeline completed successfully!")
-        logger.info(f"⏱️ Total duration: {duration}")
-        if recovered_jobs > 0:
-            logger.info(f"🔧 Jobs recovered: {recovered_jobs}")
-        logger.info(f"📊 Jobs fetched: {len(jobs)}")
-        logger.info(f"📄 Excel file: {excel_path}")
-        logger.info(f"✍️ Cover letters: {len(cover_letters) if cover_letters else 0}")
+
+        logger.info("✅ Pipeline completed successfully!")
+        logger.info(f"📊 Processed {len(jobs)} jobs")
+        logger.info(f"📄 Excel output: {excel_path}")
         
     except Exception as e:
-        logger.error(f"💥 Pipeline failed: {e}")
+        logger.error(f"❌ Pipeline failed: {e}", exc_info=True)
         raise
+
+def load_search_criteria(profile_name: str = 'xai_frankfurt_focus'):
+    """Load search criteria from configuration"""
+    config = get_config()
+    if hasattr(config, 'search_criteria') and profile_name in config.search_criteria:
+        return config.search_criteria[profile_name]
+    return {
+        "keywords": ["Python", "ML", "AI", "Software Engineer", "Data Scientist"],
+        "location": "Frankfurt",
+        "company": "Deutsche Bank",
+        "max_age_days": 30
+    }
 
 def main():
     """Main entry point"""

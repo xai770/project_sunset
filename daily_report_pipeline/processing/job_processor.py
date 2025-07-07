@@ -44,7 +44,8 @@ class JobProcessor:
         print(f"    Job: {job_content.get('title', 'Unknown')} | Length: {len(job_description)} chars")
         
         # Get insights from specialists
-        job_insights = self._extract_job_insights(job_description, location_str, job_id)
+        job_title = job_content.get('title', 'Unknown')
+        job_insights = self._extract_job_insights(job_description, location_str, job_id, job_title)
         
         # Format location validation details
         location_validation_details = self._format_location_validation(job_insights)
@@ -83,14 +84,7 @@ class JobProcessor:
         )
         
         print("  Processing Domain Classification Specialist (v1.1)...")
-        domain_result = self.domain_specialist.classify_domain({
-            'job_description': description,
-            'job_metadata': {
-                'title': title,
-                'id': job_id,
-                'location': location
-            }
-        })
+        domain_result = self.domain_specialist.classify_domain(description, job_id)  # Simplified interface
         
         print("  Processing Text Summarization Specialist...")
         summary_result = self.summarization_specialist.summarize_job_description(description)
