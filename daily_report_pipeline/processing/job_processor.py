@@ -154,36 +154,16 @@ class JobProcessor:
         """Create a standardized report entry following Sandy's 27-column format"""
         all_skills = job_insights.get('all_skills', [])
         validation_result = job_insights.get('location_validation_result', {})
-        domain_result = job_insights.get('domain_classification_result', {})
-        
-        # Extract domain and location details from specialist results
-        domain = domain_result.get('primary_domain', 'unknown')
-        domain_confidence = domain_result.get('confidence', 0.0)  # Already a percentage
-        
-        # Handle location validation result - it's a dictionary, not an object
-        if isinstance(validation_result, dict):
-            location_confidence = validation_result.get('confidence_score', 0) * 100
-            location_valid = not validation_result.get('conflict_detected', True)  # Valid if no conflict
-            authoritative_location = validation_result.get('authoritative_location', 'Unknown')
-        else:
-            location_confidence = getattr(validation_result, 'confidence_score', 0) * 100
-            location_valid = not getattr(validation_result, 'conflict_detected', True)
-            authoritative_location = getattr(validation_result, 'authoritative_location', 'Unknown')
-        
-        should_proceed = domain_result.get('should_proceed', True) and location_valid
+        confidence = getattr(validation_result, 'confidence_score', 0)
         
         return {
             'job_id': job_id,
             'full_content': job_content.get('description', ''),
             'concise_description': job_insights.get('summary', ''),
             'position_title': job_content.get('title', 'Unknown'),
-            'location': authoritative_location if location_valid else 'Invalid',
+            'location': location_str,
             'location_validation_details': location_validation_details,
-            'job_domain': domain,
-            'domain': domain,
-            'domain_confidence': domain_confidence,
-            'location_validation': {'is_valid': location_valid},
-            'proceed': should_proceed,
+            'job_domain': job_content.get('domain', 'Unknown'),
             'match_level': job_insights.get('match_level', 'Unknown'),
             'evaluation_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'has_domain_gap': 'No',
@@ -197,11 +177,11 @@ class JobProcessor:
             'process_feedback_log': '',
             'reviewer_support_log': '',
             'workflow_status': 'Initial Analysis',
-            'technical_evaluation': f"Skills: {len(all_skills)} | Location confidence: {location_confidence:.1f}%",
+            'technical_evaluation': f"Skills: {len(all_skills)} | Location confidence: {confidence:.2f}",
             'human_story_interpretation': '',
             'opportunity_bridge_assessment': '',
             'growth_path_illumination': '',
             'encouragement_synthesis': '',
-            'confidence_score': location_confidence,
+            'confidence_score': confidence,
             'joy_level': ''
         }
