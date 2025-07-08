@@ -37,7 +37,7 @@ def main():
     print("=" * 50)
     print("Using modular architecture from daily_report_pipeline/")
     print("✅ Content Extraction Specialist v3.4")
-    print("✅ Location Validation Specialist v2.0 (Enhanced LLM)")
+    print("✅ Location Validation Specialist v3.0 (Enhanced Regex + LLM)")
     print("✅ Text Summarization Specialist")
     print("=" * 50)
     

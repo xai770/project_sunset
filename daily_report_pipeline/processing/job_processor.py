@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import Dict, Any, Optional
 
 from ..specialists.content_extraction import ContentExtractionSpecialist
-from ..specialists.location_validation_enhanced import LocationValidationEnhanced
+from ..specialists.location_validation_v3 import LocationValidationSpecialistV3
 from ..specialists.text_summarization import TextSummarizationSpecialist
 from ..specialists.domain_classification import DomainClassificationSpecialist
 from ..core.cv_data_manager import CVDataManager
@@ -21,7 +21,7 @@ class JobProcessor:
     def __init__(self):
         """Initialize the job processor with required specialists"""
         self.content_specialist = ContentExtractionSpecialist()
-        self.location_specialist = LocationValidationEnhanced()
+        self.location_specialist = LocationValidationSpecialistV3()
         self.summarization_specialist = TextSummarizationSpecialist()
         self.domain_specialist = DomainClassificationSpecialist()
         
