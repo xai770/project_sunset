@@ -1,46 +1,80 @@
 #!/usr/bin/env python3
 """
-Content Extraction Specialist v3.4 - PRODUCTION GRADE
-====================================================
+Content Extraction Specialist v4.0 - ENHANCED 5-DIMENSIONAL EXTRACTION
+====================================================================
 
-CRISIS RESOLVED - Working production specialist for skill extraction
-from job descriptions using precision LLM prompts.
+ENHANCED VERSION - Now includes Arden's 5-dimensional requirements framework
+with German localization and structured extraction patterns.
 
-Author: Terminator@LLM_Factory (Crisis Response)
-Version: 3.4 (Production Validated)
+Author: Sandy + Arden Enhancement Integration
+Version: 4.0 (5D Enhanced)
 """
 
 import time
-from typing import List
+from typing import List, Optional
 from ..core.llm_base import ProfessionalLLMCore
 from ..core.data_models import ContentExtractionResult
 
+# Import enhanced requirements extractor
+try:
+    from .enhanced_requirements_extraction import EnhancedRequirementsExtractor, FiveDimensionalRequirements
+except ImportError:
+    EnhancedRequirementsExtractor = None
+    FiveDimensionalRequirements = None
+    print("⚠️ Enhanced requirements extraction not available - using LLM fallback only")
+
 
 class ContentExtractionSpecialist(ProfessionalLLMCore):
-    """PRODUCTION-GRADE Content Extraction Specialist v3.4 - CRISIS RESOLVED"""
+    """ENHANCED Content Extraction Specialist v4.0 - 5-Dimensional Requirements Framework"""
     
     def __init__(self):
         super().__init__()
-        self.specialist_name = "Content Extraction Specialist v3.4 PRODUCTION (Crisis Resolved)"
+        self.specialist_name = "Content Extraction Specialist v4.0 ENHANCED (5D Framework)"
         self.ollama_url = "http://localhost:11434"
         self.preferred_model = "mistral:latest"
         self.fallback_models = ["olmo2:latest", "dolphin3:8b", "qwen3:latest", "llama3.2:latest"]
+        
+        # Initialize enhanced requirements extractor
+        if EnhancedRequirementsExtractor:
+            self.enhanced_extractor = EnhancedRequirementsExtractor()
+            print("✅ Enhanced 5D Requirements Extractor initialized")
+        else:
+            self.enhanced_extractor = None
+            print("⚠️ Enhanced extractor not available - using LLM fallback only")
     
     def extract_content(self, job_description: str) -> ContentExtractionResult:
-        """Extract skills using WORKING v3.4 production pipeline - CRISIS RESOLVED"""
+        """Extract skills using ENHANCED v4.0 with 5-dimensional framework"""
         start_time = time.time()
         
+        # Enhanced requirements data
+        enhanced_requirements = None
+        
         try:
-            # Use working v3.4 extraction methods
+            # PRIMARY: Use enhanced 5D extraction if available
+            if self.enhanced_extractor:
+                enhanced_requirements = self.enhanced_extractor.extract_requirements(job_description)
+                
+                # Convert enhanced data to backward-compatible format
+                technical_skills = [req.skill for req in enhanced_requirements.technical]
+                business_skills = [req.domain if hasattr(req, 'domain') else req.experience_type 
+                                 for req in enhanced_requirements.business]
+                soft_skills = [req.skill for req in enhanced_requirements.soft_skills]
+                
+                print(f"  ✅ Enhanced 5D extraction: {len(technical_skills)} technical, {len(business_skills)} business, {len(soft_skills)} soft skills")
+                
+            else:
+                # FALLBACK: Use existing LLM-based extraction
+                print("  ⚠️ Using LLM fallback extraction (enhanced not available)")
+                technical_skills = self._extract_technical_skills_v34(job_description)
+                business_skills = self._extract_business_skills_v34(job_description)
+                soft_skills = self._extract_soft_skills_v34(job_description)
+                
+        except Exception as e:
+            print(f"  ⚠️ Enhanced extraction error: {e} - falling back to LLM")
+            # FALLBACK: Use existing LLM-based extraction
             technical_skills = self._extract_technical_skills_v34(job_description)
             business_skills = self._extract_business_skills_v34(job_description)
             soft_skills = self._extract_soft_skills_v34(job_description)
-        except Exception as e:
-            print(f"⚠️  Extraction error: {e}")
-            # Provide fallback empty results rather than crash
-            technical_skills = []
-            soft_skills = []
-            business_skills = []
         
         # Combine and deduplicate with case-insensitive matching
         all_skills = []
@@ -62,6 +96,7 @@ class ContentExtractionSpecialist(ProfessionalLLMCore):
             soft_skills=soft_skills, 
             business_skills=business_skills,
             all_skills=all_skills,
+            enhanced_requirements=enhanced_requirements,  # NEW: Enhanced 5D data
             processing_time=processing_time
         )
     

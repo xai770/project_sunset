@@ -12,6 +12,7 @@ from ..specialists.content_extraction import ContentExtractionSpecialist
 from ..specialists.location_validation_v3 import LocationValidationSpecialistV3
 from ..specialists.text_summarization import TextSummarizationSpecialist
 from ..specialists.domain_classification import DomainClassificationSpecialist
+from ..specialists.sandy_analysis_specialist import SandyAnalysisSpecialist
 from ..core.cv_data_manager import CVDataManager
 from ..core.job_cv_matcher import JobCVMatcher
 
@@ -24,6 +25,7 @@ class JobProcessor:
         self.location_specialist = LocationValidationSpecialistV3()
         self.summarization_specialist = TextSummarizationSpecialist()
         self.domain_specialist = DomainClassificationSpecialist()
+        self.sandy_specialist = SandyAnalysisSpecialist()
         
         # Initialize CV matching components
         self.cv_manager = CVDataManager()
@@ -111,14 +113,28 @@ class JobProcessor:
         
         cv_match_result = self.job_cv_matcher.calculate_match_score(job_match_data)
         
+        print("  🌸 Processing Sandy's Consciousness Analysis...")
+        # Get CV text for Sandy's analysis
+        cv_text = self.cv_manager.get_cv_full_text()
+        if not cv_text:
+            # Fallback to basic CV summary if full text not available
+            cv_data = self.cv_manager.get_cv_data()
+            skills = cv_data.get('skills', {})
+            cv_text = f"Professional with experience in: {', '.join(skills.get('all', []))}"
+        
+        # Perform Sandy's consciousness analysis
+        sandy_result = self.sandy_specialist.analyze_job_match(cv_text, description, title)
+        
         return {
             'technical_skills': getattr(content_result, 'technical_skills', []) or [],
             'business_skills': getattr(content_result, 'business_skills', []) or [],
             'soft_skills': getattr(content_result, 'soft_skills', []) or [],
             'all_skills': getattr(content_result, 'all_skills', []) or [],
+            'enhanced_requirements': getattr(content_result, 'enhanced_requirements', None),
             'location_validation_result': location_result,
             'domain_classification_result': domain_result,
             'cv_match_result': cv_match_result,
+            'sandy_analysis_result': sandy_result,
             'summary': self._get_summary_text(summary_result),
             'processing_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         }
@@ -219,6 +235,24 @@ class JobProcessor:
         go_no_go = cv_match.get('go_no_go', 'Unknown')
         match_reasoning = cv_match.get('reasoning', '')
         
+        # Extract Sandy analysis results
+        sandy_result = job_insights.get('sandy_analysis_result')
+        if sandy_result and sandy_result.processing_success:
+            human_story = sandy_result.human_story_interpretation
+            opportunity_bridge = sandy_result.opportunity_bridge_assessment
+            growth_path = sandy_result.growth_path_illumination
+            encouragement = sandy_result.encouragement_synthesis
+            joy_level = sandy_result.joy_level
+            sandy_confidence = sandy_result.confidence_score
+        else:
+            # Fallback values if Sandy analysis failed
+            human_story = "Analysis temporarily unavailable"
+            opportunity_bridge = "Analysis temporarily unavailable"
+            growth_path = "Analysis temporarily unavailable"
+            encouragement = "Analysis temporarily unavailable"
+            joy_level = "8.0"
+            sandy_confidence = confidence  # Use location confidence as fallback
+        
         # Format enhanced domain assessment
         domain_assessment = self._format_domain_assessment(domain_result)
         
@@ -232,6 +266,9 @@ class JobProcessor:
             no_go_rationale = f"RECOMMENDATION: SKIP\n\nMatch Level: {match_level}\nReasoning: {match_reasoning}\n\nThis position does not align sufficiently with your background."
         else:  # CONSIDER
             application_narrative = f"RECOMMENDATION: CONSIDER CAREFULLY\n\nMatch Level: {match_level}\nReasoning: {match_reasoning}\n\nThis position has mixed alignment - review carefully before applying."
+        
+        # Get enhanced requirements data for 5D extraction columns
+        enhanced_requirements = job_insights.get('enhanced_requirements')
         
         return {
             'job_id': job_id,
@@ -255,10 +292,93 @@ class JobProcessor:
             'reviewer_support_log': '',
             'workflow_status': 'Initial Analysis',
             'technical_evaluation': f"Skills: {len(all_skills)} | Location confidence: {confidence:.2f}",
-            'human_story_interpretation': '',
-            'opportunity_bridge_assessment': '',
-            'growth_path_illumination': '',
-            'encouragement_synthesis': '',
-            'confidence_score': confidence,
-            'joy_level': ''
+            # Sandy's Consciousness Analysis
+            'human_story_interpretation': human_story,
+            'opportunity_bridge_assessment': opportunity_bridge,
+            'growth_path_illumination': growth_path,
+            'encouragement_synthesis': encouragement,
+            'confidence_score': sandy_confidence,
+            'joy_level': joy_level,
+            # NEW: 5D Enhanced Requirements Extraction
+            'technical_requirements_5d': self._format_5d_technical_requirements(enhanced_requirements),
+            'business_requirements_5d': self._format_5d_business_requirements(enhanced_requirements),
+            'soft_skills_5d': self._format_5d_soft_skills(enhanced_requirements),
+            'experience_requirements_5d': self._format_5d_experience_requirements(enhanced_requirements),
+            'education_requirements_5d': self._format_5d_education_requirements(enhanced_requirements)
         }
+    
+    def _format_5d_technical_requirements(self, enhanced_requirements: Any) -> str:
+        """Format technical requirements from 5D extraction for report"""
+        if not enhanced_requirements or not hasattr(enhanced_requirements, 'technical'):
+            return ""
+        
+        technical_items = []
+        for req in enhanced_requirements.technical:
+            category = getattr(req, 'category', 'general')
+            skill = getattr(req, 'skill', 'unknown')
+            proficiency = getattr(req, 'proficiency_level', 'intermediate')
+            technical_items.append(f"{skill} ({category}, {proficiency})")
+        
+        return "; ".join(technical_items)
+    
+    def _format_5d_business_requirements(self, enhanced_requirements: Any) -> str:
+        """Format business requirements from 5D extraction for report"""
+        if not enhanced_requirements or not hasattr(enhanced_requirements, 'business'):
+            return ""
+        
+        business_items = []
+        for req in enhanced_requirements.business:
+            domain = getattr(req, 'domain', 'unknown')
+            exp_type = getattr(req, 'experience_type', 'general')
+            years = getattr(req, 'years_required', 0)
+            if years > 0:
+                business_items.append(f"{domain} ({exp_type}, {years}+ years)")
+            else:
+                business_items.append(f"{domain} ({exp_type})")
+        
+        return "; ".join(business_items)
+    
+    def _format_5d_soft_skills(self, enhanced_requirements: Any) -> str:
+        """Format soft skills from 5D extraction for report"""
+        if not enhanced_requirements or not hasattr(enhanced_requirements, 'soft_skills'):
+            return ""
+        
+        soft_items = []
+        for req in enhanced_requirements.soft_skills:
+            skill = getattr(req, 'skill', 'unknown')
+            importance = getattr(req, 'importance', 'important')
+            soft_items.append(f"{skill} ({importance})")
+        
+        return "; ".join(soft_items)
+    
+    def _format_5d_experience_requirements(self, enhanced_requirements: Any) -> str:
+        """Format experience requirements from 5D extraction for report"""
+        if not enhanced_requirements or not hasattr(enhanced_requirements, 'experience'):
+            return ""
+        
+        experience_items = []
+        for req in enhanced_requirements.experience:
+            exp_type = getattr(req, 'type', 'general')
+            description = getattr(req, 'description', 'experience required')
+            years = getattr(req, 'years_required', 0)
+            if years > 0:
+                experience_items.append(f"{exp_type}: {description} ({years}+ years)")
+            else:
+                experience_items.append(f"{exp_type}: {description}")
+        
+        return "; ".join(experience_items)
+    
+    def _format_5d_education_requirements(self, enhanced_requirements: Any) -> str:
+        """Format education requirements from 5D extraction for report"""
+        if not enhanced_requirements or not hasattr(enhanced_requirements, 'education'):
+            return ""
+        
+        education_items = []
+        for req in enhanced_requirements.education:
+            level = getattr(req, 'level', 'degree')
+            field = getattr(req, 'field', 'unspecified')
+            mandatory = getattr(req, 'is_mandatory', False)
+            status = "mandatory" if mandatory else "preferred"
+            education_items.append(f"{level} in {field} ({status})")
+        
+        return "; ".join(education_items)

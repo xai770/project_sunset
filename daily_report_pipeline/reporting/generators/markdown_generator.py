@@ -92,6 +92,13 @@ class MarkdownReportGenerator:
 {job['concise_description']}
 ```
 
+**🎯 Enhanced 5D Requirements Extraction:**
+- **Technical Requirements**: {job.get('technical_requirements_5d', 'Not extracted')}
+- **Business Requirements**: {job.get('business_requirements_5d', 'Not extracted')}
+- **Soft Skills**: {job.get('soft_skills_5d', 'Not extracted')}
+- **Experience Requirements**: {job.get('experience_requirements_5d', 'Not extracted')}
+- **Education Requirements**: {job.get('education_requirements_5d', 'Not extracted')}
+
 **🔍 Analysis Results:**
 - **Has Domain Gap**: {job['has_domain_gap']}
 - **Domain Assessment**: {job['domain_assessment']}

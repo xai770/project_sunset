@@ -66,6 +66,7 @@ class CVDataManager:
             Structured CV data
         """
         cv_data = {
+            'full_text': cv_text,  # Store original CV text for Sandy analysis
             'experience': [],
             'skills': {
                 'technical': [],
@@ -335,3 +336,22 @@ class CVDataManager:
             'management_experience': self.cv_data.get('management_experience', False),
             'companies': [exp.get('company', '') for exp in self.cv_data.get('experience', [])]
         }
+    
+    def get_cv_data(self) -> Dict[str, Any]:
+        """Get the loaded CV data
+        
+        Returns:
+            CV data dictionary with full text and structured data
+        """
+        if self.cv_data is None:
+            self.load_cv_data()
+        return self.cv_data or {}
+    
+    def get_cv_full_text(self) -> str:
+        """Get the original CV text
+        
+        Returns:
+            Full CV text as string
+        """
+        cv_data = self.get_cv_data()
+        return cv_data.get('full_text', '')

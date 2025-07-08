@@ -7,6 +7,12 @@ Professional dataclasses for specialist results
 from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
 
+# Import enhanced requirements types
+try:
+    from ..specialists.enhanced_requirements_extraction import FiveDimensionalRequirements
+except ImportError:
+    FiveDimensionalRequirements = None
+
 @dataclass
 class ContentExtractionResult:
     """Result from content extraction specialist"""
@@ -18,6 +24,9 @@ class ContentExtractionResult:
     processing_time: float = 0.0
     accuracy_confidence: str = "production_validated"
     format_compliance: bool = True
+    
+    # NEW: Enhanced 5D requirements data
+    enhanced_requirements: Optional[Any] = None
 
 @dataclass
 class LocationValidationResult:
