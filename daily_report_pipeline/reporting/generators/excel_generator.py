@@ -50,7 +50,7 @@ class ExcelReportGenerator:
             self._format_worksheet(writer.book['Daily Report'])
         
         print(f"Excel report created: {excel_path}")
-        print(f"Report contains {len(report_data)} jobs with all 27 columns")
+        print(f"Report contains {len(report_data)} jobs with job matching format (28 columns)")
         
         return excel_path
     

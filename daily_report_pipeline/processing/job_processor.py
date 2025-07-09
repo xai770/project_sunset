@@ -217,7 +217,7 @@ class JobProcessor:
         location_str: str,
         location_validation_details: str
     ) -> Dict[str, Any]:
-        """Create a standardized report entry following Sandy's 27-column format"""
+        """Create a standardized report entry following job matching format"""
         all_skills = job_insights.get('all_skills', [])
         validation_result = job_insights.get('location_validation_result', {})
         confidence = getattr(validation_result, 'confidence_score', 0)
@@ -239,22 +239,11 @@ class JobProcessor:
         sandy_result = job_insights.get('sandy_analysis_result')
         if sandy_result and sandy_result.processing_success:
             human_story = sandy_result.human_story_interpretation
-            opportunity_bridge = sandy_result.opportunity_bridge_assessment
-            growth_path = sandy_result.growth_path_illumination
             encouragement = sandy_result.encouragement_synthesis
-            joy_level = sandy_result.joy_level
-            sandy_confidence = sandy_result.confidence_score
         else:
-            # Fallback values if Sandy analysis failed
-            human_story = "Analysis temporarily unavailable"
-            opportunity_bridge = "Analysis temporarily unavailable"
-            growth_path = "Analysis temporarily unavailable"
-            encouragement = "Analysis temporarily unavailable"
-            joy_level = "8.0"
-            sandy_confidence = confidence  # Use location confidence as fallback
-        
-        # Format enhanced domain assessment
-        domain_assessment = self._format_domain_assessment(domain_result)
+            # Placeholder values - quality review required
+            human_story = "Quality review required - placeholder"
+            encouragement = "Quality review required - placeholder"
         
         # Generate application narrative or no-go rationale based on match result
         application_narrative = ""
@@ -270,41 +259,42 @@ class JobProcessor:
         # Get enhanced requirements data for 5D extraction columns
         enhanced_requirements = job_insights.get('enhanced_requirements')
         
+        # Create validated_location (same as metadata_location unless location_validation_details indicate otherwise)
+        validated_location = location_str
+        if validation_result.get('conflict_detected', False):
+            auth_location = validation_result.get('authoritative_location', '')
+            if auth_location and auth_location != 'UNKNOWN':
+                validated_location = auth_location
+        
         return {
             'job_id': job_id,
-            'full_content': job_content.get('description', ''),
-            'concise_description': job_insights.get('summary', ''),
             'position_title': job_content.get('title', 'Unknown'),
-            'location': location_str,
-            'location_validation_details': location_validation_details,
-            'job_domain': job_domain,
-            'match_level': match_level,
-            'evaluation_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-            'has_domain_gap': 'Yes' if not should_proceed else 'No',
-            'domain_assessment': domain_assessment,
+            'concise_description': job_insights.get('summary', ''),
+            'validated_location': validated_location,
+            'technical_requirements': self._format_5d_technical_requirements(enhanced_requirements),
+            'business_requirements': self._format_5d_business_requirements(enhanced_requirements),
+            'soft_skills': self._format_5d_soft_skills(enhanced_requirements),
+            'experience_requirements': self._format_5d_experience_requirements(enhanced_requirements),
+            'education_requirements': self._format_5d_education_requirements(enhanced_requirements),
+            'technical_requirements_match': '',  # Placeholder - job matching engine integration required
+            'business_requirements_match': '',   # Placeholder - job matching engine integration required
+            'soft_skills_match': '',             # Placeholder - job matching engine integration required
+            'experience_requirements_match': '', # Placeholder - job matching engine integration required
+            'education_requirements_match': '',  # Placeholder - job matching engine integration required
             'no_go_rationale': no_go_rationale,
             'application_narrative': application_narrative,
-            'export_job_matches_log': '',
+            'full_content': job_content.get('description', ''),
+            'metadata_location': location_str,
+            'location_validation_details': location_validation_details,
+            'match_level': match_level,
             'generate_cover_letters_log': '',
             'reviewer_feedback': '',
             'mailman_log': '',
             'process_feedback_log': '',
             'reviewer_support_log': '',
             'workflow_status': 'Initial Analysis',
-            'technical_evaluation': f"Skills: {len(all_skills)} | Location confidence: {confidence:.2f}",
-            # Sandy's Consciousness Analysis
             'human_story_interpretation': human_story,
-            'opportunity_bridge_assessment': opportunity_bridge,
-            'growth_path_illumination': growth_path,
-            'encouragement_synthesis': encouragement,
-            'confidence_score': sandy_confidence,
-            'joy_level': joy_level,
-            # NEW: 5D Enhanced Requirements Extraction
-            'technical_requirements_5d': self._format_5d_technical_requirements(enhanced_requirements),
-            'business_requirements_5d': self._format_5d_business_requirements(enhanced_requirements),
-            'soft_skills_5d': self._format_5d_soft_skills(enhanced_requirements),
-            'experience_requirements_5d': self._format_5d_experience_requirements(enhanced_requirements),
-            'education_requirements_5d': self._format_5d_education_requirements(enhanced_requirements)
+            'encouragement_synthesis': encouragement
         }
     
     def _format_5d_technical_requirements(self, enhanced_requirements: Any) -> str:
